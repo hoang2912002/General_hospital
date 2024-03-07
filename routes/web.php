@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagementController\GroupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['controller' => GroupController::class, 'prefix' => 'group', 'as' => 'group.'],function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::post('store', 'store')->name('store');
+    Route::get('edit/{groupModel}', 'edit')->name('edit');
 });

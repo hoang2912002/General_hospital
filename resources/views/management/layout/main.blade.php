@@ -88,7 +88,7 @@
                 "closeButton" : true,
                 "progressBar" : true
             }
-                    toastr.error("{{ session('error') }}");
+            toastr.error("{{ session('error') }}");
         @endif
         @if(Session::has('success'))
             toastr.options =
@@ -96,7 +96,7 @@
                 "closeButton" : true,
                 "progressBar" : true
             }
-                    toastr.success("{{ session('success') }}");
+            toastr.success("{{ session('success') }}");
         @endif
     </script>
     @stack('js')

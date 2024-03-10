@@ -34,10 +34,11 @@
         }
     </style>
 @endpush
+
 @section('content')
     <div class="row mb-12" >
         <div class="col-12">
-            <div class="multisteps-form mb-5">
+            <div class="multisteps-form mb-8">
 
                 <div class="row">
                     <div class="col-12 col-lg-8 mx-auto my-4">
@@ -58,7 +59,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-8 m-auto">
 
-                        <form class="multisteps-form__form mb-8 dropzone" action="{{ route('group.store') }}" method="POST" enctype="multipart/form-data" id="dropzone">
+                        <form class="multisteps-form__form mb-8 " action="{{ route('group.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                             <div class="card multisteps-form__panel p-3 border-radius-xl bg-white js-active"

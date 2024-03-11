@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->string('first_name',100);
-            $table->string('last_name',100);
+            $table->string('first_name');
+            $table->string('last_name');
             $table->boolean('gender');
             $table->date('dob');
             $table->unsignedInteger('login_id');

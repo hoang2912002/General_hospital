@@ -16,8 +16,8 @@
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between pb-0">
                                         <h5 class="mb-0">{{ $name_page['total'] }}</h5>
-                                        <a href="{{ route('group.create') }}" class="btn btn-primary ">
-                                            <span>Create new</span>
+                                        <a href="{{ route('user.create') }}" class="btn btn-primary ">
+                                            <span>Thêm </span>
                                         </a>
                                     </div>
                                     <!-- /.card-header -->
@@ -25,9 +25,13 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UUID</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First name</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last name</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gender</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date of birth</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone number</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                                 </tr>
                                             </thead>
@@ -51,16 +55,32 @@
 @push('js')
     <script>
         var columns = [{
-                data: 'id',
-                name: 'id'
+                data: 'uuid',
+                name: 'uuid'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'first_name',
+                name: 'first_name'
             },
             {
-                data: 'slug',
+                data: 'last_name',
+                name: 'last_name'
+            },
+            {
+                data: 'gender',
                 name: 'gender'
+            },
+            {
+                data: 'dob',
+                name: 'dob'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'phone_number',
+                name: 'phone_number'
             },
             {
                 data: 'action',
@@ -68,6 +88,6 @@
             },
 
         ];
-        renderTable("{!! route('group.index') !!}", columns);
+        renderTable("{!! route('user.index') !!}", columns);
     </script>
 @endpush

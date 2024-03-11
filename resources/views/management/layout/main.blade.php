@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
-        Nha Khoa G37 trang Admin
+        Đa Khoa G37 trang Quản lý
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/customer') }}/icon_page.png">
     <!-- Google Font -->

@@ -49,7 +49,7 @@
                     <div class="collapse " id="pagesExamples">
                         <ul class="nav ms-4">
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('user.index') }}">
                                     <span class="sidenav-mini-icon"> U </span>
                                     <span class="sidenav-normal"> User </span>
                                 </a>

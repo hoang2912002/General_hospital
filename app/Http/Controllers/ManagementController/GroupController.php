@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManagementRequest\GroupRequest\StoreRequest;
+use App\Http\Requests\ManagementRequest\GroupRequest\UpdateRequest;
 use App\Models\ManagementModel\GroupModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -66,9 +68,17 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        //dd($request);
+        try {
+            $group = GroupModel::create($request->all());
+            if(!empty($group)){
+                return redirect()->route('group.index')->with('success','Thêm nhóm mới thành công!');
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
     /**
@@ -84,15 +94,29 @@ class GroupController extends Controller
      */
     public function edit(GroupModel $groupModel)
     {
-        //
+
+        $name_page = [
+            'name' => 'Group Edit',
+            'total' => 'Group',
+            'route' => 'group.index'
+        ];
+        return view('management.group.update',compact('name_page','groupModel'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GroupModel $groupModel)
+    public function update(UpdateRequest $request, GroupModel $groupModel)
     {
-        //
+        //dd($request);
+        try {
+            $group = $groupModel->update($request->all());
+            if(!empty($group)){
+                return redirect()->route('group.index')->with('success','Cập nhập nhóm ' . $request->name .  ' thành công!');
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
     /**
@@ -100,6 +124,21 @@ class GroupController extends Controller
      */
     public function destroy(GroupModel $groupModel)
     {
-        //
+        // try {
+        //     $group_user =GroupUserModel::where('group_id',$groupModel->id);
+        //     if($group_user->get()->all() !== []){
+        //         //dd($group_user);
+        //         $group_user->delete();
+        //     }
+        //     $group = $groupModel->delete();
+        //     if(!empty($group)){
+        //         return 1;
+        //     }
+        //     else{
+        //         return 0;
+        //     }
+        // } catch (\Throwable $th) {
+        //     dd($th->getMessage());
+        // }
     }
 }

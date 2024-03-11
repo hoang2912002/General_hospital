@@ -5,19 +5,11 @@ namespace App\Models\ManagementModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GroupModel extends Model
+class GroupUserModel extends Model
 {
     use HasFactory;
-    protected $table = 'groups';
+    protected $table = 'group_users';
     protected $fillable = [
-        'name','slug','activated'
+        'user_uuid','group_id'
     ];
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-
-
 }

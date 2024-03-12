@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\UserRequest\StoreRequest;
+use App\Http\Requests\ManagementRequest\UserRequest\UpdateRequest;
 use App\Models\ManagementModel\DoctorModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\GroupUserModel;
@@ -56,9 +57,10 @@ class UserController extends Controller
             ->addColumn('action', function ($user) {
                 $routeDestroy = "'" . route('user.destroy',$user->uuid) . "'";
                 $route_edit =  '<a href="'. route('user.edit', $user->uuid) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                $route_detail =  '<a href="'. route('user.detail', $user->uuid) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
 
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_delete;
+                return $route_edit . '&nbsp' . $route_detail . '&nbsp'  . $route_delete;
             })
 
             ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])
@@ -73,7 +75,7 @@ class UserController extends Controller
     public function create()
     {
         $name_page = [
-            'name' => 'User Index',
+            'name' => 'User Create',
             'total' => 'User',
             'route' => 'user.index'
         ];
@@ -109,7 +111,7 @@ class UserController extends Controller
                         if($request->hasFile('avatar')){
                             $avatar = $request->avatar;
                             $nameAvatar = $avatar->getClientOriginalName();
-                            $dirFolder = 'img/general_hospital/management/avatar';
+                            $dirFolder = 'img/general_hospital/management/avatar/';
                             $newAvatar = $dirFolder . $user->uuid . '-' . $nameAvatar;
 
                             $doctorInformation= [
@@ -149,15 +151,100 @@ class UserController extends Controller
      */
     public function edit(UserModel $userModel)
     {
-        //
+        $name_page = [
+            'name' => 'User Update',
+            'total' => 'User',
+            'route' => 'user.index'
+        ];
+        $groups = GroupModel::all();
+        // $login = $userModel->login();
+        // $doctor = $userModel->doctor;
+        // dd($userModel->group_user->all()[0]->id);
+        return view('management.user.update',compact('name_page','groups','userModel'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserModel $userModel)
+    public function update(UpdateRequest $request, UserModel $userModel)
     {
-        //
+        try {
+            //dd($request);
+            $arr_login = [
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+
+            ];
+            if($request->password !== null){
+                $password = $request->password;
+                $arr_login['password'] = $password;
+            }
+            //dd($request->password === null,$arr_login);
+            $login = $userModel->login->update($arr_login);
+            if(!empty($login)){
+                $arr_user = [
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                    'dob' => $request->birthdate,
+                    'login_id' => $userModel->login_id,
+                ];
+                $user = $userModel->update($arr_user);
+                if(!empty($user)){
+                    $group_name = GroupModel::where('id',$request->role)->value('name');
+                    $role = $userModel->group_user()->update([
+                        'user_uuid' => $userModel->uuid,
+                        'group_id' => $request->role
+                    ]);
+                    if(!empty($role)){
+                        $doctorInformation= [
+                            'doctor_uuid'=> $userModel->uuid,
+                            'description'=> $request->description,
+                        ];
+                        if($request->hasFile('avatar')){
+                            $avatar = $request->avatar;
+                            $nameAvatar = $avatar->getClientOriginalName();
+                            $dirFolder = 'img/general_hospital/management/avatar/';
+                            $newAvatar = $dirFolder . $userModel->uuid . '-' . $nameAvatar;
+                            //dd(1);
+
+                            $doctorInformation['image']= $newAvatar;
+                            //dd($doctorInformation);
+                            @unlink($userModel->image);
+                            $doctor = $userModel->doctor()->update($doctorInformation);
+                            if(!empty($doctor)){
+                                if(!empty($avatar)){
+                                    $avatar->move($dirFolder, $newAvatar);
+
+                                }
+                            }
+                        }
+                        else{
+                            $doctor = $userModel->doctor->update($doctorInformation);
+                        }
+
+                        return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
+                    }
+                }
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function detail(UserModel $userModel){
+        $name_page = [
+            'name' => 'User Detail',
+            'total' => 'User',
+            'route' => 'user.index'
+        ];
+        $role =$userModel->group_user->all();
+        $doctor = $userModel->doctor ?? '';
+        //dd($role[0]->name);
+        return view('management.user.detail',compact('name_page','role','doctor','userModel'));
+        //dd($userModel->group_user,$userModel->doctor);
     }
 
     /**

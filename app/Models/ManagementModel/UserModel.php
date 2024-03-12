@@ -23,8 +23,21 @@ class UserModel extends Model
     {
         return $this->hasOne(LoginModel::class,'id','login_id');
     }
+    public function doctor()
+    {
+        return $this->hasOne(DoctorModel::class,'doctor_uuid','uuid');
+    }
+
+    public function group_user(){
+        return $this->belongsToMany(GroupModel::class,'group_users','user_uuid','group_id','uuid','id')->withPivot('group_id');
+    }
     public function dob(){
         return date('d-m-Y', strtotime($this->dob));
+    }
+    public function birthdate()
+    {
+        return  date('d/m/Y', strtotime($this->dob));
+         
     }
     public function gender(){
         switch ($this->gender) {

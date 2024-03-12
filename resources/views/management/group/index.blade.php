@@ -1,7 +1,15 @@
 @extends('management.layout.main')
 @include('management.layout.table')
 @push('css')
+<style>
+    .footer {
+    position: fixed;
+  bottom: 0;
 
+  width: 100%;
+  padding: 10px;
+}
+</style>
 @endpush
 @section('content')
 

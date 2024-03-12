@@ -1,5 +1,16 @@
 @extends('management.layout.main')
 @include('management.layout.form')
+@push('css')
+<style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+@endpush
 @section('content')
     <div class="row mb-5">
         <div class="col-12">

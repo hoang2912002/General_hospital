@@ -12,4 +12,10 @@ class GroupUserModel extends Model
     protected $fillable = [
         'user_uuid','group_id'
     ];
+    public function groups(){
+        return $this->hasOne(GroupModel::class,'id','group_id');
+    }
+    public function users(){
+        return $this->hasOne(UserModel::class,'uuid','user_uuid');
+    }
 }

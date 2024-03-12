@@ -18,6 +18,8 @@ class GroupModel extends Model
         return 'slug';
     }
 
-
+    public function group_user(){
+        return $this->hasMany(GroupUserModel::class,'id','group_id');
+    }
 
 }

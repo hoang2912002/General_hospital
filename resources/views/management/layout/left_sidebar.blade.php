@@ -26,7 +26,7 @@
                     <div class="collapse  show " id="dashboardsExamples">
                         <ul class="nav ms-4">
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('index')}}">
                                     <span class="sidenav-mini-icon"> H </span>
                                     <span class="sidenav-normal"> Homepage </span>
                                 </a>

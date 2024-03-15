@@ -9,8 +9,13 @@ use Illuminate\Http\Request;
 class HomepageController extends Controller
 {
     public function index(){
-        return view('management.homepage');
+        $name_page = [
+            'name' => 'Homepage',
+            'total' => 'Dashboard',
+            'route' => 'index'
+        ];
+        return view('management.homepage',compact('name_page'));
     }
 
-    
+
 }

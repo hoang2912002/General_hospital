@@ -44,6 +44,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('detail/{userModel}', 'detail')->name('detail');
         Route::patch('update/{userModel}', 'update')->name('update');
         Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     Route::group(['controller' => ServiceController::class, 'prefix' => 'service', 'as' => 'service.'],function(){
         Route::get('/', 'index')->name('index');

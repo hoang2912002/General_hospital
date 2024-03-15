@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportUsers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\UserRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\UserRequest\UpdateRequest;
+use App\Imports\ExcelImportUsers;
 use App\Models\ManagementModel\DoctorModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\GroupUserModel;
@@ -13,6 +15,9 @@ use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 class UserController extends Controller
 {
     /**
@@ -137,7 +142,19 @@ class UserController extends Controller
             dd($th->getMessage());
         }
     }
+    public function import(Request $request)
+    {
 
+        $path = $request->file("file")->getRealPath();
+        //dd($path);
+        Excel::import(new ExcelImportUsers, $path);
+        return back();
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportUsers , 'user-'  . date('s_i_H-Y_m_d') .  '.xlsx');
+    }
     /**
      * Display the specified resource.
      */

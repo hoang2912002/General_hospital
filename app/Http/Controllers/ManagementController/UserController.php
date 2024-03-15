@@ -170,7 +170,7 @@ class UserController extends Controller
     public function update(UpdateRequest $request, UserModel $userModel)
     {
         try {
-            //dd($request);
+            //dd($request,$userModel->login);
             $arr_login = [
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
@@ -202,7 +202,9 @@ class UserController extends Controller
                             'doctor_uuid'=> $userModel->uuid,
                             'description'=> $request->description,
                         ];
+                        //DD($doctorInformation);
                         if($request->hasFile('avatar')){
+                            //dd(1);
                             $avatar = $request->avatar;
                             $nameAvatar = $avatar->getClientOriginalName();
                             $dirFolder = 'img/general_hospital/management/avatar/';
@@ -211,8 +213,10 @@ class UserController extends Controller
 
                             $doctorInformation['image']= $newAvatar;
                             //dd($doctorInformation);
-                            @unlink($userModel->image);
-                            $doctor = $userModel->doctor()->update($doctorInformation);
+                            if(!empty($userModel->image)){
+                                @unlink($userModel->image);
+                            }
+                            $doctor = $userModel->doctor()->updateOrCreate($doctorInformation);
                             if(!empty($doctor)){
                                 if(!empty($avatar)){
                                     $avatar->move($dirFolder, $newAvatar);
@@ -221,7 +225,7 @@ class UserController extends Controller
                             }
                         }
                         else{
-                            $doctor = $userModel->doctor->update($doctorInformation);
+                            $doctor = $userModel->doctor()->update($doctorInformation);
                         }
 
                         return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
@@ -252,6 +256,25 @@ class UserController extends Controller
      */
     public function destroy(UserModel $userModel)
     {
-        //
+        try {
+            //dd($userModel->login_id,LoginModel::where('id',$userModel->login_id)->delete());
+            //làm phương thức xóa ảnh
+            if(!empty($userModel->doctor)){
+                $doctor = $userModel->doctor()->delete();
+            }
+            $role = $userModel->gr_user()->delete();
+            if(!empty($role)){
+                if($userModel->delete()){
+                    LoginModel::where('id',$userModel->login_id)->delete();
+                    //$userModel->login()->delete();
+                    return 1;
+                }
+            }
+            else{
+                return 0;
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 }

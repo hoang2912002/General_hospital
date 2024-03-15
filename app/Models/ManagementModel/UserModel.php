@@ -31,13 +31,16 @@ class UserModel extends Model
     public function group_user(){
         return $this->belongsToMany(GroupModel::class,'group_users','user_uuid','group_id','uuid','id')->withPivot('group_id');
     }
+    public function gr_user(){
+        return $this->hasOne(GroupUserModel::class,'user_uuid','uuid');
+    }
     public function dob(){
         return date('d-m-Y', strtotime($this->dob));
     }
     public function birthdate()
     {
         return  date('d/m/Y', strtotime($this->dob));
-         
+
     }
     public function gender(){
         switch ($this->gender) {

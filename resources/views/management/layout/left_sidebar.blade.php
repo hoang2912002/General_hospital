@@ -144,19 +144,19 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('medicine.index') }}">
                                     <span class="sidenav-mini-icon"> M </span>
                                     <span class="sidenav-normal"> Medicines </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('medicine_type.index') }}">
                                     <span class="sidenav-mini-icon"> T </span>
                                     <span class="sidenav-normal"> Type of medicines </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('manufacturer.index') }}">
                                     <span class="sidenav-mini-icon"> M </span>
                                     <span class="sidenav-normal"> Manufactureres </span>
                                 </a>
@@ -176,7 +176,7 @@
                     <div class="collapse " id="equipment">
                         <ul class="nav ms-4">
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('service.index') }}">
                                     <span class="sidenav-mini-icon"> S </span>
                                     <span class="sidenav-normal"> Service </span>
                                 </a>

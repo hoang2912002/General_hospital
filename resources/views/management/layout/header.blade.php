@@ -31,7 +31,7 @@
                             </a>
                             <ul style="top: 0.25rem!important;" class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <a class="dropdown-item border-radius-md" href="">
+                                    <a class="dropdown-item border-radius-md" href="{{ route('login.logout') }}">
                                         <span style="margin-right: 20px;" class="font-weight-bold">LogOut</span>
                                         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                                     </a>

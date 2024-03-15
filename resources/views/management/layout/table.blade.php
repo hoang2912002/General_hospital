@@ -50,10 +50,14 @@
                 "processing": true,
                 "serverSide": true,
                 //"bDestroy": true,
+
                 ajax: url,
                 columns: columns,
                 // "order": [
                 //     [1, 'desc']
+                // ],
+                // "columnDefs": [
+                //     {"className": "dt-center", "targets": "_all"}
                 // ],
                 language: {
                     'paginate': {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ManagementRequest\GroupRequest;
+namespace App\Http\Requests\ManagementRequest\ShiftRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -22,23 +22,20 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:groups,name',
+            'name' => 'required|unique:shifts,name',
             'slug' => 'sometimes',
-            'activated' => 'required'
+            'activated' => 'required',
         ];
-
     }
     public function messages()
     {
         return [
-            'required' => 'Trường này không được bỏ trống!',
-            'sometimes' => 'Trường này không đúng kiểu dữ liệu!',
-            'unique' => 'Tên nhóm này đã tồn tại!',
+            'required' => 'Vui lòng điền đầy đủ thông tin!',
+            'unique' => 'Tên phòng này đã tồn tại!',
         ];
     }
 
-    public function passedValidation()
-    {
+    public function passedValidation(){
         $this->merge(['slug' => Str::slug($this->name)]);
     }
 }

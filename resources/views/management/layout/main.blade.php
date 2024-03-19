@@ -72,7 +72,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('asset/admin') }}/js/toastr/toastr.min.js"></script>
-    {{-- <script src="{{ asset('asset/admin') }}/js/argon-dashboard.min.js?v=2.0.5"></script> --}}
+    <script src="{{ asset('asset/admin') }}/js/argon-dashboard.min.js?v=2.0.5"></script>
 
     <script>
         $.ajaxSetup({

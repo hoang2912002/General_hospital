@@ -18,6 +18,8 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller
 {
     /**
@@ -118,7 +120,7 @@ class UserController extends Controller
                             $nameAvatar = $avatar->getClientOriginalName();
                             $dirFolder = 'img/general_hospital/management/avatar/';
                             $newAvatar = $dirFolder . $user->uuid . '-' . $nameAvatar;
-
+                            
                             $doctorInformation= [
                                 'doctor_uuid'=> $user->uuid,
                                 'image'=> $newAvatar,
@@ -267,7 +269,17 @@ class UserController extends Controller
         return view('management.user.detail',compact('name_page','role','doctor','userModel'));
         //dd($userModel->group_user,$userModel->doctor);
     }
-
+    public function setting(){
+        $name_page = [
+            'name' => 'Cài Đặt Cá Nhân',
+            'total' => 'User',
+            'route' => 'user.index'
+        ];
+        return view('management.user.setting',compact('name_page'));
+    }
+    public function profile(){
+        return view('management.user.profile');
+    }
     /**
      * Remove the specified resource from storage.
      */

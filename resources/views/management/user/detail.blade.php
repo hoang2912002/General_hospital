@@ -17,7 +17,7 @@
                             {{ $userModel->last_name}}
                         </h3>
                         <p class="mb-0 font-weight-bold text-sm" style="font-size: 20px !important">
-                            {{ $role[0]->name }}
+                            {{ $role[0]->name ?? '' }}
                         </p>
                     </div>
                 </div>

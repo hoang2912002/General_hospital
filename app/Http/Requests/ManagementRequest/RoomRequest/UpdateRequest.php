@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ManagementRequest\GroupRequest;
+namespace App\Http\Requests\ManagementRequest\RoomRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,24 +21,22 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = request()->route()->roomModel->id;
         return [
-            'name' => 'required|unique:groups,name',
+            'name' => 'required|unique:rooms,name,' . $id,
             'slug' => 'sometimes',
-            'activated' => 'required'
+            'activated' => 'required',
         ];
-
     }
     public function messages()
     {
         return [
-            'required' => 'Trường này không được bỏ trống!',
-            'sometimes' => 'Trường này không đúng kiểu dữ liệu!',
-            'unique' => 'Tên nhóm này đã tồn tại!',
+            'required' => 'Vui lòng không bỏ trống thông tin!',
+            'unique' => 'Tên phòng này đã tồn tại!',
+            'sometimes' => 'Kiểu tên phòng này không đúng kiểu dữ liệu!'
         ];
     }
-
-    public function passedValidation()
-    {
+    public function prepareForValidation(){
         $this->merge(['slug' => Str::slug($this->name)]);
     }
 }

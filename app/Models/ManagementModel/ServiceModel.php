@@ -10,7 +10,7 @@ class ServiceModel extends Model
     use HasFactory;
     protected $table = 'services';
     protected $fillable = [
-        'name','slug','thumbnail','price'
+        'name','slug','thumbnail','price','description'
     ];
     public function getRouteKeyName()
     {

@@ -5,11 +5,14 @@ namespace App\Models\ManagementModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceImageModel extends Model
+class RoomModel extends Model
 {
     use HasFactory;
-    protected $table = 'service_images';
+    protected $table = 'rooms';
     protected $fillable = [
-        'service_id','image'
+        'name','slug'
     ];
+    public function getRouteKeyName(){
+        return 'slug';
+    }
 }

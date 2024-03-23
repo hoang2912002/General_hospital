@@ -40,14 +40,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'required' => 'Trường này không được bỏ trống!',
-            'alpha' => 'Điền đúng định dạng tên của bạn!',
-            'date' => 'Điền đúng định dạng ngày tháng năm sinh!',
-            'boolean' => 'Vui lòng chọn giới tính!',
             'email' => 'Vui lòng điền đúng định dạng tài khoản email!',
             'unique' => 'Trường này đã tồn tại!',
             'min' => 'Vui lòng nhập nhiều hơn 3 ký tự!',
-            'max' => 'Vui lòng nhập ít hơn 20 ký tự!',
-            'image' => 'Vui lòng đăng đúng file ảnh!'
+            'confirmed' => 'Mật khẩu không trùng!',
         ];
     }
     public function passedValidation()

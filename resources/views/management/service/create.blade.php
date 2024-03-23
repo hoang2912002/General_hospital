@@ -283,5 +283,5 @@
             });
         })
 
-    </script>   
+    </script>
 @endpush

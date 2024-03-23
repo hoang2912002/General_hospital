@@ -120,7 +120,7 @@ class UserController extends Controller
                             $nameAvatar = $avatar->getClientOriginalName();
                             $dirFolder = 'img/general_hospital/management/avatar/';
                             $newAvatar = $dirFolder . $user->uuid . '-' . $nameAvatar;
-                            
+
                             $doctorInformation= [
                                 'doctor_uuid'=> $user->uuid,
                                 'image'=> $newAvatar,
@@ -275,7 +275,7 @@ class UserController extends Controller
             'total' => 'User',
             'route' => 'user.index'
         ];
-        return view('management.user.setting',compact('name_page'));
+        return view('management.user.test',compact('name_page'));
     }
     public function profile(){
         return view('management.user.profile');

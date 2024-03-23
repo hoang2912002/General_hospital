@@ -22,6 +22,9 @@ class ServiceModel extends Model
     public function user_services(){
         return $this->hasMany(UserServiceModel::class,'service_id','id');
     }
+    public function image(){
+        return $this->hasMany(ServiceImageModel::class,'service_id','id');
+    }
     public function price()
     {
         $price = number_format($this->price,'0',".",".") . ' VNĐ';

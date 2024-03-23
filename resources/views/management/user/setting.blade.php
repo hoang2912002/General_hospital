@@ -1,8 +1,7 @@
 @extends('management.layout.main')
-@include('management.layout.table')
+@include('management.layout.form')
 
 @section('content')
-    <div class="container-fluid my-5 py-2">
         <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">

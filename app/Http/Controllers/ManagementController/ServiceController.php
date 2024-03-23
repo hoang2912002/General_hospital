@@ -137,7 +137,42 @@ class ServiceController extends Controller
      */
     public function show(ServiceModel $serviceModel)
     {
-        //
+        dd(1);
+    }
+    public function readFiles(ServiceModel $serviceModel)
+    {
+        $name_thumbnail= explode('/',$serviceModel->thumbnail) ?? '';
+        $arr = [
+            'thumbnail' => asset($serviceModel->thumbnail),
+            'name' => $name_thumbnail[4] ?? '',
+            'size' => filesize($serviceModel->thumbnail),
+        ];
+        //dd($arr);
+        foreach($serviceModel->image as $image){
+            $arr_name_image= explode('/',$image->image) ?? '';
+            array_splice($arr_name_image, 0, 3);
+            $name_image = implode('/',$arr_name_image);
+            //dd(filesize($name_image),$arr_name_image);
+            $arr_images[] = [
+                'image' => asset($name_image),
+                'name' => $arr_name_image[4] ?? '',
+                'size' => filesize($name_image),
+            ];
+        }
+        //$arr['images'] = $arr_images;
+        //dd($arr_images,$arr);
+        return response()->json(['status' => "success",'arr_image' => $arr_images,'arr' => $arr]);
+    }
+    public function readFilesThumbnail(ServiceModel $serviceModel)
+    {
+        $name_thumbnail= explode('/',$serviceModel->thumbnail) ?? '';
+        $arr[] = [
+            'thumbnail' => asset($serviceModel->thumbnail),
+            'name' => $name_thumbnail[4] ?? '',
+            'size' => filesize($serviceModel->thumbnail),
+        ];
+        //dd($arr);
+        return response()->json(['status' => "success",'arr' => $arr]);
     }
 
     /**
@@ -145,7 +180,13 @@ class ServiceController extends Controller
      */
     public function edit(ServiceModel $serviceModel)
     {
-        //
+        $name_page = [
+            'name' => 'Service Update',
+            'total' => 'Service',
+            'route' => 'service.index'
+        ];
+
+        return view('management.service.update',compact('name_page','serviceModel'));
     }
 
     /**

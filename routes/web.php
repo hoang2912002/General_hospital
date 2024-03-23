@@ -63,6 +63,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::post('dropzone', 'dropzone')->name('dropzone');
+        Route::get('readFiles/{serviceModel}', 'readFiles')->name('readFiles');
+        Route::get('readFilesThumbnail/{serviceModel}', 'readFilesThumbnail')->name('readFilesThumbnail');
         Route::get('edit/{serviceModel}', 'edit')->name('edit');
         Route::get('detail/{serviceModel}', 'detail')->name('detail');
         Route::patch('update/{serviceModel}', 'update')->name('update');

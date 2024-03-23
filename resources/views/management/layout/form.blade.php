@@ -21,6 +21,10 @@
           const example = new Choices(gender);
 
         }
+        if (document.getElementById('choices-gender1')) {
+          var gender = document.getElementById('choices-gender1');
+          const example = new Choices(gender);
+        }
         if (document.getElementById('choices-role')) {
           var role = document.getElementById('choices-role');
           const example = new Choices(role);

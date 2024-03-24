@@ -72,14 +72,14 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::post('import', 'import')->name('import');
         Route::post('export', 'export')->name('export');
     });
-    //Medicine_type
-    Route::group(['controller' => MedicineTypeController::class, 'prefix' => 'medicine_type', 'as' => 'medicine_type.'],function(){
+    //Category
+    Route::group(['controller' => MedicineTypeController::class, 'prefix' => 'category', 'as' => 'category.'],function(){
         Route::get('/', 'index')->name('index');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
-        Route::get('edit/{medicine_typeModel}', 'edit')->name('edit');
-        Route::patch('update/{medicine_typeModel}', 'update')->name('update');
-        Route::delete('destroy/{medicine_typeModel}', 'destroy')->name('destroy');
+        Route::get('edit/{categoryModel}', 'edit')->name('edit');
+        Route::patch('update/{categoryModel}', 'update')->name('update');
+        Route::delete('destroy/{categoryModel}', 'destroy')->name('destroy');
     });
     //Medicine
     Route::group(['controller' => MedicineController::class, 'prefix' => 'medicine', 'as' => 'medicine.'],function(){

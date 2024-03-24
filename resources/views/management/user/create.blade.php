@@ -230,7 +230,7 @@
                                     </div>
                                     <div class="button-row d-flex mt-4">
                                         <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                            type="submit" title="create">Create</button>
+                                            type="submit" title="create">Thêm</button>
                                     </div>
                                 </div>
                             </div>

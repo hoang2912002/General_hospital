@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class MedicineTypeModel extends Model
 {
     use HasFactory;
+    protected $table = "medicines_type";
+    protected $fillable = [
+        'name','slug'
+    ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function medicines() {
+        return $this->hasMany(MedicineModel::class,'type_id','id');
+    }
 }

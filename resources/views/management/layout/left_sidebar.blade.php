@@ -187,7 +187,7 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('medicine_type.index') }}">
+                                <a class="nav-link " href="{{ route('category.index') }}">
                                     <span class="sidenav-mini-icon"> L </span>
                                     <span class="sidenav-normal"> Loại thuốc </span>
                                 </a>

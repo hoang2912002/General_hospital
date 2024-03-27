@@ -17,7 +17,10 @@ class GroupModel extends Model
     {
         return 'slug';
     }
-
+    public function role()
+    {
+        return $this->belongsToMany(PermissionModel::class,'roles','group_id','permission_id','id','id');
+    }
     public function group_user(){
         return $this->hasMany(GroupUserModel::class,'id','group_id');
     }

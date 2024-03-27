@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:medicines_type,name',
+            'name' => 'required|unique:categories,name',
             'slug' => 'sometimes',
             'activated' => 'required',
         ];

@@ -43,7 +43,7 @@
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
-                                            <label>Name</label>
+                                            <label>Tên</label>
                                             <input class="multisteps-form__input form-control" type="text" placeholder="eg. Admin" name="name">
                                             @error('name')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
@@ -66,7 +66,7 @@
 
                                     <div class="button-row d-flex mt-4">
                                         <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                            type="submit" title="create">Create</button>
+                                            type="submit" title="create">Cập nhật</button>
                                     </div>
                                 </div>
                             </div>

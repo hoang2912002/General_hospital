@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class DoctorModel extends Model
 {
     use HasFactory;
-    protected $table = 'doctors_information';
+    protected $table = 'staffs_information';
     protected $fillable = [
-        'doctor_uuid', 'image','description'
+        'staff_uuid', 'image','description'
     ];
 }

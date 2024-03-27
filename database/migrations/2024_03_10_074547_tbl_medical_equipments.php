@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('medical_equipments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('image');
             $table->string('name');
+            $table->string('image');
             $table->boolean('status');
+            $table->unsignedInteger('equipment_category_id');
+            $table->date('production_date');
+            $table->date('exp_date');
+            $table->integer('quantity');
+            $table->text('note');
             $table->timestamps();
+            $table->foreign('equipment_category_id')->references('id')->on('equipment_categories');
         });
     }
 

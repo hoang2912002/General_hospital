@@ -29,7 +29,6 @@ class LoginController extends Controller
      */
     public function processLogin(LoginRequest $request){
         $login = LoginModel::where('email',$request->email)->first();
-        //dd($login->password);
         $error = 'Tài khoản không đúng';
         if(!empty($login)){
             if (Hash::check($request->password, $login->password)) {
@@ -38,15 +37,12 @@ class LoginController extends Controller
                 $arrUser = ['benh-nhan','user','nguoi-dung'];
                 $arrRoles = [];
                 foreach($groups as $group){
-                    //dd($arrR);
                     if(!in_array($group,$arrUser)){
                         $arrRoles[] = $group->slug;
                     }
                 }
                 if(in_array($RoleUser,$arrRoles)){
-                    //dd(Auth::attempt($request->only(['email','password']),$request->remember));
                     $check = Auth::attempt($request->only(['email','password']),$request->remember);
-                    //dd(1);
                     if($check){
                         return redirect()->route('index')->with('success' , 'Đăng nhập thành công!');
                     }
@@ -59,8 +55,6 @@ class LoginController extends Controller
                     return redirect()->route('login.index')
                     ->with(['error' => 'Tài khoản mật khẩu không chính xác']);
                 }
-                // dd($arrRoles);
-                // dd(in_array($RoleUser,$arrRoles));
             }
             else{
                 return redirect()->back()
@@ -71,11 +65,6 @@ class LoginController extends Controller
             return redirect()->back()
             ->with(['email' => 'Tài khoản mật khẩu không chính xác']);
         }
-        // dd($login);
-        // if(!empty($login)){
-
-        // }
-        // dd($request);
     }
     /**
      * Store a newly created resource in storage.

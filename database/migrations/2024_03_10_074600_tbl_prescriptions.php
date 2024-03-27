@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->uuid('user_uuid');
             $table->double('total_price');
-            $table->tinyInteger('total_quantity');
+            $table->text('note');
             $table->timestamps();
             $table->foreign('user_uuid')->references('uuid')->on('users');
         });

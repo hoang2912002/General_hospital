@@ -16,6 +16,7 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',ServiceModel::class);
         $name_page = [
             'name' => 'Service Index',
             'total' => 'Service',
@@ -64,6 +65,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',ServiceModel::class);
         $name_page = [
             'name' => 'Service Create',
             'total' => 'Service',
@@ -180,6 +182,7 @@ class ServiceController extends Controller
      */
     public function edit(ServiceModel $serviceModel)
     {
+        $this->authorize('update',$serviceModel);
         $name_page = [
             'name' => 'Service Update',
             'total' => 'Service',
@@ -202,6 +205,6 @@ class ServiceController extends Controller
      */
     public function destroy(ServiceModel $serviceModel)
     {
-        //
+        $this->authorize('delete',$serviceModel);
     }
 }

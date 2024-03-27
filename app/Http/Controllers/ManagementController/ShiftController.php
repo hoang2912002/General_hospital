@@ -16,6 +16,7 @@ class ShiftController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',ShiftModel::class);
         $name_page = [
             'name' => 'Shift Index',
             'total' => 'Shift',
@@ -57,6 +58,7 @@ class ShiftController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',ShiftModel::class);
         $name_page = [
             'name' => 'Shift Create',
             'total' => 'Shift',
@@ -96,6 +98,8 @@ class ShiftController extends Controller
      */
     public function edit(ShiftModel $shiftModel)
     {
+        $this->authorize('update',$shiftModel);
+
         $name_page = [
             'name' => 'Shift Update',
             'total' => 'Shift',
@@ -127,6 +131,7 @@ class ShiftController extends Controller
      */
     public function destroy(ShiftModel $shiftModel)
     {
+        $this->authorize('delete',$shiftModel);
         try {
             if($shiftModel->delete()){
                 return 1;

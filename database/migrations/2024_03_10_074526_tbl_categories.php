@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('doctors_information', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('doctor_uuid');
-            $table->string('image',250);
-            $table->text('description');
+            $table->string('name');
+            $table->string('slug');
             $table->timestamps();
-            $table->foreign('doctor_uuid')->references('uuid')->on('users');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('doctors_information');
+        Schema::dropIfExists('categories');
     }
 };

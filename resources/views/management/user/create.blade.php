@@ -66,29 +66,6 @@
                                 data-animation="FadeIn">
                                 <h5 class="font-weight-bolder mb-0">User Create</h5>
                                 <p class="mb-0 text-sm">Private informations</p>
-                                {{-- <div class=" d-flex align-items-center border-bottom py-3">
-                                    <div class="d-flex align-items-center">
-
-                                        <div class="mx-0">
-                                            <h5 class="font-weight-bolder mb-0">User Create</h5>
-                                            <p class="mb-0 text-sm">Private informations</p>
-                                        </div>
-                                    </div>
-                                    <div class="text-end ms-auto">
-                                        <form action=""  method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="file">
-                                            <button type="button" class="btn  bg-gradient-primary mb-2">
-
-                                                <i class="fas fa-solid fa-download pe-2"></i> Export excel
-                                            </button>
-                                        </form>
-                                        <button type="button" class="btn  bg-gradient-info mb-2">
-                                            <i class="fas fa-solid fa-upload pe-2" aria-hidden="true"></i>
-                                            </i> Import excel
-                                        </button>
-                                    </div>
-                                </div> --}}
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6">

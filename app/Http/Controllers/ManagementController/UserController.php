@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\UserRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\UserRequest\UpdateRequest;
 use App\Imports\ExcelImportUsers;
-use App\Models\ManagementModel\DoctorModel;
+use App\Models\ManagementModel\StaffModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\GroupUserModel;
 use App\Models\ManagementModel\LoginModel;
@@ -27,6 +27,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',UserModel::class);
         $name_page = [
             'name' => 'User Index',
             'total' => 'User',
@@ -81,6 +82,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',UserModel::class);
         $name_page = [
             'name' => 'User Create',
             'total' => 'User',
@@ -121,14 +123,14 @@ class UserController extends Controller
                             $dirFolder = 'img/general_hospital/management/avatar/';
                             $newAvatar = $dirFolder . $user->uuid . '-' . $nameAvatar;
 
-                            $doctorInformation= [
-                                'doctor_uuid'=> $user->uuid,
+                            $staffInformation= [
+                                'staff_uuid'=> $user->uuid,
                                 'image'=> $newAvatar,
                                 'description'=> $request->description,
                             ];
                             @unlink($newAvatar);
-                            $doctor = DoctorModel::create($doctorInformation);
-                            if(!empty($doctor)){
+                            $staff = StaffModel::create($staffInformation);
+                            if(!empty($staff)){
                                 if(!empty($avatar)){
                                     $avatar->move($dirFolder, $newAvatar);
 
@@ -170,6 +172,7 @@ class UserController extends Controller
      */
     public function edit(UserModel $userModel)
     {
+        $this->authorize('update',$userModel);
         $name_page = [
             'name' => 'User Update',
             'total' => 'User',
@@ -177,7 +180,7 @@ class UserController extends Controller
         ];
         $groups = GroupModel::all();
         // $login = $userModel->login();
-        // $doctor = $userModel->doctor;
+        // $staff = $userModel->staff;
         // dd($userModel->group_user->all()[0]->id);
         return view('management.user.update',compact('name_page','groups','userModel'));
 
@@ -217,11 +220,11 @@ class UserController extends Controller
                         'group_id' => $request->role
                     ]);
                     if(!empty($role)){
-                        $doctorInformation= [
-                            'doctor_uuid'=> $userModel->uuid,
+                        $staffInformation= [
+                            'staff_uuid'=> $userModel->uuid,
                             'description'=> $request->description,
                         ];
-                        //DD($doctorInformation);
+                        //DD($staffInformation);
                         if($request->hasFile('avatar')){
                             //dd(1);
                             $avatar = $request->avatar;
@@ -230,13 +233,13 @@ class UserController extends Controller
                             $newAvatar = $dirFolder . $userModel->uuid . '-' . $nameAvatar;
                             //dd(1);
 
-                            $doctorInformation['image']= $newAvatar;
-                            //dd($doctorInformation);
+                            $staffInformation['image']= $newAvatar;
+                            //dd($staffInformation);
                             if(!empty($userModel->image)){
                                 @unlink($userModel->image);
                             }
-                            $doctor = $userModel->doctor()->updateOrCreate($doctorInformation);
-                            if(!empty($doctor)){
+                            $staff = $userModel->staff()->updateOrCreate($staffInformation);
+                            if(!empty($staff)){
                                 if(!empty($avatar)){
                                     $avatar->move($dirFolder, $newAvatar);
 
@@ -244,7 +247,7 @@ class UserController extends Controller
                             }
                         }
                         else{
-                            $doctor = $userModel->doctor()->update($doctorInformation);
+                            $staff = $userModel->staff()->update($staffInformation);
                         }
 
                         return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
@@ -253,7 +256,7 @@ class UserController extends Controller
             }
 
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th->getMessage());
         }
     }
 
@@ -264,10 +267,10 @@ class UserController extends Controller
             'route' => 'user.index'
         ];
         $role =$userModel->group_user->all();
-        $doctor = $userModel->doctor ?? '';
+        $staff = $userModel->staff ?? '';
         //dd($role[0]->name);
-        return view('management.user.detail',compact('name_page','role','doctor','userModel'));
-        //dd($userModel->group_user,$userModel->doctor);
+        return view('management.user.detail',compact('name_page','role','staff','userModel'));
+        //dd($userModel->group_user,$userModel->staff);
     }
     public function setting(){
         $name_page = [
@@ -286,10 +289,11 @@ class UserController extends Controller
     public function destroy(UserModel $userModel)
     {
         try {
+            $this->authorize('delete',$userModel);
             //dd($userModel->login_id,LoginModel::where('id',$userModel->login_id)->delete());
             //làm phương thức xóa ảnh
-            if(!empty($userModel->doctor)){
-                $doctor = $userModel->doctor()->delete();
+            if(!empty($userModel->staff)){
+                $staff = $userModel->staff()->delete();
             }
             $role = $userModel->gr_user()->delete();
             if(!empty($role)){

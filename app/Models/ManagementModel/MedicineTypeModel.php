@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MedicineTypeModel extends Model
 {
     use HasFactory;
-    protected $table = "medicines_type";
+    protected $table = "categories";
     protected $fillable = [
         'name','slug'
     ];

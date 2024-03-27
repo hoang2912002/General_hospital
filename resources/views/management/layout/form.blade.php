@@ -7,9 +7,6 @@
         }
     </style>
 @endpush
-
-
-
 @push('js')
 
     <script src="{{ asset('asset/admin') }}/js/plugins/multistep-form.js"></script>
@@ -25,8 +22,25 @@
           var gender = document.getElementById('choices-gender1');
           const example = new Choices(gender);
         }
+        if (document.getElementById('choices-category')) {
+          var categories = document.getElementById('choices-category');
+          const example = new Choices(categories);
+        }
+        if (document.getElementById('choices-manufacturer')) {
+          var manufacturer = document.getElementById('choices-manufacturer');
+          const example = new Choices(manufacturer);
+        }
         if (document.getElementById('choices-role')) {
           var role = document.getElementById('choices-role');
+          const example = new Choices(role);
+        }
+        if (document.getElementById('choices-role-permission')) {
+          var role = document.getElementById('choices-role-permission');
+          const example = new Choices(role);
+
+        }
+        if (document.getElementById('choices-role-permission')) {
+          var role = document.getElementById('choices-role-permission');
           const example = new Choices(role);
 
         }

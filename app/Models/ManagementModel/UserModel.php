@@ -23,9 +23,9 @@ class UserModel extends Model
     {
         return $this->hasOne(LoginModel::class,'id','login_id');
     }
-    public function doctor()
+    public function staff()
     {
-        return $this->hasOne(DoctorModel::class,'doctor_uuid','uuid');
+        return $this->hasOne(StaffModel::class,'staff_uuid','uuid');
     }
 
     public function group_user(){
@@ -41,6 +41,18 @@ class UserModel extends Model
     {
         return  date('d/m/Y', strtotime($this->dob));
 
+    }
+
+    public function getPermision()
+    {
+        $groups = $this->group_user;
+        foreach($groups as $group){
+            $permissions = array_map(function($permission){
+                return $permission->name;
+            },$group->role->all());
+        }
+        //dd($permissions);
+        return $permissions ?? ['null'];
     }
     public function gender(){
         switch ($this->gender) {

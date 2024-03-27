@@ -191,7 +191,7 @@
         let token = $('meta[name="csrf-token"]').attr('content');
         $(function() {
             //service thumbnail
-            var myDropzone = new Dropzone('#service-thumbnail', {
+            var myDropzoneThumbnail = new Dropzone('#service-thumbnail', {
                 paramName: "file",
                 url: '{!! route('service.dropzone') !!}',
                 uploadMultiple: false,
@@ -205,15 +205,15 @@
                 },
                 init: function() {
                     //console.log('init calls');
-                    myDropzone = this;
+                    myDropzoneThumbnail = this;
                     // Read Files from tables and storage folder starts
                     $.ajax({
                         url: "{{ route('service.readFilesThumbnail', $serviceModel->slug) }}",
                         type: 'get',
                         dataType: 'json',
                         success: function(response) {
-                            //console.log('dfsds',response.arr_image);
-                            arr_image_service['images'] = (response.arr_image);
+                            console.log('dfsds',response.arr);
+                           // arr_image_service['images'] = (response.arr_image);
                             $.each(response.arr, function(key, value) {
                                 var mockFile = {
                                     name: value.name,
@@ -221,11 +221,11 @@
                                     accepted: true,
                                     kind: 'image'
                                 };
-                                myDropzone.emit("addedfile", mockFile);
-                                myDropzone.files.push(mockFile);
-                                myDropzone.emit("thumbnail", mockFile, value.thumbnail);
+                                myDropzoneThumbnail.emit("addedfile", mockFile);
+                                myDropzoneThumbnail.files.push(mockFile);
+                                myDropzoneThumbnail.emit("thumbnail", mockFile, value.thumbnail);
 
-                                myDropzone.emit("complete", mockFile);
+                                myDropzoneThumbnail.emit("complete", mockFile);
                                 console.log(arr_image_service);
                             });
                         }

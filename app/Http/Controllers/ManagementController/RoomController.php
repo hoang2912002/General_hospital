@@ -16,6 +16,7 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',RoomModel::class);
         $name_page = [
             'name' => 'Room Index',
             'total' => 'Room',
@@ -57,6 +58,7 @@ class RoomController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',RoomModel::class);
         $name_page = [
             'name' => 'Room Create',
             'total' => 'Room',
@@ -97,6 +99,7 @@ class RoomController extends Controller
      */
     public function edit(RoomModel $roomModel)
     {
+        $this->authorize('update', $roomModel);
         $name_page = [
             'name' => 'Room Update',
             'total' => 'Room',
@@ -128,6 +131,7 @@ class RoomController extends Controller
      */
     public function destroy(RoomModel $roomModel)
     {
+        $this->authorize('delete', $roomModel);
         try {
             if($roomModel->delete()){
                 return 1;

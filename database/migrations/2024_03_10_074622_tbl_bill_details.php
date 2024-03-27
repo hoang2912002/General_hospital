@@ -15,12 +15,12 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('bill_id');
             $table->unsignedInteger('prescription_id');
-            $table->unsignedInteger('user_service_id');
+            $table->unsignedInteger('service_result_id');
             $table->double('price');
             $table->timestamps();
             $table->foreign('bill_id')->references('id')->on('bills');
             $table->foreign('prescription_id')->references('id')->on('prescriptions');
-            $table->foreign('user_service_id')->references('id')->on('user_services');
+            $table->foreign('service_result_id')->references('id')->on('services_result');
         });
     }
 

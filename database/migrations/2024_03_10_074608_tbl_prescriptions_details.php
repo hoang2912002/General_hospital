@@ -15,15 +15,12 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('medicine_id');
             $table->unsignedInteger('prescription_id');
-            $table->tinyInteger('amount_of_time');
-            $table->unsignedInteger('shift_id');
             $table->tinyInteger('quantity');
             $table->double('price');
             $table->text('note');
             $table->timestamps();
             $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->foreign('prescription_id')->references('id')->on('prescriptions');
-            $table->foreign('shift_id')->references('id')->on('shifts');
         });
     }
 

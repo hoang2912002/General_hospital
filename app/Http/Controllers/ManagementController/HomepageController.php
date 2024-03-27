@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class HomepageController extends Controller
 {
     public function index(){
+        //$this->authorize('viewAny',HomepageController::class);
         $name_page = [
             'name' => 'Homepage',
             'total' => 'Dashboard',
@@ -17,5 +18,7 @@ class HomepageController extends Controller
         return view('management.homepage',compact('name_page'));
     }
 
-
+    public function not_found(){
+        return view('management.layout.404');
+    }
 }

@@ -16,6 +16,7 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',GroupModel::class);
         $name_page = [
             'name' => 'Group Index',
             'total' => 'Group',
@@ -57,6 +58,7 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', GroupModel::class);
         $name_page = [
             'name' => 'Group Create',
             'total' => 'Group',
@@ -94,7 +96,7 @@ class GroupController extends Controller
      */
     public function edit(GroupModel $groupModel)
     {
-
+        $this->authorize('update', $groupModel);
         $name_page = [
             'name' => 'Group Edit',
             'total' => 'Group',
@@ -124,6 +126,7 @@ class GroupController extends Controller
      */
     public function destroy(GroupModel $groupModel)
     {
+        $this->authorize('delete', GroupModel::class);
         // try {
         //     $group_user =GroupUserModel::where('group_id',$groupModel->id);
         //     if($group_user->get()->all() !== []){

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('service_id');
             $table->string('image');
             $table->timestamps();
+            $table->foreign('service_id')->references('id')->on('services');
         });
     }
 

@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone_number');
             $table->double('total_price');
+            $table->unsignedInteger('payment_id');
+            $table->unsignedInteger('transaction_id');
             $table->boolean('status');
             $table->timestamps();
             $table->foreign('user_uuid')->references('uuid')->on('users');
+            $table->foreign('payment_id')->references('id')->on('payments');
         });
     }
 

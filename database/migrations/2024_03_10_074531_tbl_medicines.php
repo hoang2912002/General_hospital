@@ -15,12 +15,16 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->tinyInteger('quantity');
+            $table->integer('quantity');
             $table->double('price');
-            $table->unsignedInteger('type_id');
+            $table->unsignedInteger('category_id');
             $table->unsignedInteger('manufacturer_id');
+            $table->text('description');
+            $table->string('image');
+            $table->date('imp_date');
+            $table->date('exp_date');
             $table->timestamps();
-            $table->foreign('type_id')->references('id')->on('medicines_type');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
 
         });

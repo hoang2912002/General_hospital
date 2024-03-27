@@ -16,6 +16,7 @@ class ManufacturerController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',ManufacturerModel::class);
         $name_page = [
             'name' => 'Manufacturer Index',
             'total' => 'Manufacturer',
@@ -65,6 +66,7 @@ class ManufacturerController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', ManufacturerModel::class);
         $name_page = [
             'name' => 'Manufacturer Create',
             'total' => 'Manufacturer',
@@ -104,6 +106,7 @@ class ManufacturerController extends Controller
      */
     public function edit(ManufacturerModel $manufacturerModel)
     {
+        $this->authorize('update', $manufacturerModel);
         $name_page = [
             'name' => 'Cập nhập nhà sản xuất',
             'total' => 'Nhà sản xuất',
@@ -135,6 +138,7 @@ class ManufacturerController extends Controller
      */
     public function destroy(ManufacturerModel $manufacturerModel)
     {
+        $this->authorize('delete', $manufacturerModel);
         try {
             if(empty($manufacturerModel->medicines[0])){
                 $manufacturerModel->delete();

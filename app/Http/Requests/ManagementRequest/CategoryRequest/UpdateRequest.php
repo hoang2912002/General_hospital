@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
     {
         $id = request()->route()->categoryModel->id;
         return [
-            'name' => 'required|unique:medicines_type,name,' . $id,
+            'name' => 'required|unique:categories,name,' . $id,
             'slug' => 'sometimes',
             'activated' => 'required',
         ];

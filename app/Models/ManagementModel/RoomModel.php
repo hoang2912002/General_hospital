@@ -10,7 +10,7 @@ class RoomModel extends Model
     use HasFactory;
     protected $table = 'rooms';
     protected $fillable = [
-        'name','slug'
+        'name','slug','file_type','department_id'
     ];
     public function getRouteKeyName(){
         return 'slug';

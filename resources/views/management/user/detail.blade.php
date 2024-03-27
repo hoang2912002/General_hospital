@@ -7,7 +7,7 @@
             <div class="row gx-4">
                 <div class="col-auto d-flex align-items-center">
                     <div class="avatar avatar-xxl position-relative" >
-                        <img src="{{(isset($doctor->image)) ? asset($doctor->image) : 'https://dautubanthan.net/wp-content/uploads/2021/12/A%CC%89nh-avatar-facebook-theo-phong-ca%CC%81ch-do%CC%9Bn-gia%CC%89n.jpg'  }} " alt="profile_image" class="w-200 border-radius-lg shadow-sm" style="size: 200px">
+                        <img src="{{(isset($staff->image)) ? asset($staff->image) : 'https://dautubanthan.net/wp-content/uploads/2021/12/A%CC%89nh-avatar-facebook-theo-phong-ca%CC%81ch-do%CC%9Bn-gia%CC%89n.jpg'  }} " alt="profile_image" class="w-200 border-radius-lg shadow-sm" style="size: 200px">
                     </div>
                 </div>
                 <div class="col-auto my-auto">
@@ -81,7 +81,7 @@
                             </div>
                             <div class="card-body p-3">
                                 <h6 class="text-uppercase text-body text-xs font-weight-bolder"></h6>
-                                <p>{{ $doctor->description ?? '' }}</p>
+                                <p>{{ $staff->description ?? '' }}</p>
                             </div>
                         </div>
                     </div>

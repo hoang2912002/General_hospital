@@ -267,6 +267,12 @@
                     <div class="collapse " id="service">
                         <ul class="nav ms-4">
                             <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('department.index') }}">
+                                    <span class="sidenav-mini-icon"> p </span>
+                                    <span class="sidenav-normal"> Khoa </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
                                 <a class="nav-link " href="{{ route('room.index') }}">
                                     <span class="sidenav-mini-icon"> p </span>
                                     <span class="sidenav-normal"> Phòng </span>

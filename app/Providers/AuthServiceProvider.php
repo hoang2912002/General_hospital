@@ -5,6 +5,7 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\ManagementModel\CategoryModel;
+use App\Models\ManagementModel\DepartmentModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\ManufacturerModel;
 use App\Models\ManagementModel\MedicineModel;
@@ -14,6 +15,7 @@ use App\Models\ManagementModel\ServiceModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use App\Policies\CategoryModelPolicy;
+use App\Policies\DepartmentModelPolicy;
 use App\Policies\GroupModelPolicy;
 use App\Policies\ManufacturerModelPolicy;
 use App\Policies\MedicineModelPolicy;
@@ -41,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
         ServiceModel::class =>ServiceModelPolicy::class,
         ShiftModel::class =>ShiftModelPolicy::class,
         UserModel::class =>UserModelPolicy::class,
+        DepartmentModel::class =>DepartmentModelPolicy::class,
     ];
 
     /**

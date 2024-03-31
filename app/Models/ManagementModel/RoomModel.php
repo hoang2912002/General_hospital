@@ -15,4 +15,8 @@ class RoomModel extends Model
     public function getRouteKeyName(){
         return 'slug';
     }
+
+    public function department(){
+        return $this->hasOne(DepartmentModel::class,'id','department_id');
+    }
 }

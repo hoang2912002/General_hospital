@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ManagementController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\RoomRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\RoomRequest\UpdateRequest;
+use App\Models\ManagementModel\DepartmentModel;
 use App\Models\ManagementModel\RoomModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -39,7 +40,14 @@ class RoomController extends Controller
 
                 return '<p class="text-dark  mb-0 font-weight-400">'.$room->slug.'</span>';;
             })
+            ->editColumn('department', function ($room) {
 
+                return '<p class="text-dark  mb-0">'.$room->department->name.'</span>';;
+            })
+            ->editColumn('file_type', function ($room) {
+
+                return '<p class="text-dark  mb-0 ">'.$room->file_type.'</span>';;
+            })
             ->addColumn('action', function ($room) {
                 $routeDestroy = "'" . route('room.destroy',$room->slug) . "'";
                 $route_edit =  '<a href="'. route('room.edit', $room->slug) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
@@ -47,7 +55,7 @@ class RoomController extends Controller
                 return $route_edit .  '&nbsp'  . $route_delete;
             })
 
-            ->rawColumns(['id','name','slug','action'])
+            ->rawColumns(['id','name','slug','department','file_type','action'])
             ->make();
         }
         return view('management.room.index',compact('name_page'));
@@ -60,11 +68,12 @@ class RoomController extends Controller
     {
         $this->authorize('create',RoomModel::class);
         $name_page = [
-            'name' => 'Room Create',
-            'total' => 'Room',
+            'name' => 'Thêm phòng',
+            'total' => 'Phòng',
             'route' => 'room.index'
         ];
-        return view('management.room.create',compact('name_page'));
+        $department = DepartmentModel::all();
+        return view('management.room.create',compact('name_page','department'));
     }
 
     /**
@@ -101,11 +110,12 @@ class RoomController extends Controller
     {
         $this->authorize('update', $roomModel);
         $name_page = [
-            'name' => 'Room Update',
-            'total' => 'Room',
+            'name' => 'Cập nhật phòng',
+            'total' => 'Phòng',
             'route' => 'room.index'
         ];
-        return view('management.room.update',compact('roomModel','name_page'));
+        $department = DepartmentModel::all();
+        return view('management.room.update',compact('roomModel','name_page','department'));
     }
 
     /**
@@ -133,7 +143,9 @@ class RoomController extends Controller
     {
         $this->authorize('delete', $roomModel);
         try {
-            if($roomModel->delete()){
+            //dd($roomModel->department);
+            if(empty($roomModel->department)){
+                $roomModel->delete();
                 return 1;
             }
             else{

@@ -48,16 +48,22 @@
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12 mb-3">
-                                            <h6>Group</h6>
+                                            <h6>Nhóm</h6>
                                             <select class="form-control" name="role" id="choices-role" >
-                                                <option value="">Choose role ...</option>
+                                                <option value="">Chọn nhóm ...</option>
                                                 @foreach ($groups as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('role')
+                                            <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
+                                                role="alert">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                         </div>
                                         <div class="col-12 col-sm-12 total_permission">
-                                            <h6>Permission</h6>
+                                            <h6>Quyền hạng</h6>
                                             <label for=""></label>
                                             @foreach ($array_permission as $key => $permissions)
                                                 <div class="div_permission">
@@ -95,10 +101,10 @@
                                             <div class="checklist-item checklist-item-primary ps-2 ms-3 mb-1 ">
                                                 <div class="d-flex align-items-center">
                                                     <div class="form-check">
-                                                        <input class="form-check-input " type="checkbox" value=""
+                                                        <input class="form-check-input " type="checkbox" value="1"
                                                             id="all" name="all">
                                                     </div>
-                                                    <label for="all" class="mb-0 text-sm">All</label>
+                                                    <label for="all" class="mb-0 text-sm">Tất cả</label>
                                                 </div>
                                             </div>
                                         </div>

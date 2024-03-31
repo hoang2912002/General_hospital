@@ -74,6 +74,17 @@
           const example = new Choices(shift);
 
         }
+
+        if (document.getElementById('choices-department')) {
+          var department = document.getElementById('choices-department');
+          const example = new Choices(department);
+
+        }
+        if (document.getElementById('choices-file')) {
+          var file = document.getElementById('choices-file');
+          const example = new Choices(file);
+
+        }
         if (document.getElementById('choices-medicine')) {
           var skills = document.getElementById('choices-medicine');
           const example = new Choices(skills, {

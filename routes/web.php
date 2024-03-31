@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ManagementController\CategoryController;
+use App\Http\Controllers\ManagementController\DepartmentController;
 use App\Http\Controllers\ManagementController\GroupController;
 use App\Http\Controllers\ManagementController\HomepageController;
 use App\Http\Controllers\ManagementController\LoginController;
@@ -123,6 +124,15 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{roomModel}', 'edit')->name('edit');
         Route::patch('update/{roomModel}', 'update')->name('update');
         Route::delete('destroy/{roomModel}', 'destroy')->name('destroy');
+    });
+    //Department
+    Route::group(['controller' => DepartmentController::class, 'prefix' => 'department', 'as' => 'department.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{departmentModel}', 'edit')->name('edit');
+        Route::patch('update/{departmentModel}', 'update')->name('update');
+        Route::delete('destroy/{departmentModel}', 'destroy')->name('destroy');
     });
     //Shift
     Route::group(['controller' => ShiftController::class, 'prefix' => 'shift', 'as' => 'shift.'],function(){

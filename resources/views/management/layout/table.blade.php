@@ -99,11 +99,11 @@
                         url: url,
                         success: function (response) {
                             if(response == 1){
-                                toastr.success('Deleted successfully!');
+                                toastr.success('Xóa thành công!');
                                 $('#dataTable').DataTable().clear().draw(true);
                             }
                             else{
-                                toastr.error('Can not deleted');
+                                toastr.error('Không thể xóa');
                             }
                         }
                     });

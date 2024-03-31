@@ -38,9 +38,11 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên phòng</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên khoa</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kiểu file</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                                 </tr>
                                             </thead>
@@ -74,6 +76,14 @@
             {
                 data: 'slug',
                 name: 'slug'
+            },
+            {
+                data: 'department',
+                name: 'department'
+            },
+            {
+                data: 'file_type',
+                name: 'file_type'
             },
             {
                 data: 'action',

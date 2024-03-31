@@ -25,6 +25,8 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'required|unique:rooms,name,' . $id,
             'slug' => 'sometimes',
+            'department_id'=> 'required',
+            'file_type'=> 'required',
             'activated' => 'required',
         ];
     }

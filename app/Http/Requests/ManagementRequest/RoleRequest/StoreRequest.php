@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\ManagementRequest\RoomRequest;
+namespace App\Http\Requests\ManagementRequest\RoleRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
+
 class StoreRequest extends FormRequest
 {
     /**
@@ -22,22 +22,13 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:rooms,name',
-            'slug' => 'sometimes',
-            'department_id'=> 'required',
-            'file_type'=> 'required',
-            'activated' => 'required',
+            'role' => 'required'
         ];
     }
     public function messages()
     {
         return [
-            'required' => 'Vui lòng điền đầy đủ thông tin!',
-            'unique' => 'Tên phòng này đã tồn tại!',
+            'required' => 'Vai trò không được bỏ trống!',
         ];
-    }
-
-    public function passedValidation(){
-        $this->merge(['slug' => Str::slug($this->name)]);
     }
 }

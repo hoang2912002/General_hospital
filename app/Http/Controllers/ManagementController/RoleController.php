@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManagementRequest\RoleRequest\StoreRequest;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\PermissionModel;
 use App\Models\ManagementModel\RoleModel;
@@ -17,8 +18,8 @@ class RoleController extends Controller
     {
         $this->authorize('viewAny',RoleModel::class);
         $name_page = [
-            'name' => 'Role Create',
-            'total' => 'Role',
+            'name' => 'Danh sách vai trò',
+            'total' => 'Vai trò',
             'route' => 'role.index'
         ];
         $permissions = PermissionModel::all();
@@ -66,13 +67,10 @@ class RoleController extends Controller
                         'name' => $v['name']
                     ];
                 }
-
             }
             //Sắp xếp lại thứ tự value của mảng
             ksort($arN[$index]);
             $array_permission[$index] = $arN[$index];
-
-            //dd($array_permission,$arr_permissions);
         }
         return view('management.role.index',compact('array_permission','name_page','roles','groups'));
     }
@@ -87,17 +85,13 @@ class RoleController extends Controller
             $array_role = [];
             if($roles !== []){
                 foreach($roles as $key => $role){
-                    //dd($role->permission);
-                    //dd($roles);
                     $array_role[$role->permission_id] = [
                         'checked' => 1,
                         'permission' => $role->permission_id
                     ];
                 }
             }
-            //dd($array_role);
             $array_role = json_encode($array_role);
-            //dd($array_role);
             return response()->json($array_role);
         } catch (\Throwable $th) {
             dd($th->getMessage());
@@ -108,9 +102,25 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try {
+            if(!empty($request->permission_id)){
+                $check_exist_role = RoleModel::where('group_id',$request->role);
+                if($check_exist_role->get()->toArray() != []){
+                    $delete_data = $check_exist_role->delete();
+                }
+                foreach($request->permission_id as $permission => $role){
+                    RoleModel::create([
+                        'group_id' => $request->role,
+                        'permission_id' => $permission
+                    ]);
+                }
+                return redirect()->route('role.index')->with('success',"Cập nhập quyền đăng nhập thành công!");
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
     /**

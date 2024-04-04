@@ -77,11 +77,8 @@ class ShiftController extends Controller
             if(!empty($shift)){
                 return redirect()->route('shift.index')->with('success','Thêm ca ' . $request->name . 'thành công!');
             }
-            else{
-                return back()->with('error','Thêm ca thất bại!');
-            }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm ca trực thất bại!');
         }
     }
 
@@ -122,7 +119,7 @@ class ShiftController extends Controller
                 return back()->with('error','Cập nhật thông tin ca thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật ca trực thất bại!');
         }
     }
 

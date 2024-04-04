@@ -91,7 +91,7 @@ class RoomController extends Controller
                 return back()->with('error','Thêm phòng thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm phòng thất bại!');
         }
     }
 
@@ -132,7 +132,7 @@ class RoomController extends Controller
                 return back()->with('error','Cập nhật thông tin phòng thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật phòng thất bại!');
         }
     }
 

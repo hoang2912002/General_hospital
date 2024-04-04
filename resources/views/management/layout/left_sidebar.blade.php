@@ -279,7 +279,13 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('room.index') }}">
+                                <a class="nav-link " href="{{ route('equipment_category.index') }}">
+                                    <span class="sidenav-mini-icon"> LT </span>
+                                    <span class="sidenav-normal"> Loại thiết bị y tế </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('medical_equipment.index') }}">
                                     <span class="sidenav-mini-icon"> TB </span>
                                     <span class="sidenav-normal"> Thiết bị y tế </span>
                                 </a>

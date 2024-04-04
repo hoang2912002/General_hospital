@@ -1,17 +1,19 @@
 @extends('management.layout.main')
 @include('management.layout.table')
 @push('css')
-    <style>
-        .footer {
-            position: fixed;
-            bottom: 0;
+<style>
+    .footer {
+        position: fixed;
+        bottom: 0;
 
-            width: 100%;
-            padding: 10px;
-        }
-    </style>
+        width: 100%;
+        padding: 10px;
+    }
+    .table td {vertical-align: 50% }
+</style>
 @endpush
 @section('content')
+
     <div class="row mt-4">
         <div class="col-12">
             <div class="content-wrapper">
@@ -21,23 +23,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    {{-- <div class="card-header d-flex justify-content-between pb-0">
-                                        <h5 class="mb-0">{{ $name_page['total'] }}</h5>
-                                        <a href="{{ route('user.create') }}" class="btn btn-primary ">
-                                            <span>Thêm </span>
-                                        </a>
-
-                                    </div> --}}
                                     <div class="card-header  d-flex justify-content-between pb-0">
                                         <div>
-                                            <h5 class="mb-0">All Products</h5>
-                                            <p class="text-sm mb-0">
-                                                A lightweight, extendable, dependency-free javascript HTML table plugin.
-                                            </p>
+                                            <h5 class="mb-0">{{ $name_page['name'] }}</h5>
+
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
-                                                <a href="{{ route('user.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
+                                                <a href="{{ route('equipment_category.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
                                                 <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Import</button>&nbsp;
                                                 <div class="modal fade" id="import" tabindex="-1" style="display: none;"aria-hidden="true">
                                                     <div class="modal-dialog mt-lg-10">
@@ -81,30 +74,10 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        UUID</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        First name</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Last name</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Gender</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Date of birth</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Email</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Phone number</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Actions</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chức năng</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -127,32 +100,16 @@
 @push('js')
     <script>
         var columns = [{
-                data: 'uuid',
-                name: 'uuid'
+                data: 'id',
+                name: 'id'
             },
             {
-                data: 'first_name',
-                name: 'first_name'
+                data: 'name',
+                name: 'name'
             },
             {
-                data: 'last_name',
-                name: 'last_name'
-            },
-            {
-                data: 'gender',
-                name: 'gender'
-            },
-            {
-                data: 'dob',
-                name: 'dob'
-            },
-            {
-                data: 'email',
-                name: 'email'
-            },
-            {
-                data: 'phone_number',
-                name: 'phone_number'
+                data: 'slug',
+                name: 'slug'
             },
             {
                 data: 'action',
@@ -160,32 +117,6 @@
             },
 
         ];
-        renderTable("{!! route('user.index') !!}", columns);
-    </script>
-    <script>
-        //  if (document.getElementById('dataTable')) {
-        //     const dataTableSearch = new simpleDatatables.DataTable("#dataTable", {
-        //         searchable: true,
-        //         fixedHeight: false,
-
-        //     });
-
-        //     document.querySelectorAll(".export").forEach(function(el) {
-        //         el.addEventListener("click", function(e) {
-        //         var type = el.dataset.type;
-
-        //         var data = {
-        //             type: type,
-        //             filename: "soft-ui-" + type,
-        //         };
-
-        //         if (type === "csv") {
-        //             data.columnDelimiter = "|";
-        //         }
-
-        //         dataTableSearch.export(data);
-        //         });
-        //     });
-        //     };
+        renderTable("{!! route('equipment_category.index') !!}", columns);
     </script>
 @endpush

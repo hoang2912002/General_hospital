@@ -28,6 +28,7 @@
 
     <!--Toastr-->
     <link rel="stylesheet" href="{{ asset('asset/admin') }}/css/toastr/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('asset/admin') }}/css/toastr_color_button.css">
 
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

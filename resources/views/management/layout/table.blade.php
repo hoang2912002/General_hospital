@@ -36,13 +36,13 @@
     <script src="{{ asset('asset/admin') }}/js/plugins/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script>
-
+        let totalprice = true;
         function renderTable(url, columns, totalprice) {
             $('#dataTable').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
-                "ordering": true,
+                "ordering": totalprice,
                 "orderable": false,
                 "info": true,
                 "autoWidth": false,

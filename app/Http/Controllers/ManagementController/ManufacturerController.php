@@ -89,7 +89,7 @@ class ManufacturerController extends Controller
                 return back()->with('error','Thêm nhà sản xuất thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm nhà sản xuất thất bại!');
         }
     }
 
@@ -129,7 +129,7 @@ class ManufacturerController extends Controller
                 return back()->with('error','Cập nhật thông tin nhà sản xuất thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật nhà sản xuất thất bại!');
         }
     }
 

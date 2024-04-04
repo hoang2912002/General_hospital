@@ -183,6 +183,7 @@ class MedicineController extends Controller
      */
     public function update(UpdateRequest $request, MedicineModel $medicineModel)
     {
+        dd(1);
         try {
             $name_page = [
                 'name' => 'Mục lục thuốc',

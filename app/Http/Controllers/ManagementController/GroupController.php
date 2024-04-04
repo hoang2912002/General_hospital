@@ -79,7 +79,7 @@ class GroupController extends Controller
                 return redirect()->route('group.index')->with('success','Thêm nhóm mới thành công!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm nhóm thất bại!');
         }
     }
 
@@ -117,7 +117,7 @@ class GroupController extends Controller
                 return redirect()->route('group.index')->with('success','Cập nhập nhóm ' . $request->name .  ' thành công!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật nhóm thất bại!');
         }
     }
 

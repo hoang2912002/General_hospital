@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ManagementController\CategoryController;
 use App\Http\Controllers\ManagementController\DepartmentController;
+use App\Http\Controllers\ManagementController\EquipmentCategoryController;
 use App\Http\Controllers\ManagementController\GroupController;
 use App\Http\Controllers\ManagementController\HomepageController;
 use App\Http\Controllers\ManagementController\LoginController;
 use App\Http\Controllers\ManagementController\ManufacturerController;
+use App\Http\Controllers\ManagementController\MedicalEquipmentController;
 use App\Http\Controllers\ManagementController\MedicineController;
 use App\Http\Controllers\ManagementController\MedicineTypeController;
 use App\Http\Controllers\ManagementController\RoleController;
@@ -149,5 +151,28 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::post('api','api')->name('api');
         Route::post('store','store')->name('store');
     });
-
+    //Equipment Categories
+    Route::group(['controller' => EquipmentCategoryController::class, 'prefix' => 'equipment_category', 'as' => 'equipment_category.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{equipmentCategoryModel}', 'edit')->name('edit');
+        Route::get('{equipmentCategoryModel}/medicalEquipments', 'medicalEquipments')->name('medicalEquipments');
+        Route::post('{equipmentCategoryModel}/medicalEquipments/api', 'medicalEquipments_api')->name('medicalEquipments_api');
+        Route::any('{equipmentCategoryModel}/medicalEquipments/medicalEquipments_edit', 'medicalEquipments_edit')->name('medicalEquipments_edit');
+        Route::patch('update/{equipmentCategoryModel}', 'update')->name('update');
+        Route::delete('destroy/{equipmentCategoryModel}', 'destroy')->name('destroy');
+        Route::post('save_image', 'save_image')->name('save_image');
+        Route::get('readFiles/{equipmentCategoryModel}', 'readFiles')->name('readFiles');
+        Route::post('delete_image/{equipmentCategoryModel}', 'delete_image')->name('delete_image');
+    });
+    //Medical Equipments
+    Route::group(['controller' => MedicalEquipmentController::class, 'prefix' => 'medical_equipment', 'as' => 'medical_equipment.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{medicalEquipmentModel}', 'edit')->name('edit');
+        Route::patch('update/{medicalEquipmentModel}', 'update')->name('update');
+        Route::delete('destroy/{medicalEquipmentModel}', 'destroy')->name('destroy');
+    });
 });

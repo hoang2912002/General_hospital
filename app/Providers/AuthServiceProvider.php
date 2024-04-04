@@ -6,8 +6,10 @@ namespace App\Providers;
 
 use App\Models\ManagementModel\CategoryModel;
 use App\Models\ManagementModel\DepartmentModel;
+use App\Models\ManagementModel\EquipmentCategoryModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\ManufacturerModel;
+use App\Models\ManagementModel\MedicalEquipmentModel;
 use App\Models\ManagementModel\MedicineModel;
 use App\Models\ManagementModel\RoleModel;
 use App\Models\ManagementModel\RoomModel;
@@ -16,8 +18,11 @@ use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use App\Policies\CategoryModelPolicy;
 use App\Policies\DepartmentModelPolicy;
+use App\Policies\EquipmentCategoryModelPolicy;
+use App\Policies\EquipmentCatogoryModelPolicy;
 use App\Policies\GroupModelPolicy;
 use App\Policies\ManufacturerModelPolicy;
+use App\Policies\MedicalEquipmentModelPolicy;
 use App\Policies\MedicineModelPolicy;
 use App\Policies\RoleModelPolicy;
 use App\Policies\RoomModelPolicy;
@@ -44,6 +49,8 @@ class AuthServiceProvider extends ServiceProvider
         ShiftModel::class =>ShiftModelPolicy::class,
         UserModel::class =>UserModelPolicy::class,
         DepartmentModel::class =>DepartmentModelPolicy::class,
+        EquipmentCategoryModel::class =>EquipmentCategoryModelPolicy::class,
+        MedicalEquipmentModel::class =>MedicalEquipmentModelPolicy::class,
     ];
 
     /**

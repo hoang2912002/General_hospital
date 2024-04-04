@@ -77,11 +77,8 @@ class CategoryController extends Controller
             if(!empty($category)){
                 return redirect()->route('category.index')->with('success','Thêm danh mục ' . $request->name . 'thành công!');
             }
-            else{
-                return back()->with('error','Thêm danh mục thuốc thất bại!');
-            }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm danh mục thuốc thất bại!');
         }
     }
 
@@ -121,7 +118,7 @@ class CategoryController extends Controller
                 return back()->with('error','Cập nhật danh mục thuốc thất bại!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật danh mục thuốc thất bại!');
         }
     }
 

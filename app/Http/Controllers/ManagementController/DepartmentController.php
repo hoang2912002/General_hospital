@@ -78,7 +78,7 @@ class DepartmentController extends Controller
                 return redirect()->route('department.index')->with('success','Thêm khoa thành công!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Thêm khoa thất bại!');
         }
     }
 
@@ -116,7 +116,7 @@ class DepartmentController extends Controller
                 return redirect()->route('department.index')->with('success','Cập nhật khoa thành công!');
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật khoa thất bại!');
         }
     }
 

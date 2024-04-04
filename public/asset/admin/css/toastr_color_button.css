@@ -1,0 +1,6 @@
+#toast-container>.toast-error{
+    background-color: red !important;
+}
+#toast-container>.toast-success{
+    background-color: #51A351 !important;
+}

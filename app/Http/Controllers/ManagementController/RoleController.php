@@ -119,7 +119,7 @@ class RoleController extends Controller
                 return redirect()->route('role.index')->with('success',"Cập nhập quyền đăng nhập thành công!");
             }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error','Cập nhật vai trò thất bại!');
         }
     }
 

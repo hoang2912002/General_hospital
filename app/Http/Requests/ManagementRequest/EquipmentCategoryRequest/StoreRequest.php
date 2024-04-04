@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ManagementRequest\ShiftRequest;
+namespace App\Http\Requests\ManagementRequest\EquipmentCategoryRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:shifts,name',
+            'name' => 'required|unique:equipment_categories,name',
             'slug' => 'sometimes',
             'activated' => 'required',
         ];
@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'required' => 'Vui lòng điền đầy đủ thông tin!',
-            'unique' => 'Tên ca trực này đã tồn tại!',
+            'unique' => 'Tên loại thiết bị y tế này đã tồn tại!',
         ];
     }
 

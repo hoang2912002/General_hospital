@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ManagementRequest\ShiftRequest;
+namespace App\Http\Requests\ManagementRequest\EquipmentCategoryRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,21 +21,24 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = request()->route()->equipmentCategoryModel->id;
         return [
-            'name' => 'required|unique:shifts,name',
+            'name' => 'required|unique:equipment_categories,name,' .$id,
             'slug' => 'sometimes',
-            'activated' => 'required',
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'required' => 'Vui lòng điền đầy đủ thông tin!',
-            'unique' => 'Tên ca trực này đã tồn tại!',
+            'activated' => 'required'
         ];
     }
 
-    public function passedValidation(){
+    public function messages()
+    {
+
+        return [
+            'required' => 'Trường này không được bỏ trống!',
+            'unique' => 'Trường này đã tồn tại!',
+            'sometimes' => 'Trường này không đúng kiểu dữ liệu!'
+        ];
+    }
+    public function prepareForValidation(){
         $this->merge(['slug' => Str::slug($this->name)]);
     }
 }

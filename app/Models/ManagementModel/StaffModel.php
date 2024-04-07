@@ -10,6 +10,6 @@ class StaffModel extends Model
     use HasFactory;
     protected $table = 'staffs_information';
     protected $fillable = [
-        'staff_uuid', 'image','description'
+        'staff_uuid', 'image','description','department_id'
     ];
 }

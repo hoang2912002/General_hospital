@@ -19,6 +19,6 @@ class HomepageController extends Controller
     }
 
     public function not_found(){
-        return view('management.layout.404');
+        return view('management.layout.403');
     }
 }

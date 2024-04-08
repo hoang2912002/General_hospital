@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->uuid('staff_uuid');
             $table->string('image',250);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->foreign('staff_uuid')->references('uuid')->on('users');
         });

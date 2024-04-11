@@ -6,8 +6,8 @@
                         <li class="breadcrumb-item text-sm">
                             <i class='fa ni bx bxs-home text-sm opacity-10' style="color: #ffffff;"></i>
                         </li>
-                        <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-                                href="{{(isset($name_page)) ? route( $name_page['route']) : '#' }}">{{ $name_page['total'] ?? ' ' }}</a></li>
+                        <li class="breadcrumb-item text-sm text-white">
+                            <a class="opacity-5 text-white" href="{{ isset($name_page) ? route($name_page['route'], (isset($name_page['params']) ? $name_page['params'] : '')) : '#' }}">{{ $name_page['total'] ?? ' ' }}</a>
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $name_page['name'] ?? ' ' }}</li>
                     </ol>
                     <h6 class="font-weight-bolder mb-0 text-white">{{ $name_page['name'] ?? ' ' }}</h6>
@@ -27,7 +27,7 @@
 
                             <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="d-sm-inline d-none">{{ Auth::user()->User->first_name }} {{ Auth::user()->User->last_name }}</span>
-                                &nbsp; 
+                                &nbsp;
                                 <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
                             </a>
                             <ul style="top: 0.25rem!important;" class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">

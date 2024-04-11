@@ -42,6 +42,16 @@ class UserModel extends Model
         return  date('d/m/Y', strtotime($this->dob));
 
     }
+    public function medical_record(){
+        return $this->hasMany(MedicalRecordModel::class,'user_uuid','uuid');
+    }
+    public function medical_record_doctor(){
+        return $this->hasMany(MedicalRecordModel::class,'doctor_uuid','uuid');
+    }
+
+    public function name(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function getPermision()
     {
@@ -57,13 +67,14 @@ class UserModel extends Model
     public function gender(){
         switch ($this->gender) {
             case '0':
-                return '<span class="badge badge-sm bg-gradient-info">Female</span>';
+                return '<span class="badge badge-sm bg-gradient-info">Nữ</span>';
                 break;
             case '1':
-                return '<span class="badge badge-sm bg-gradient-primary">Male</span>';
+                return '<span class="badge badge-sm bg-gradient-primary">Name</span>';
                 break;
             default:
                 break;
         }
     }
+
 }

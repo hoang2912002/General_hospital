@@ -29,9 +29,18 @@
     <!--Toastr-->
     <link rel="stylesheet" href="{{ asset('asset/admin') }}/css/toastr/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('asset/admin') }}/css/toastr_color_button.css">
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0;
 
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     @stack('css')
 </head>
 
@@ -48,7 +57,7 @@
         <div class="container-fluid py-4">
             @yield('content')
             <br>
-            @include('management.layout.footer')
+            {{-- @include('management.layout.footer') --}}
         </div>
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
             <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>

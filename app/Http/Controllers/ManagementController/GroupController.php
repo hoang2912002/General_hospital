@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportGroups;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\GroupRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\GroupRequest\UpdateRequest;
+use App\Imports\ExcelImportGroups;
 use App\Models\ManagementModel\GroupModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Maatwebsite\Excel\Facades\Excel;
 class GroupController extends Controller
 {
     /**
@@ -119,6 +121,24 @@ class GroupController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error','Cập nhật nhóm thất bại!');
         }
+    }
+
+    public function import(Request $request)
+    {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportGroups, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportGroups , 'user-'  . date('s_i_H-Y_m_d') .  '.xlsx');
     }
 
     /**

@@ -72,7 +72,6 @@
         if (document.getElementById('shift')) {
           var shift = document.getElementById('shift');
           const example = new Choices(shift);
-
         }
 
         if (document.getElementById('choices-department')) {

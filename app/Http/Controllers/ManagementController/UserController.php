@@ -148,11 +148,16 @@ class UserController extends Controller
     }
     public function import(Request $request)
     {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportUsers, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
 
-        $path = $request->file("file")->getRealPath();
-        //dd($path);
-        Excel::import(new ExcelImportUsers, $path);
-        return back();
 
     }
     public function export()

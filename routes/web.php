@@ -8,12 +8,16 @@ use App\Http\Controllers\ManagementController\HomepageController;
 use App\Http\Controllers\ManagementController\LoginController;
 use App\Http\Controllers\ManagementController\ManufacturerController;
 use App\Http\Controllers\ManagementController\MedicalEquipmentController;
+use App\Http\Controllers\ManagementController\MedicalRecordController;
 use App\Http\Controllers\ManagementController\MedicineController;
 use App\Http\Controllers\ManagementController\MedicineTypeController;
+use App\Http\Controllers\ManagementController\PatientController;
+use App\Http\Controllers\ManagementController\PrescriptionController;
 use App\Http\Controllers\ManagementController\RoleController;
 use App\Http\Controllers\ManagementController\RoomController;
 use App\Http\Controllers\ManagementController\ServiceController;
 use App\Http\Controllers\ManagementController\ShiftController;
+use App\Http\Controllers\ManagementController\TestRequisitionController;
 use App\Http\Controllers\ManagementController\UserController;
 use App\Http\Middleware\CheckLogin;
 use App\Models\ManagementModel\ManufacturerModel;
@@ -56,6 +60,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{groupModel}', 'update')->name('update');
         Route::get('edit/{groupModel}', 'edit')->name('edit');
         Route::delete('destroy/{groupModel}', 'destroy')->name('destroy');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     //User
     Route::group(['controller' => UserController::class, 'prefix' => 'user', 'as' => 'user.'],function(){
@@ -174,5 +180,42 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{medicalEquipmentModel}', 'edit')->name('edit');
         Route::patch('update/{medicalEquipmentModel}', 'update')->name('update');
         Route::delete('destroy/{medicalEquipmentModel}', 'destroy')->name('destroy');
+    });
+
+    //Phần này của bác sĩ
+    // Prescription
+    Route::group(['controller' => PrescriptionController::class, 'prefix' => 'prescription', 'as' => 'prescription.'],function(){
+        Route::get('/{userModel}', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{prescriptionModel}', 'edit')->name('edit');
+        Route::patch('update/{prescriptionModel}', 'update')->name('update');
+        Route::delete('destroy/{prescriptionModel}', 'destroy')->name('destroy');
+    });
+    //Medical record
+    Route::group(['controller' => MedicalRecordController::class, 'prefix' => 'medicalrecord', 'as' => 'medicalrecord.'],function(){
+        Route::get('/{userModel}', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::get('edit/{medicalrecordModel}', 'edit')->name('edit');
+        Route::patch('update/{medicalrecordModel}', 'update')->name('update');
+        Route::delete('destroy/{medicalrecordModel}', 'destroy')->name('destroy');
+    });
+    //Phiếu chỉ định
+    Route::group(['controller' => TestRequisitionController::class, 'prefix' => 'testrequisition', 'as' => 'testrequisition.'],function(){
+        Route::get('/{userModel}', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{testrequisitionModel}', 'edit')->name('edit');
+        Route::patch('update/{testrequisitionModel}', 'update')->name('update');
+        Route::delete('destroy/{testrequisitionModel}', 'destroy')->name('destroy');
+    });
+    //Patient
+    Route::group(['controller' => PatientController::class, 'prefix' => 'patient', 'as' => 'patient.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{userModel}', 'edit')->name('edit');
+        Route::patch('update/{userModel}', 'update')->name('update');
+        Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
     });
 });

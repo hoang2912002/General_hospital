@@ -164,6 +164,26 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#patient" class="nav-link " aria-controls="patient"
+                        role="button" aria-expanded="false">
+                        <div
+                            class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="fa ni fa-solid fa-hospital-user text-sm opacity-10" style="color: #7a7a7a;"></i>
+                        </div>
+                        <span class="nav-link-text ms-1 ">Bệnh nhân</span>
+                    </a>
+                    <div class="collapse " id="patient">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('patient.index') }}">
+                                    <span class="sidenav-mini-icon"> TT </span>
+                                    <span class="sidenav-normal"> Bệnh nhân </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#authExamples" class="nav-link " aria-controls="authExamples"
                         role="button" aria-expanded="false">
                         <div
@@ -174,12 +194,18 @@
                     </a>
                     <div class="collapse " id="authExamples">
                         <ul class="nav ms-4">
-                            <li class="nav-item ">
-                                <a class="nav-link " href="">
+                            {{-- <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('medicalrecord.index') }}">
+                                    <span class="sidenav-mini-icon"> HS </span>
+                                    <span class="sidenav-normal"> Hồ sơ bệnh án </span>
+                                </a>
+                            </li> --}}
+                            {{-- <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('prescription.index') }}">
                                     <span class="sidenav-mini-icon"> TT </span>
                                     <span class="sidenav-normal"> Toa thuốc </span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item ">
                                 <a class="nav-link " href="{{ route('medicine.index') }}">
                                     <span class="sidenav-mini-icon"> T </span>

@@ -144,13 +144,10 @@ class RoomController extends Controller
         $this->authorize('delete', $roomModel);
         try {
             //dd($roomModel->department);
-            if(empty($roomModel->department)){
-                $roomModel->delete();
-                return 1;
-            }
-            else{
-                return 0;
-            }
+
+            $roomModel->delete();
+            return 1;
+
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }

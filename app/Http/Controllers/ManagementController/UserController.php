@@ -133,7 +133,6 @@ class UserController extends Controller
                             if(!empty($staff)){
                                 if(!empty($avatar)){
                                     $avatar->move($dirFolder, $newAvatar);
-
                                 }
                             }
                         }

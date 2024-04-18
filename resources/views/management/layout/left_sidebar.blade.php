@@ -180,6 +180,12 @@
                                     <span class="sidenav-normal"> Bệnh nhân </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('number.ticket') }}">
+                                    <span class="sidenav-mini-icon"> STT </span>
+                                    <span class="sidenav-normal"> Số thứ tự </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

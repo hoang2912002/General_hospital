@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('user_uuid');
+            $table->unsignedInteger('medical_record_id');
             $table->double('total_price');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
-            $table->foreign('user_uuid')->references('uuid')->on('users');
+            $table->foreign('medical_record_id')->references('id')->on('medical_records');
         });
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('prescription_id');
             $table->tinyInteger('quantity');
             $table->double('price');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->foreign('prescription_id')->references('id')->on('prescriptions');

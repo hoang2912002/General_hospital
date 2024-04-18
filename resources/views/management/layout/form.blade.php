@@ -94,6 +94,21 @@
             addItems: true
           });
         }
+        if (document.getElementById('choices-medicine-presciption')) {
+          var medicine = document.getElementById('choices-medicine-presciption');
+          const example = new Choices(medicine);
+
+        }
+        if (document.getElementById('choices-category-presciption')) {
+          var medicine = document.getElementById('choices-category-presciption');
+          const example = new Choices(medicine);
+
+        }
+        if (document.getElementById('choices-manufacturer-presciption')) {
+          var medicine = document.getElementById('choices-manufacturer-presciption');
+          const example = new Choices(medicine);
+
+        }
         if (document.getElementById('choices-shift-medicine')) {
           var skills = document.getElementById('choices-shift-medicine');
           const example = new Choices(skills, {

@@ -37,11 +37,7 @@
                             {!! html_entity_decode($medicineModel->status_detail()) !!}
                             <br>
                             <label class="mt-4">Thông tin chi tiết</label>
-                            <ul>
-                                <li>
-                                    {!! html_entity_decode( $medicineModel->description) !!}
-                                </li>
-                            </ul>
+                            {!! html_entity_decode( $medicineModel->description) !!}
 
                         </div>
                     </div>

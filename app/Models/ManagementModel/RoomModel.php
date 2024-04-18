@@ -19,4 +19,8 @@ class RoomModel extends Model
     public function department(){
         return $this->hasOne(DepartmentModel::class,'id','department_id');
     }
+
+    public function number(){
+        return $this->hasMany(NumberModel::class,'room_id','id');
+    }
 }

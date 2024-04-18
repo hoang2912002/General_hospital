@@ -10,7 +10,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-12 m-auto">
 
-                                <form class="multisteps-form__form " action="{{ route('medicine.store') }}"
+                                <form class="multisteps-form__form " action="{{ route('prescription.store') }}"
                                     method="POST" name="form-medicine" id="form-medicine"
                                     enctype="multipart/form-data">
                                     @csrf
@@ -147,3 +147,93 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <button id="showModal1" class="btn btn-primary" data-toggle="modal" data-target="#modal1">Hiển thị Modal 1</button>
+
+<!-- Modal thứ nhất -->
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal1Label">Modal 1</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Button để reload trang và hiển thị modal thứ hai -->
+        <button id="reloadAndShowModal2" class="btn btn-success">Reload Trang và Hiển thị Modal 2</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thứ hai -->
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal2Label">Modal 2</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Nội dung của Modal 2
+      </div>
+    </div>
+  </div>
+</div> --}}
+{{-- <script>
+         $(document).ready(function() {
+    // Hiển thị Modal 1 khi nhấn nút showModal1
+    $('#showModal1').click(function() {
+        $('#modal1').modal('show');
+    });
+
+    // Sự kiện click cho nút reloadAndShowModal2
+    $('#reloadAndShowModal2').click(function() {
+        // Gửi yêu cầu Ajax để reload lại trang
+        $.ajax({
+            url: window.location.href, // Lấy URL hiện tại của trang
+            type: 'GET',
+            success: function(data) {
+                // Nếu trang được reload thành công, kiểm tra và hiển thị modal thứ hai
+
+                $('#modal1').modal('hide');
+                $('#modal2').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+</script> --}}

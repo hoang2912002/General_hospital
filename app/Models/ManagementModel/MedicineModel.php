@@ -24,6 +24,10 @@ class MedicineModel extends Model
     {
         return $this->hasOne(ManufacturerModel::class,'id','manufacturer_id');
     }
+    public function categories()
+    {
+        return $this->hasOne(CategoryModel::class,'id','category_id');
+    }
     public function status(){
         return ($this->quantity <= 0) ? '<span class="badge badge-danger badge-sm">Out of Stock</span>' : '<span class="badge badge-success badge-sm">in Stock</span>';
     }

@@ -39,6 +39,7 @@
         let totalprice = true;
         function renderTable(url, columns, totalprice) {
             $('#dataTable').DataTable({
+                deferRender: true,
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,

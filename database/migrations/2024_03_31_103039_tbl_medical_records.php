@@ -25,8 +25,8 @@ return new class extends Migration
             $table->uuid('doctor_uuid');
             $table->date('re_exam_date')->nullable();
             $table->integer('day_id');
-            $table->unsignedInteger('shift_id');
-            $table->unsignedInteger('appointment_id');
+            $table->unsignedInteger('shift_id')->nullable();
+            $table->unsignedInteger('appointment_id')->nullable();
             $table->timestamps();
             $table->foreign('shift_id')->references('id')->on('shifts');
             $table->foreign('doctor_uuid')->references('uuid')->on('users');

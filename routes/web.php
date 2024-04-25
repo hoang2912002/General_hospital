@@ -19,6 +19,7 @@ use App\Http\Controllers\ManagementController\RoleController;
 use App\Http\Controllers\ManagementController\RoomController;
 use App\Http\Controllers\ManagementController\ServiceController;
 use App\Http\Controllers\ManagementController\ShiftController;
+use App\Http\Controllers\ManagementController\test_requisitionController;
 use App\Http\Controllers\ManagementController\TestRequisitionController;
 use App\Http\Controllers\ManagementController\UserController;
 use App\Http\Middleware\CheckLogin;
@@ -212,6 +213,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('render_note_medicine', 'render_note_medicine')->name('render_note_medicine');
         Route::get('category_select_medicine', 'category_select_medicine')->name('category_select_medicine');
         Route::get('manufacturer_select_medicine', 'manufacturer_select_medicine')->name('manufacturer_select_medicine');
+        Route::patch('update_medical_record/{medical_recordModel}', 'update_medical_record')->name('update_medical_record');
+        Route::patch('update_re_exam_date/{medical_recordModel}', 'update_re_exam_date')->name('update_re_exam_date');
     });
     Route::group(['controller' => PrescriptionDetailController::class, 'prefix' => 'prescription_detail', 'as' => 'prescription_detail.'],function(){
         Route::get('/{userModel}/{prescriptionDetailModel}', 'index')->name('index');
@@ -235,15 +238,22 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('delete_disease/{medical_recordModel}', 'delete_disease')->name('delete_disease');
         Route::patch('update/{medical_recordModel}', 'update')->name('update');
         Route::delete('destroy/{medical_recordModel}', 'destroy')->name('destroy');
+        Route::get('{userModel}/render_service', 'render_service')->name('render_service');
     });
     //Phiếu chỉ định
-    Route::group(['controller' => TestRequisitionController::class, 'prefix' => 'testrequisition', 'as' => 'testrequisition.'],function(){
+    Route::group(['controller' => TestRequisitionController::class, 'prefix' => 'test_requisition', 'as' => 'test_requisition.'],function(){
         Route::get('/{userModel}', 'index')->name('index');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
-        Route::get('edit/{testrequisitionModel}', 'edit')->name('edit');
-        Route::patch('update/{testrequisitionModel}', 'update')->name('update');
-        Route::delete('destroy/{testrequisitionModel}', 'destroy')->name('destroy');
+        Route::get('edit/{test_requisitionModel}', 'edit')->name('edit');
+        Route::patch('update/{test_requisitionModel}', 'update')->name('update');
+        Route::delete('destroy/{test_requisitionModel}', 'destroy')->name('destroy');
+        Route::get('select_service', 'select_service')->name('select_service');
+        Route::get('{userModel}/render_test_requisition', 'render_test_requisition')->name('render_test_requisition');
+        Route::get('{userModel}/render_service', 'render_service')->name('render_service');
+        Route::get('{userModel}/store_test_requisition', 'store_test_requisition')->name('store_test_requisition');
+        Route::get('{userModel}/redirect_print_test_requisition', 'redirect_print_test_requisition')->name('redirect_print_test_requisition');
+        Route::get('{userModel}/print_test_requisition', 'print_test_requisition')->name('print_test_requisition');
     });
     //Patient
     Route::group(['controller' => PatientController::class, 'prefix' => 'patient', 'as' => 'patient.'],function(){

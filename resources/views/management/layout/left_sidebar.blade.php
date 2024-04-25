@@ -5,7 +5,7 @@
             <a class="navbar-brand m-0"
                 href=""
                 target="_blank">
-                <img src="" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="{{ asset('img/general_hospital/management') }}/logo/general_g37_logo1.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold "></span>
             </a>
         </div>

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('disease');
             $table->uuid('doctor_uuid');
             $table->date('re_exam_date')->nullable();
-            $table->integer('day_id');
+            $table->date('exam_date')->nullable();
             $table->unsignedInteger('shift_id')->nullable();
             $table->unsignedInteger('appointment_id')->nullable();
             $table->timestamps();

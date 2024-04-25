@@ -1,0 +1,12 @@
+#modal-test-requisition .modal-dialog {
+    width: 100%;
+    max-width: 100%;
+    /* Dịch sang phải một ít */
+}
+
+@media (min-width: 1576px) {
+    #modal-test-requisition .modal-dialog {
+        max-width: 46.66667%;
+        /* 66.66667% of the viewport width for col-8 */
+    }
+}

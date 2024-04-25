@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Models\ManagementModel\RoomModel;
 use App\Models\ManagementModel\ServiceImageModel;
 use App\Models\ManagementModel\ServiceModel;
 use Illuminate\Http\Request;
@@ -71,7 +72,8 @@ class ServiceController extends Controller
             'total' => 'Service',
             'route' => 'service.index'
         ];
-        return view('management.service.create',compact('name_page'));
+        $room = RoomModel::get();
+        return view('management.service.create',compact('name_page','room'));
     }
 
     /**
@@ -79,6 +81,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $service_info = json_decode($request->arr);
         //dd($service_info->service_image);
         try {
@@ -93,6 +96,7 @@ class ServiceController extends Controller
                 'thumbnail' =>$service_info->thumbnail,
                 'price' =>$price,
                 'description' =>$service_info->description,
+                'room_id' => $service_info->room_id
             ];
             //dd($arr);
             $service = ServiceModel::create($arr);
@@ -110,6 +114,7 @@ class ServiceController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
+            dd($th->getMessage());
         }
     }
     public function dropzone(Request $request)

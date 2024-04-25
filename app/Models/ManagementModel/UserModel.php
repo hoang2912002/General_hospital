@@ -64,6 +64,11 @@ class UserModel extends Model
         //dd($permissions);
         return $permissions ?? ['null'];
     }
+
+    public function patient_gender(){
+        return ($this->gender == 0) ? 'Nữ' :'Nam';
+    }
+
     public function gender(){
         switch ($this->gender) {
             case '0':

@@ -10,9 +10,12 @@ class MedicalRecordModel extends Model
     use HasFactory;
     protected $table = "medical_records";
     protected $fillable = [
-        'user_uuid','reason','weight','height','vessel','blood_pressure','temperature','note','disease','doctor_uuid','re-exam_date','day_id','shift_id','appointment_id'
+        'user_uuid','reason','weight','height','vessel','blood_pressure','temperature','note','disease','doctor_uuid','re_exam_date','exam_date','shift_id','appointment_id'
     ];
     public function user_uuid() {
+        return $this->hasOne(UserModel::class,'uuid','user_uuid');
+    }
+    public function user() {
         return $this->hasOne(UserModel::class,'uuid','user_uuid');
     }
 
@@ -52,5 +55,11 @@ class MedicalRecordModel extends Model
                 return '11 giờ 00';
                 break;
         }
+    }
+
+    public function date($date)
+    {
+        return  date('d/m/Y', strtotime($date));
+
     }
 }

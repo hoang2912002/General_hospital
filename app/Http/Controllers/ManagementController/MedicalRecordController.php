@@ -46,9 +46,9 @@ class MedicalRecordController extends Controller
                 $route_edit =  '<a href="'. route('medical_record.edit', $medical_record->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                 $service_result =  '<a href="'. route('user.index') .'" class="badge bg-gradient-success" title="Kết quả xét nghiệm"><i class="fas fa-solid fa-microscope"></i></a>';
                 $prescription =  '<a href="'. route('prescription.index',['userModel' =>$medical_record->user_uuid, 'medical_recordModel' => $medical_record->id]) .'" class="badge bg-gradient-info" title="Xem toa thuốc"><i class="fas fa-solid fa-file-medical"></i></a>';
-
+                $test_requisition =  '<a class="badge bg-gradient-success" title="Phiếu chỉ định" data-bs-toggle="modal" data-bs-target="#modal-test-requisition" data-medical-record="'. $medical_record->id .'"><i class="fas fa-solid fa-microscope"></i></a>';
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $service_result. '&nbsp' . $prescription . '&nbsp'    . $route_delete;
+                return $route_edit . '&nbsp' . $test_requisition. '&nbsp' . $prescription . '&nbsp'    . $route_delete;
             })
 
             ->rawColumns(['id','disease','doctor_uuid','appointment_id','re_exam_date','action'])
@@ -80,7 +80,9 @@ class MedicalRecordController extends Controller
     {
         //
     }
-
+    public function render_service(UserModel $userModel,Request $request){
+        dd($request);
+    }
     /**
      * Display the specified resource.
      */

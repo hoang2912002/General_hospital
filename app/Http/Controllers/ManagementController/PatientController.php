@@ -56,9 +56,8 @@ class PatientController extends Controller
                 $routeDestroy = "'" . route('patient.destroy',$user->uuid) . "'";
                 $route_edit =  '<a href="'. route('patient.edit', $user->uuid) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                 $route_medical_record =  '<a href="'. route('medical_record.index', $user->uuid) .'" class="badge bg-gradient-warning" title="Hồ sơ bệnh án"><i class="fas fa-solid fa-notes-medical"></i></a>';
-                $test_requisition =  '<a href="'. route('testrequisition.index', $user->uuid) .'" class="badge bg-gradient-success" title="Phiếu chỉ định"><i class="fas fa-solid fa-microscope"></i></a>';
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_medical_record. '&nbsp' . $test_requisition . '&nbsp'    . $route_delete;
+                return $route_edit . '&nbsp' . $route_medical_record. '&nbsp'    . $route_delete;
             })
 
             ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])

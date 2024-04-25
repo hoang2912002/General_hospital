@@ -112,8 +112,22 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- div toggle dentist --}}
-
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-sm-12">
+                                            <label>Phòng</label>
+                                            <select class="form-control" name="room" id="room" >
+                                                <option value="">Chọn phòng ...</option>
+                                                @foreach ($room as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('role')
+                                                <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
                                             <div class="multisteps-form__content">
@@ -248,17 +262,18 @@
             //form submit
             var btn_sevice =  $('#service-button').on('click', function(e) {
                 //myDropzone.processQueue();
-                console.log( $('#input-thumbnail-service').val());
-                var name =$('#name').val();
-                var price =$('#price').val();
-                var description = $('#edit-deschiption').find('p');
-                console.log(name,price,description);
-                console.log($('#edit-deschiption').find('.ql-editor').get(0).outerHTML);
+                // console.log( $('#input-thumbnail-service').val());
+                // var name =$('#name').val();
+                // var price =$('#price').val();
+                // var description = $('#edit-deschiption').find('p');
+                // console.log(name,price,description);
+                // console.log($('#edit-deschiption').find('.ql-editor').get(0).outerHTML);
                 var arr =
                     {'name': $('#name').val(),
                     'price': $('#price').val(),
                     'description':   $('#edit-deschiption').find('.ql-editor').get(0).outerHTML ,
                     'thumbnail': $('#input-thumbnail-service').val(),
+                    'room_id': $('#room').val(),
                     'service_image': arr_image_service
                 }
                 ;

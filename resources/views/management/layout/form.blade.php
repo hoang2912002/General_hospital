@@ -73,6 +73,10 @@
           var shift = document.getElementById('shift');
           const example = new Choices(shift);
         }
+        if (document.getElementById('room')) {
+          var room = document.getElementById('room');
+          const example = new Choices(room);
+        }
 
         if (document.getElementById('choices-department')) {
           var department = document.getElementById('choices-department');

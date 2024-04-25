@@ -2,136 +2,7 @@
 @include('management.layout.form')
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-
-        .modal-dialog-centered {
-            align-items: center !important;
-            flex-direction: column !important
-        }
-
-        /* .modal {
-                --bs-modal-width: a !important;
-            } */
-
-        #modal-form .modal-dialog {
-            width: 100%;
-            max-width: 100%;
-            margin: auto;
-            margin-right: 10%;
-            /* Dịch sang phải một ít */
-        }
-        #modal-index .modal-dialog {
-            width: 100%;
-            max-width: 100%;
-            margin: auto;
-            margin-right: 10%;
-            /* Dịch sang phải một ít */
-        }
-
-        @media (min-width: 576px) {
-            #modal-form .modal-dialog {
-                max-width: 66.66667%;
-                /* 66.66667% of the viewport width for col-8 */
-            }
-            #modal-index .modal-dialog {
-                max-width: 66.66667%;
-                /* 66.66667% of the viewport width for col-8 */
-            }
-            #modal-medicine-note .modal-dialog {
-                max-width: 66.66667%;
-                /* 66.66667% of the viewport width for col-8 */
-            }
-            #modal-service-result .modal-dialog {
-                max-width: 66.66667%;
-                /* 66.66667% of the viewport width for col-8 */
-            }
-            .update_prescription_detail .modal-dialog  {
-                max-width: 66.66667%;
-                width: 40.66667%;
-                /* 66.66667% of the viewport width for col-8 */
-            }
-
-        }
-        .hr{
-            border: 1px solid black !important;
-            margin: 1px
-        }
-        .logo{
-            width: 100%;
-            height: 30px;
-            display: flex;
-            align-items: center;
-        }
-        .logo_img{
-            width: ;
-            height: 100%;
-            display: flex;
-            align-content: center
-        }
-        .button_index{
-            max-width:  250.39px;
-            min-width:  250.39px;
-            max-height: 41px;
-            min-height: 41px;
-            font-size: 15px !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .button_index>i{
-            margin-right:10px !important
-        }
-        .vertical-line {
-        height: 100%;
-        border-left: 2px solid black;
-        margin: 1px;
-        margin-bottom: 20px
-    }
-    .select2-container--default .select2-selection--single {
-        width: 500px !important;
-        height: 50px !important;
-        display: flex;
-        align-items: center;
-        line-height: 70px !important;
-    }
-    #medicine-table th,
-    #medicine-table td {
-        padding: 8px;
-        margin: 0;
-    }
-    .ql-editor{
-        height: auto;
-    }
-
-
-    .custom-pagination {
-    margin-top: 20px;
-    }
-
-    .custom-pagination li {
-        display: inline-block;
-        margin-right: 5px;
-    }
-
-    .custom-pagination li a {
-        color: #333;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-    }
-
-    .custom-pagination li a:hover {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .custom-pagination li.active a {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-    </style>
+<link rel="stylesheet" href="{{ asset('asset/admin') }}/css/prescription.css">
 @endpush
 @section('content')
 <div class="row mb-5">
@@ -145,10 +16,10 @@
                     <button type="button" class="btn btn-outline-gradient-info mb-3 button_index" >Ẩn tiêu đề</button>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-danger mb-3 button_index">Hồ sơ bệnh án</button>
+                    <button type="button" class="btn btn-outline-danger mb-3 button_index" data-bs-toggle="modal" data-bs-target="#modal-medical-record">Hồ sơ bệnh án</button>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-warning mb-3 button_index " >Tái khám</button>
+                    <button type="button" class="btn btn-outline-warning mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-re-exam-date">Tái khám</button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-success mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-service-result">Kết quả xét nghiệm</button></button>
@@ -183,8 +54,8 @@
             </div>
             <hr class="hr mt-1">
             <div class=" pb-0 mt-0 d-flex justify-content-between" style="padding: 0 1.5rem">
-                <p class=" mb-0 ml-1">Giờ khám: {{ $medical_recordModel->shift() }}</p>
-                <p class=" mb-0 ml-1">Tái khám: {{ $medical_recordModel->re_exam_date ?? '' }}</p>
+                <p class=" mb-0 ml-1">Ngày khám: {{ $medical_recordModel->shift() ?? '' }}  {{ '- '. $medical_recordModel->date($medical_recordModel->exam_date) ?? '' }}</p>
+                <p class=" mb-0 ml-1">Tái khám: {{ $medical_recordModel->date($medical_recordModel->re_exam_date) ?? '' }}</p>
             </div>
             <hr class="hr mb-2">
 
@@ -204,10 +75,20 @@
                             </p>
 
                         @endif
-                        <br>
                         @if (!empty($medical_recordModel->disease))
                             <h6>Bệnh lý:</h6>
                             <p>{{ $medical_recordModel->disease }}&nbsp;
+                                <a class=" trigger-modal" href="#" data-bs-toggle="modal" data-bs-target="#update_disease">
+                                    <i class="fas fa-solid fa-pen"></i>
+                                </a>
+                                <a href="{{route('medical_record.delete_disease',$medical_recordModel->id)}}" class="" ><i class="fas fa-trash"></i></a>
+                            </p>
+
+                        @endif
+                        <br>
+                        @if (!empty($medical_recordModel->re_exam_date))
+                            <h6>Dặn dò:</h6>
+                            <p>{{ $medical_recordModel->note }}&nbsp;
                                 <a class=" trigger-modal" href="#" data-bs-toggle="modal" data-bs-target="#update_disease">
                                     <i class="fas fa-solid fa-pen"></i>
                                 </a>
@@ -265,6 +146,10 @@
 @include('management.prescription.service_result')
 <!-- Modal update reason -->
 @include('management.prescription.update_reason')
+<!-- Modal medical record -->
+@include('management.prescription.modal_medical_record')
+<!-- Modal re_exam_date -->
+@include('management.prescription.re_exam_date')
 <!-- Modal update prescription_detail -->
 @if(!empty($prescription->prescription_detail))
     @foreach ($prescription->prescription_detail as $index => $prescription_detail)
@@ -309,6 +194,11 @@
     <script>
         // Reload lại trang khi biến 'reload' được đặt
         window.location.reload();
+    </script>
+@endif
+@if(session('reload-error'))
+    <script>
+        alert('Không thể thực hiện yêu cầu');
     </script>
 @endif
 @endsection
@@ -569,11 +459,6 @@
                     }
                 });
             });
-
-
-
-            //service result
-
         });
     </script>
     <script>

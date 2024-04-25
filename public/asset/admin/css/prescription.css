@@ -1,0 +1,141 @@
+
+        .modal-dialog-centered {
+            align-items: center !important;
+            flex-direction: column !important
+        }
+        /* .modal {
+                --bs-modal-width: a !important;
+            } */
+
+        #modal-form .modal-dialog {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+            margin-right: 10%;
+            /* Dịch sang phải một ít */
+        }
+        #modal-index .modal-dialog {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+            margin-right: 10%;
+            /* Dịch sang phải một ít */
+        }
+        #modal-medical-record .modal-dialog,#modal-re-exam-date .modal-dialog {
+            width: 100%;
+            max-width: 100%;
+
+            /* Dịch sang phải một ít */
+        }
+
+        @media (min-width: 1576px) {
+            #modal-form .modal-dialog {
+                max-width: 66.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            #modal-index .modal-dialog {
+                max-width: 66.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            #modal-medical-record .modal-dialog {
+                max-width: 46.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            #modal-re-exam-date .modal-dialog {
+                max-width: 26.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            #modal-medicine-note .modal-dialog {
+                max-width: 66.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            #modal-service-result .modal-dialog {
+                max-width: 66.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            .update_prescription_detail .modal-dialog  {
+                max-width: 66.66667%;
+                width: 40.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+
+        }
+        .hr{
+            border: 1px solid black !important;
+            margin: 1px
+        }
+        .logo{
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .logo_img{
+            width: auto ;
+            height: 100%;
+            display: flex;
+            align-content: center
+        }
+        .button_index{
+            max-width:  250.39px;
+            min-width:  250.39px;
+            max-height: 41px;
+            min-height: 41px;
+            font-size: 15px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button_index>i{
+            margin-right:10px !important
+        }
+        .vertical-line {
+        height: 100%;
+        border-left: 2px solid black;
+        margin: 1px;
+        margin-bottom: 20px
+        }
+        .select2-container--default .select2-selection--single {
+            width: 500px !important;
+            height: 50px !important;
+            display: flex;
+            align-items: center;
+            line-height: 70px !important;
+        }
+        #medicine-table th,
+        #medicine-table td {
+            padding: 8px;
+            margin: 0;
+        }
+        .ql-editor{
+            height: auto;
+        }
+
+
+        .custom-pagination {
+        margin-top: 20px;
+        }
+
+        .custom-pagination li {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .custom-pagination li a {
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+
+        .custom-pagination li a:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .custom-pagination li.active a {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }

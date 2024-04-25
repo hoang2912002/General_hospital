@@ -10,7 +10,7 @@ class ServiceModel extends Model
     use HasFactory;
     protected $table = 'services';
     protected $fillable = [
-        'name','slug','thumbnail','price','description'
+        'name','slug','thumbnail','price','description','room_id'
     ];
     public function getRouteKeyName()
     {
@@ -25,9 +25,14 @@ class ServiceModel extends Model
     public function image(){
         return $this->hasMany(ServiceImageModel::class,'service_id','id');
     }
+    public function room(){
+        return $this->hasOne(RoomModel::class,'id','room_id');
+    }
+
     public function price()
     {
         $price = number_format($this->price,'0',".",".") . ' VNĐ';
         return '<span class="text-danger font-size-15 font-weight-bold">' . $price . '</span>';
     }
+
 }

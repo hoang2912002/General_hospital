@@ -9,6 +9,7 @@ use App\Models\ManagementModel\MedicalRecordModel;
 use App\Models\ManagementModel\MedicineModel;
 use App\Models\ManagementModel\PrescriptionDetailModel;
 use App\Models\ManagementModel\PrescriptionModel;
+use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,9 @@ class PrescriptionController extends Controller
         $categories = CategoryModel::get();
         $manufacturers = ManufacturerModel::get();
         $prescription= PrescriptionModel::where('medical_record_id',$medical_recordModel->id)->first();
+        $shift = ShiftModel::get();
         //dd($prescription->prescription_detail);
-        return view('management/prescription/index',compact('userModel','medical_recordModel','medicine','manufacturers','categories','prescription'));
+        return view('management/prescription/index',compact('userModel','medical_recordModel','medicine','manufacturers','categories','prescription','shift'));
     }
 
     /**
@@ -280,6 +282,43 @@ class PrescriptionController extends Controller
             return response()->json($medicine_array);
         }
 
+    }
+
+    public function update_medical_record(Request $request, MedicalRecordModel $medical_recordModel){
+        //dd($request,$medical_recordModel);
+        try {
+            $medical_record_data = $medical_recordModel->update([
+                'reason' => $request->reason,
+                'weight' => $request->weight,
+                'height' => $request->height,
+                'vessel' => $request->vessel,
+                'blood_pressure' => $request->blood_pressure,
+                'temperature' => $request->temperature,
+                'note' => $request->note,
+                'disease' => $request->disease,
+                'exam_date' => $request->exam_date,
+                'shift_id' => $request->shift_id ,
+            ]);
+            if(!empty($medical_record_data)){
+                return redirect()->back()->with('reload' , 'Cập nhập hồ sơ bệnh án thành công!');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('reload-error');
+        }
+    }
+    public function update_re_exam_date(Request $request, MedicalRecordModel $medical_recordModel){
+        //dd($request,$medical_recordModel);
+        try {
+            $medical_record_data = $medical_recordModel->update([
+                're_exam_date' => $request->re_exam_date,
+                'note' => $request->note,
+            ]);
+            if(!empty($medical_record_data)){
+                return redirect()->back()->with('reload-error');
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
     /**
      * Remove the specified resource from storage.

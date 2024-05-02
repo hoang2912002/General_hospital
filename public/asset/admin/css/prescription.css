@@ -28,7 +28,7 @@
             /* Dịch sang phải một ít */
         }
 
-        @media (min-width: 1576px) {
+        @media screen and (max-width: 2576px) {
             #modal-form .modal-dialog {
                 max-width: 66.66667%;
                 /* 66.66667% of the viewport width for col-8 */
@@ -58,9 +58,6 @@
                 width: 40.66667%;
                 /* 66.66667% of the viewport width for col-8 */
             }
-
-        }
-        @media screen and (max-width: 2576px) {
             #modal-detail-assignment .modal-dialog {
                 max-width: 56.66667%;
                 /* 66.66667% of the viewport width for col-8 */
@@ -85,6 +82,68 @@
 
             #assignment-detail-table caption {
                 padding: 10px;
+            }
+        }
+        /* @media screen and (max-width: 2576px) {
+            #modal-detail-assignment .modal-dialog {
+                max-width: 56.66667%;
+
+            }
+            .button_index{
+                max-width:  250.39px;
+                min-width:  250.39px;
+            }
+            #assignment-detail-table {
+                border-collapse: collapse;
+                border: 2px solid rgb(200,200,200);
+                letter-spacing: 1px;
+                font-size: 0.8rem;
+            }
+
+            #assignment-detail-table td,
+            #assignment-detail-table th {
+                border: 1px solid rgb(190,190,190);
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            #assignment-detail-table caption {
+                padding: 10px;
+            }
+        } */
+        @media screen and (max-width: 1536px) {
+            #modal-form .modal-dialog {
+                max-width: 46.66667%;
+
+            }
+            #modal-index .modal-dialog {
+                max-width: 69.66667%;
+
+            }
+            #medicine-table  tr:nth-of-type(4) td {
+                width: 20px;
+
+            }
+            #modal-medical-record .modal-dialog {
+                max-width: 56.66667%;
+
+            }
+            #modal-re-exam-date .modal-dialog {
+                max-width: 36.66667%;
+            }
+            #modal-medicine-note .modal-dialog {
+                max-width: 56.66667%;
+            }
+            #modal-service-result .modal-dialog {
+                max-width: 46.66667%;
+            }
+            .update_prescription_detail .modal-dialog  {
+                max-width: 66.66667%;
+                width: 40.66667%;
+            }
+            .button_index{
+                max-width:  140.39px;
+                min-width:  140.39px;
             }
         }
         @media screen and (max-width: 1576px) {

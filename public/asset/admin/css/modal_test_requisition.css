@@ -10,3 +10,15 @@
         /* 66.66667% of the viewport width for col-8 */
     }
 }
+#modal-test-requisition .modal-dialog {
+    width: 100%;
+
+}
+
+@media screen and  (max-width: 1536px) {
+    #modal-test-requisition .modal-dialog {
+        max-width: 46.66667%;
+        min-width: 37.66667%;
+        /*66.66667% of the viewport width for col-8 */
+    }
+}

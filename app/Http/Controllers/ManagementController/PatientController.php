@@ -45,7 +45,7 @@ class PatientController extends Controller
                 $shift = 1;
             } elseif ($currentHour >= '13:00:00' && $currentHour <= '16:30:00') {
                 $shift = 2;
-            } elseif ($currentHour >= '21:00:00') {
+            } elseif ($currentHour >= '19:00:00') {
                 $shift = 3;
             } else {
                 $shift = 1; // Nếu không nằm trong bất kỳ khoảng thời gian nào

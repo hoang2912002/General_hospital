@@ -11,20 +11,12 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-12 col-lg-3">
+                    <div class="col-12 col-lg-12">
                         <div class="row">
-                            <div class="col-12 col-sm-12">
-                                {{-- <select class="form-control"  id="choices-medicine-presciption">
-                                    <option selected>Tìm kiếm theo thuốc</option>
-                                    @foreach ($medicine as $item)
-                                        <option value="{{ $item->slug }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select> --}}
+                            <div class="col-12 col-sm-4">
                                 <input class="form-control" type="search" name="medicine" id="medicine-presciption" placeholder="Tìm kiếm thuốc">
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12 col-sm-12">
+                            <div class="col-12 col-sm-4">
                                 <select class="form-control "  id="choices-category-presciption">
                                     <option value="">Tìm kiếm theo loại thuốc</option>
                                     @foreach ($categories as $item)
@@ -32,9 +24,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12 col-sm-12">
+                            <div class="col-12 col-sm-4">
                                 <select class="form-control "  id="choices-manufacturer-presciption">
                                     <option value="">Tìm kiếm theo hãng</option>
                                     @foreach ($manufacturers as $item)
@@ -43,8 +33,11 @@
                                 </select>
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-12 col-lg-9">
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12">
                         <div class="row mx-3">
                             <table class="table" id="medicine-table">
                                 <thead>
@@ -75,4 +68,3 @@
         </div>
     </div>
 </div>
-

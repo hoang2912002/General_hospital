@@ -54,7 +54,7 @@
 
     <div class="header">
         <div class="logo">
-            <img class="logo_img" src="{{ asset('img/general_hospital/management') }}/logo/general_g37_logo1.png" alt="">
+            <img class="logo_img" src="{{ public_path('img/general_hospital/management') }}/logo/general_g37_logo1.png" alt="">
         </div>
         <hr>
         <div class="title">

@@ -5,13 +5,19 @@ namespace App\Http\Controllers\ManagementController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\PatientRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\PatientRequest\UpdateRequest;
+use App\Models\ManagementModel\AssignmentDayModel;
+use App\Models\ManagementModel\AssignmentModel;
+use App\Models\ManagementModel\AssignmentRoomModel;
+use App\Models\ManagementModel\AssignmentShiftModel;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\GroupUserModel;
 use App\Models\ManagementModel\LoginModel;
 use App\Models\ManagementModel\MedicalRecordModel;
+use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
@@ -19,15 +25,100 @@ class PatientController extends Controller
 {
     public function index(Request $request)
     {
+
+        $users = UserModel::get();
+        $group = Auth::user()->User->group_user;
+
+        if($group[0]->slug === 'bac-si'){
+            $assignment = AssignmentModel::where([
+                ['staff_uuid',Auth::user()->User->uuid],
+                ['date_end','>=', Carbon::now()],
+            ])->first();
+            $currentDayOfWeek = Carbon::now()->dayOfWeek;
+            $currentDateTime = Carbon::now('Asia/Ho_Chi_Minh');
+            $currentHour = $currentDateTime->toTimeString();
+            //$currentMinute = Carbon::now()->minute;
+            $currentHour = $currentDateTime->format('H:i:s');
+
+            // So sánh giờ hiện tại với các giờ trong điều kiện so sánh
+            if ($currentHour >= '06:00:00' && $currentHour <= '11:30:00') {
+                $shift = 1;
+            } elseif ($currentHour >= '13:00:00' && $currentHour <= '16:30:00') {
+                $shift = 2;
+            } elseif ($currentHour >= '21:00:00') {
+                $shift = 3;
+            } else {
+                $shift = 1; // Nếu không nằm trong bất kỳ khoảng thời gian nào
+            }
+
+            $assignment_day = AssignmentDayModel::where([
+                ['assignment_id',$assignment->id],
+                ['day_id',$currentDayOfWeek]
+            ])->first();
+            $assignment_shift = AssignmentShiftModel::where([
+                ['assignment_id',$assignment->id],
+                ['shift_id',$shift]
+            ])->first();
+            $assignment_room = AssignmentRoomModel::where([
+                ['assignment_day_id',$assignment_day->id],
+                ['assignment_shift_id',$assignment_shift->id],
+            ])->first() ;
+            //dd($assignment_room->room->number);
+
+        }
+        $assignment_room = $assignment_room ?? '';
         $name_page = [
-            'name' => 'Danh sách bệnh nhân',
-            'total' => 'Khám bệnh',
+            'name' =>  $assignment_room->room->name ?? 'Trống',
+            'total' => 'Phòng khám',
             'route' => 'patient.index'
         ];
+        //dd($group[0]->slug);
+
+        if($request->ajax()){
+            //dd($assignment_room->room->number);
+            $numbers = $assignment_room->room->number ?? [];
+
+            return DataTables::of($numbers)
+            ->editColumn('number_id', function ($number) {
+                return '<p class="text-dark  mb-0 font-weight-400">'.$number->number.'</p>';
+            })
+            ->editColumn('status', function ($number) {
+                return $number->status();
+            })
+            ->addColumn('action', function ($number) {
+                //<a href="{{ route('patient.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm bệnh nhân mới</a>&nbsp;
+                $route_create_new_patient =  '<a href="'. route('patient.patient_list',$number->id) .'" class="badge bg-gradient-success" title="Danh sách bệnh nhân"><i class="fas fa-solid fa-hospital-user"></i></a>';
+                $route_edit =  '<a href="'. route('number.edit', $number->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                return $route_edit . '&nbsp' . $route_create_new_patient ;
+            })
+            ->rawColumns(['number_id','status','action'])
+            ->make();
+        }
+        return view('management.patient.index',compact('name_page','assignment_room'));
+    }
+
+    public function patient_list(Request $request,NumberModel $numberModel){
+        $name_page = [
+            'name' => 'Danh sách bệnh nhân',
+            'total' => 'Phòng khám',
+            'route' => 'patient.index'
+        ];
+        if(!empty($numberModel)){
+            $number = $numberModel->update([
+                'status' => 2
+            ]);
+        }
+        //if()
         if($request->ajax()){
 
-            $users = UserModel::get();
-
+            // $users = UserModel::whereHas('gr_user', function ($query) {
+            //     $query->groups;})->get();
+            $users = UserModel::whereHas('gr_user', function ($query) {
+                $query->whereHas('groups', function ($query) {
+                    $query->where('slug', 'benh-nhan');
+                });
+            })->with('gr_user.groups')->get();
+            //dd($users);
             return DataTables::of($users)
             ->editColumn('uuid', function ($user) {
                 return $user->uuid;
@@ -63,10 +154,8 @@ class PatientController extends Controller
             ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])
             ->make();
         }
-        return view('management.patient.index',compact('name_page'));
+        return view('management.patient.patient_list',compact('name_page','numberModel'));
     }
-
-
     public function create(){
         $name_page = [
             'name' => 'Thêm bệnh nhân',

@@ -19,6 +19,10 @@ class MedicalRecordModel extends Model
         return $this->hasOne(UserModel::class,'uuid','user_uuid');
     }
 
+    public function doctor(){
+        return $this->hasOne(UserModel::class,'uuid','doctor_uuid');
+    }
+
     public function re_exam_date() {
         return $this->hasOne(UserModel::class,'uuid','user_uuid');
     }
@@ -61,5 +65,8 @@ class MedicalRecordModel extends Model
     {
         return  date('d/m/Y', strtotime($date));
 
+    }
+    public function current_date(){
+        return date('d/m/Y');
     }
 }

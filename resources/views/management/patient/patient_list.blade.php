@@ -29,6 +29,9 @@
                                             </p>
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
+                                            <div class="ms-auto my-auto d-flex">
+                                                <a href="{{ route('patient.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm bệnh nhân mới</a>&nbsp;
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
@@ -38,10 +41,25 @@
                                                 <tr>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Số thứ tự</th>
+                                                        UUID</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Trạng thái</th>
+                                                        First name</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Last name</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Gender</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Date of birth</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Email</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Phone number</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Actions</th>
@@ -67,12 +85,32 @@
 @push('js')
     <script>
         var columns = [{
-                data: 'number_id',
-                name: 'number_id'
+                data: 'uuid',
+                name: 'uuid'
             },
             {
-                data: 'status',
-                name: 'status'
+                data: 'first_name',
+                name: 'first_name'
+            },
+            {
+                data: 'last_name',
+                name: 'last_name'
+            },
+            {
+                data: 'gender',
+                name: 'gender'
+            },
+            {
+                data: 'dob',
+                name: 'dob'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'phone_number',
+                name: 'phone_number'
             },
             {
                 data: 'action',
@@ -81,7 +119,7 @@
 
         ];
         setTimeout(function(){
-            renderTable("{!! route('patient.index') !!}", columns);
+            renderTable("{!! route('patient.patient_list',$numberModel) !!}", columns);
         }, 500);
     </script>
 

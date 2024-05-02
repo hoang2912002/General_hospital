@@ -160,7 +160,9 @@
             },
 
         ];
-        renderTable("{!! route('number.ticket') !!}", columns);
+        setTimeout(function(){
+            renderTable("{!! route('number.ticket') !!}", columns);
+        }, 500);
     </script>
 
 @endpush

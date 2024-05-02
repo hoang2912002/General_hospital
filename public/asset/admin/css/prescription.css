@@ -60,6 +60,40 @@
             }
 
         }
+        @media screen and (max-width: 2576px) {
+            #modal-detail-assignment .modal-dialog {
+                max-width: 56.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+            .button_index{
+                max-width:  250.39px;
+                min-width:  250.39px;
+            }
+            #assignment-detail-table {
+                border-collapse: collapse;
+                border: 2px solid rgb(200,200,200);
+                letter-spacing: 1px;
+                font-size: 0.8rem;
+            }
+
+            #assignment-detail-table td,
+            #assignment-detail-table th {
+                border: 1px solid rgb(190,190,190);
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            #assignment-detail-table caption {
+                padding: 10px;
+            }
+        }
+        @media screen and (max-width: 1576px) {
+            .button_index{
+                max-width:  140.39px;
+                min-width:  140.39px;
+            }
+        }
+
         .hr{
             border: 1px solid black !important;
             margin: 1px
@@ -77,8 +111,8 @@
             align-content: center
         }
         .button_index{
-            max-width:  250.39px;
-            min-width:  250.39px;
+            /* max-width:  250.39px;
+            min-width:  250.39px; */
             max-height: 41px;
             min-height: 41px;
             font-size: 15px !important;

@@ -50,6 +50,9 @@ class UserModel extends Model
     }
 
     public function name(){
+        return $this->last_name . ' ' . $this->first_name;
+    }
+    public function aboard_name(){
         return $this->first_name . ' ' . $this->last_name;
     }
 

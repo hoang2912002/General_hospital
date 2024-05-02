@@ -17,7 +17,7 @@
                         aria-controls="myprofile" role="button" aria-expanded="false">
                         <div
                             class=" text-center d-flex align-items-center justify-content-center">
-                            <img src="{{(isset(Auth::user()->User->doctor->image)) ? asset(Auth::user()->User->doctor->image) : 'https://dautubanthan.net/wp-content/uploads/2021/12/A%CC%89nh-avatar-facebook-theo-phong-ca%CC%81ch-do%CC%9Bn-gia%CC%89n.jpg'  }} "
+                            <img src="{{(isset(Auth::user()->User->staff->image)) ? asset(Auth::user()->User->staff->image) : 'https://dautubanthan.net/wp-content/uploads/2021/12/A%CC%89nh-avatar-facebook-theo-phong-ca%CC%81ch-do%CC%9Bn-gia%CC%89n.jpg'}} "
                             alt="profile_image" class="" alt="" srcset="" class="avatar"
                             style="vertical-align: middle;width: 1.775rem;height: 1.775rem; border-radius: 50%;">
                         </div>
@@ -174,12 +174,15 @@
                     </a>
                     <div class="collapse " id="patient">
                         <ul class="nav ms-4">
-                            <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('patient.index') }}">
-                                    <span class="sidenav-mini-icon"> TT </span>
-                                    <span class="sidenav-normal"> Bệnh nhân </span>
-                                </a>
-                            </li>
+                            @if (Auth::user()->User->group_user[0]->slug === 'bac-si')
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="{{ route('patient.index') }}">
+                                        <span class="sidenav-mini-icon"> TT </span>
+                                        <span class="sidenav-normal"> Bệnh nhân </span>
+                                    </a>
+                                </li>
+                            @endif
+
                             <li class="nav-item ">
                                 <a class="nav-link " href="{{ route('number.ticket') }}">
                                     <span class="sidenav-mini-icon"> STT </span>
@@ -272,7 +275,7 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('room.index') }}">
+                                <a class="nav-link " href="{{ route('assignment.index') }}">
                                     <span class="sidenav-mini-icon"> PC </span>
                                     <span class="sidenav-normal"> Phân công </span>
                                 </a>

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManagementRequest\MedicalRecordRequest\StoreRequest;
+use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\MedicalRecordModel;
 use App\Models\ManagementModel\PrescriptionDetailModel;
+use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Str;
 class MedicalRecordController extends Controller
 {
     /**
@@ -68,17 +71,56 @@ class MedicalRecordController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(UserModel $userModel)
     {
-        //
+        $name_page = [
+            'name' => 'Thêm hồ sơ bệnh án',
+            'total' => 'Bệnh nhân',
+            'route' => "medical_record.index",
+            'params' => ['userModel' => $userModel->uuid],
+        ];
+        $role = GroupModel::where('slug','benh-nhan')->first();
+        if(empty($role)){
+            $role = GroupModel::create([
+                'name' => 'Bệnh nhân',
+                'slug' => Str::slug('Bệnh nhân'),
+            ]);
+        }
+        $shift = ShiftModel::get();
+        return view('management.medical_record.create',compact('name_page','userModel','role','shift'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try {
+            if(!empty($request->user_uuid) && !empty($request->doctor_uuid)){
+                //dd($request);
+                $medical_record = MedicalRecordModel::create([
+                    'user_uuid' => $request->user_uuid,
+                    'reason' => $request->reason,
+                    'weight' => $request->weight,
+                    'height' => $request->height,
+                    'vessel' => $request->vessel,
+                    'blood_pressure' => $request->blood_pressure,
+                    'temperature' => $request->temperature,
+                    'note' => $request->note,
+                    'disease' => $request->disease,
+                    'doctor_uuid' => $request->doctor_uuid,
+                    're_exam_date' => $request->re_exam_date,
+                    'exam_date' => $request->exam_date,
+                    'shift_id' => $request->shift_id,
+                    'appointment_id' => null,
+                ]);
+                if(!empty($medical_record)){
+                    return redirect()->route('medical_record.index',$request->user_uuid)->with('success' , 'Thêm hồ sơ bệnh án thành công!' );
+                }
+            }
+        } catch (\Throwable $th) {
+            return redirect()->route('medical_record.index',$request->user_uuid)->with('error' , 'Thêm hồ sơ bệnh án thất bại!' );
+        }
     }
     public function render_service(UserModel $userModel,Request $request){
         dd($request);

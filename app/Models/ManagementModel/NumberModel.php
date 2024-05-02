@@ -28,4 +28,21 @@ class NumberModel extends Model
 
         return 'Ngày khám ' . $date . ' Giờ ' . $hour;
     }
+
+    public function status() {
+        switch ($this->status) {
+            case 1:
+                return '<span class="badge bg-gradient-info">Đang chờ</span>';
+                break;
+            case 2:
+                return '<span class="badge bg-gradient-primary">Đang khám</span>';
+                break;
+            case 3:
+                return '<span class="badge bg-gradient-success">Đã khám</span>';
+                break;
+            default:
+                return '<span class="badge bg-gradient-info">Đang chờ</span>';
+                break;
+        }
+    }
 }

@@ -12,7 +12,7 @@ use App\Models\ManagementModel\PrescriptionModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 class PrescriptionController extends Controller
 {
     /**
@@ -36,6 +36,16 @@ class PrescriptionController extends Controller
     public function create()
     {
         //
+    }
+
+    public function print_prescription(UserModel $userModel,MedicalRecordModel $medical_recordModel){
+        $prescription = PrescriptionModel::where('medical_record_id',$medical_recordModel->id)->first();
+        //dd($prescription->prescription_detail);
+
+        $pdf = FacadePdf::loadview('management.prescription.print_prescription',compact('prescription','userModel','medical_recordModel'))->setPaper('A4');
+        //dd($pdf);
+        return $pdf->download('benh-nhan-' . $userModel->name() . '-toa-thuoc' . '.pdf');
+        //return view('management.prescription.print_prescription',compact('prescription','userModel','medical_recordModel'));
     }
 
     /**

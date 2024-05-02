@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('assignment_rooms', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('assignment_id');
+            $table->unsignedInteger('assignment_day_id');
+            $table->unsignedInteger('assignment_shift_id');
             $table->unsignedInteger('room_id');
             $table->timestamps();
-            $table->foreign('assignment_id')->references('id')->on('assignments');
+            $table->foreign('assignment_day_id')->references('id')->on('assignment_days');
+            $table->foreign('assignment_shift_id')->references('id')->on('assignment_shifts');
             $table->foreign('room_id')->references('id')->on('rooms');
         });
     }

@@ -13,6 +13,7 @@ use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\GroupUserModel;
 use App\Models\ManagementModel\LoginModel;
 use App\Models\ManagementModel\MedicalRecordModel;
+use App\Models\ManagementModel\Number_medicalRecordModel;
 use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
@@ -41,14 +42,40 @@ class PatientController extends Controller
             $currentHour = $currentDateTime->format('H:i:s');
 
             // So sánh giờ hiện tại với các giờ trong điều kiện so sánh
-            if ($currentHour >= '06:00:00' && $currentHour <= '11:30:00') {
+            if ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
                 $shift = 1;
-            } elseif ($currentHour >= '13:00:00' && $currentHour <= '16:30:00') {
+            }
+            elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
                 $shift = 2;
-            } elseif ($currentHour >= '19:00:00') {
+            }
+            elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
                 $shift = 3;
+            }
+            elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
+                $shift = 4;
+            }
+            elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
+                $shift = 5;
+            }
+            elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
+                $shift = 6;
+            }
+            elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
+                $shift = 7;
+            }
+            elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
+                $shift = 8;
+            }
+            elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
+                $shift = 9;
+            }
+            elseif ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
+                $shift = 10;
+            }
+            elseif ($currentHour >= '02:00:00' && $currentHour <= '04:00:00') {
+                $shift = 11;
             } else {
-                $shift = 1; // Nếu không nằm trong bất kỳ khoảng thời gian nào
+                $shift = 12; // Nếu không nằm trong bất kỳ khoảng thời gian nào
             }
 
             $assignment_day = AssignmentDayModel::where([
@@ -60,10 +87,11 @@ class PatientController extends Controller
                 ['shift_id',$shift]
             ])->first();
             $assignment_room = AssignmentRoomModel::where([
-                ['assignment_day_id',$assignment_day->id],
-                ['assignment_shift_id',$assignment_shift->id],
+                ['assignment_day_id',$assignment_day->id ?? ''],
+                ['assignment_shift_id',$assignment_shift->id ?? ''],
             ])->first() ;
             //dd($assignment_room->room->number);
+            $shift_name = $assignment_shift->shift_name ?? '';
 
         }
         $assignment_room = $assignment_room ?? '';
@@ -76,7 +104,10 @@ class PatientController extends Controller
 
         if($request->ajax()){
             //dd($assignment_room->room->number);
-            $numbers = $assignment_room->room->number ?? [];
+            $room_id = $assignment_room->room->id ?? [];
+            $numbers = NumberModel::where('room_id', $room_id)->where('status', '<>', 3)
+            ->get();
+            //dd($numbers);
 
             return DataTables::of($numbers)
             ->editColumn('number_id', function ($number) {
@@ -94,7 +125,7 @@ class PatientController extends Controller
             ->rawColumns(['number_id','status','action'])
             ->make();
         }
-        return view('management.patient.index',compact('name_page','assignment_room'));
+        return view('management.patient.index',compact('name_page','assignment_room','shift_name'));
     }
 
     public function patient_list(Request $request,NumberModel $numberModel){
@@ -108,11 +139,10 @@ class PatientController extends Controller
                 'status' => 2
             ]);
         }
-        //if()
+        if(!empty($numberModel->number_medical_record)){
+            return redirect()->route('medical_record.index',['numberModel' => $numberModel->id, 'userModel' => $numberModel->number_medical_record->patient_uuid]);
+        }
         if($request->ajax()){
-
-            // $users = UserModel::whereHas('gr_user', function ($query) {
-            //     $query->groups;})->get();
             $users = UserModel::whereHas('gr_user', function ($query) {
                 $query->whereHas('groups', function ($query) {
                     $query->where('slug', 'benh-nhan');
@@ -143,12 +173,14 @@ class PatientController extends Controller
             ->editColumn('phone_number', function ($user) {
                 return $user->login->phone_number;
             })
-            ->addColumn('action', function ($user) {
+            ->addColumn('action', function ($user) use ($numberModel) {
                 $routeDestroy = "'" . route('patient.destroy',$user->uuid) . "'";
-                $route_edit =  '<a href="'. route('patient.edit', $user->uuid) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                $route_medical_record =  '<a href="'. route('medical_record.index', $user->uuid) .'" class="badge bg-gradient-warning" title="Hồ sơ bệnh án"><i class="fas fa-solid fa-notes-medical"></i></a>';
+                $route_edit =  '<a href="'. route('patient.edit', $user->uuid) .'" class="badge bg-gradient-warning"><i class="fas fa-edit"></i></a>';
+                $route_check = route('patient.patient_medical_record', ['numberModel' => $numberModel->id, 'userModel' => $user->uuid]);
+                $route_patient_medical_record = '<a href="'. $route_check .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-check"></i></a>';
+                //$route_medical_record =  '<a href="'. route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $user]) .'" class="badge bg-gradient-warning" title="Hồ sơ bệnh án"><i class="fas fa-solid fa-notes-medical"></i></a>';
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_medical_record. '&nbsp'    . $route_delete;
+                return  $route_patient_medical_record . '&nbsp' . $route_edit . '&nbsp'    . $route_delete;
             })
 
             ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])
@@ -310,6 +342,24 @@ class PatientController extends Controller
             return redirect()->back()->with('error','Cập nhật bệnh nhân thất bại!');
         }
     }
+
+    public function patient_medical_record(NumberModel $numberModel,UserModel $userModel){
+        if(!empty($numberModel) && !empty($userModel)){
+            $check = Number_medicalRecordModel::where([
+                ['number_id',$numberModel->id],
+                ['patient_uuid', $userModel->uuid],
+
+            ])->first();
+            if(empty($check)){
+                $number_medical_records = Number_medicalRecordModel::create([
+                    'number_id' => $numberModel->id,
+                    'patient_uuid' => $userModel->uuid,
+                ]);
+            }
+            return redirect()->route('medical_record.index',['numberModel' => $numberModel->id, 'userModel' => $userModel->uuid]);
+        }
+    }
+
     // public function destroy(UserModel $userModel)
     // {
     //     //$this->authorize('delete', $manufacturerModel);

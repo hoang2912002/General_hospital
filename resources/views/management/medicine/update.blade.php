@@ -179,7 +179,7 @@
                                                 @if (!empty($medicineModel->description))
                                                     {!! html_entity_decode($medicineModel->description) !!}
                                                 @else
-                                                    <p>Some initial <strong>bold</strong> text</p>
+                                                    <p>Thông tin<strong>chi tiết</strong></p>
                                                 @endif
                                             </div>
                                             @error('edit-deschiption')

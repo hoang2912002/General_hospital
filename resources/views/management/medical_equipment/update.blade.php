@@ -44,7 +44,7 @@
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
-                                            <label>Name</label>
+                                            <label>Tên</label>
                                             <input class="multisteps-form__input form-control" type="text" placeholder="eg. Admin" name="name" value="{{ $equipmentCategoryModel->name ?? old('name') }}">
                                             @error('name')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
@@ -56,7 +56,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility">Activated</small>
+                                                <small id="profileVisibility">Kích hoạt</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault23" checked="" onchange="visible()" name="activated" value="1">

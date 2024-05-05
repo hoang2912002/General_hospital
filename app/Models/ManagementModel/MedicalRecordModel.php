@@ -26,7 +26,9 @@ class MedicalRecordModel extends Model
     public function re_exam_date() {
         return $this->hasOne(UserModel::class,'uuid','user_uuid');
     }
-
+    public function number_medical_record(){
+        return $this->hasOne(Number_medicalRecordModel::class,'medical_record_id','id');
+    }
     public function appointment(){
         return ($this->appointment_id == NULL) ? 'Không' : 'Có';
     }

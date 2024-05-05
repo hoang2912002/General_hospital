@@ -66,6 +66,7 @@
                                 <div class="multisteps-form__content">
                                     {{-- div toggle patient --}}
                                         <input type="hidden" value="{{ $userModel->uuid }}" name="user_uuid">
+                                        <input type="hidden" value="{{ $numberModel->id }}" name="number_id">
                                         <input type="hidden" value="{{ Auth::user()->User->uuid }}" name="doctor_uuid">
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">

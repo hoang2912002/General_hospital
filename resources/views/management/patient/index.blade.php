@@ -23,7 +23,7 @@
                                 <div class="card">
                                     <div class="card-header  d-flex justify-content-between pb-0">
                                         <div>
-                                            <h5 class="mb-0">{{ $name_page['name'] }}</h5>
+                                            <h5 class="mb-0">{{ !empty($assignment_room) ? ($assignment_room->assignment_day->day($assignment_room->assignment_day->day_id)  . ' - ' . $shift_name->name . ' - Phòng: ' .  $name_page['name'])  : ''  }} </h5>
                                             <p class="text-sm mb-0">
 
                                             </p>
@@ -44,7 +44,7 @@
                                                         Trạng thái</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Actions</th>
+                                                        Chức năng</th>
                                                 </tr>
                                             </thead>
                                         </table>

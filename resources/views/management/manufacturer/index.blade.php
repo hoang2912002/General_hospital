@@ -43,7 +43,7 @@
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nước sản xuất</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Địa chỉ Email</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số điện thoại</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tác vụ</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chức năng</th>
                                                 </tr>
                                             </thead>
                                         </table>

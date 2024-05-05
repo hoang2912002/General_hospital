@@ -30,15 +30,12 @@
                                     </div> --}}
                                     <div class="card-header  d-flex justify-content-between pb-0">
                                         <div>
-                                            <h5 class="mb-0">All Products</h5>
-                                            <p class="text-sm mb-0">
-                                                A lightweight, extendable, dependency-free javascript HTML table plugin.
-                                            </p>
+                                            <h5 class="mb-0">Người dùng</h5>
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
                                                 <a href="{{ route('user.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
-                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Import</button>&nbsp;
+                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Thêm file Excel</button>&nbsp;
                                                 <div class="modal fade" id="import" tabindex="-1" style="display: none;"aria-hidden="true">
                                                     <div class="modal-dialog mt-lg-10">
                                                         <div class="modal-content">
@@ -69,7 +66,7 @@
                                                     <form action="{{route('user.export')}}" method="POST"  class="ms-auto my-auto" >
                                                         @csrf
                                                         @method('POST')
-                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Export</button>
+                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Xuất file excel</button>
                                                     </form>
 
 
@@ -84,27 +81,28 @@
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         UUID</th>
+
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        First name</th>
+                                                        Họ</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Last name</th>
+                                                        Tên</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Gender</th>
+                                                        Giới tính</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Date of birth</th>
+                                                        Ngày sinh</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Email</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Phone number</th>
+                                                        Số điện thoại</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Actions</th>
+                                                        Kích hoạt</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -130,13 +128,14 @@
                 data: 'uuid',
                 name: 'uuid'
             },
-            {
-                data: 'first_name',
-                name: 'first_name'
-            },
+
             {
                 data: 'last_name',
                 name: 'last_name'
+            },
+            {
+                data: 'first_name',
+                name: 'first_name'
             },
             {
                 data: 'gender',
@@ -161,31 +160,5 @@
 
         ];
         renderTable("{!! route('user.index') !!}", columns);
-    </script>
-    <script>
-        //  if (document.getElementById('dataTable')) {
-        //     const dataTableSearch = new simpleDatatables.DataTable("#dataTable", {
-        //         searchable: true,
-        //         fixedHeight: false,
-
-        //     });
-
-        //     document.querySelectorAll(".export").forEach(function(el) {
-        //         el.addEventListener("click", function(e) {
-        //         var type = el.dataset.type;
-
-        //         var data = {
-        //             type: type,
-        //             filename: "soft-ui-" + type,
-        //         };
-
-        //         if (type === "csv") {
-        //             data.columnDelimiter = "|";
-        //         }
-
-        //         dataTableSearch.export(data);
-        //         });
-        //     });
-        //     };
     </script>
 @endpush

@@ -43,7 +43,7 @@
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên khoa</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kiểu file</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chức năng</th>
                                                 </tr>
                                             </thead>
                                         </table>

@@ -18,7 +18,7 @@ class RoleController extends Controller
     {
         $this->authorize('viewAny',RoleModel::class);
         $name_page = [
-            'name' => 'Danh sách vai trò',
+            'name' => 'Danh sách',
             'total' => 'Vai trò',
             'route' => 'role.index'
         ];

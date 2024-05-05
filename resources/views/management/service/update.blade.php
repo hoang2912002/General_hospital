@@ -51,7 +51,7 @@
                             <div class="card-body">
                                 <div class="multisteps-form__progress">
                                     <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
-                                        <span>Service Info</span>
+                                        <span>Thông tin {{ $name_page['total'] }}</span>
                                     </button>
 
                                 </div>
@@ -69,12 +69,12 @@
                             @method('POST')
                             <div class="card multisteps-form__panel p-3 border-radius-xl bg-white js-active"
                                 data-animation="FadeIn">
-                                <h5 class="font-weight-bolder mb-0">Service Create</h5>
-                                <p class="mb-0 text-sm">Private informations</p>
+                                <h5 class="font-weight-bolder mb-0">{{ $name_page['name'] }}</h5>
+                                <p class="mb-0 text-sm">Thông tin {{ $name_page['total'] }}</p>
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
-                                            <label>Name</label>
+                                            <label>Tên</label>
                                             <input type="hidden" value="{{ $serviceModel->id }}">
                                             <input class="multisteps-form__input form-control" type="text"
                                                 placeholder="eg. Michael" name="first_name" id="name"
@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
-                                            <label>Price</label>
+                                            <label>Giá</label>
                                             <input class="multisteps-form__input form-control" type="text" id="price"
                                                 placeholder="10.000VNĐ" name="price"
                                                 value="{{ old('first_name') ?? '' }}">
@@ -103,12 +103,12 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
-                                            <label class="">Description</label>
+                                            <label class="">Thông tin chi tiết</label>
                                             <p class="form-text text-muted text-xs ms-1 d-inline">
-                                                (optional)
+                                                (không bắt buộc)
                                             </p>
                                             <div id="edit-deschiption" class="h-50">
-                                                <p>Some initial <strong>bold</strong> text</p>
+                                                <p>Thông tin <strong>chi tiết</strong></p>
                                             </div>
                                             @error('edit-deschiption')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
@@ -127,7 +127,7 @@
                                                     <div class="col-12">
                                                         <input type="hidden" name="input-thumbnail-service"
                                                             id="input-thumbnail-service">
-                                                        <label>Service thumbnail</label>
+                                                        <label>Icon</label>
                                                         <div class="form-control dropzone dz-clickable"
                                                             id="service-thumbnail">
                                                             <div class="fallback">
@@ -144,7 +144,7 @@
                                             <div class="multisteps-form__content">
                                                 <div class="row mt-3">
                                                     <div class="col-12">
-                                                        <label>Service images</label>
+                                                        <label>Ảnh dịch vụ</label>
                                                         <div class="form-control dropzone dz-clickable" id="service-image">
 
                                                             <div class="fallback">
@@ -159,7 +159,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility">Activated</small>
+                                                <small id="profileVisibility">Kích hoạt</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox"
@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="button-row d-flex mt-4">
                                         <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" type="button"
-                                            id="service-button" title="create">Create</button>
+                                            id="service-button" title="create">Thêm</button>
                                     </div>
                                 </div>
                             </div>

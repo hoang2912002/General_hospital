@@ -44,25 +44,25 @@
                                                         UUID</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        First name</th>
+                                                        Họ</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Last name</th>
+                                                        Tên</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Gender</th>
+                                                        Giới tính</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Date of birth</th>
+                                                        Ngày sinh</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Email</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Phone number</th>
+                                                        Số điện thoại</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Actions</th>
+                                                        Kích hoạt</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -89,12 +89,12 @@
                 name: 'uuid'
             },
             {
-                data: 'first_name',
-                name: 'first_name'
-            },
-            {
                 data: 'last_name',
                 name: 'last_name'
+            },
+            {
+                data: 'first_name',
+                name: 'first_name'
             },
             {
                 data: 'gender',

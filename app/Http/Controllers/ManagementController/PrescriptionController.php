@@ -7,6 +7,8 @@ use App\Models\ManagementModel\CategoryModel;
 use App\Models\ManagementModel\ManufacturerModel;
 use App\Models\ManagementModel\MedicalRecordModel;
 use App\Models\ManagementModel\MedicineModel;
+use App\Models\ManagementModel\Number_medicalRecordModel;
+use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\PrescriptionDetailModel;
 use App\Models\ManagementModel\PrescriptionModel;
 use App\Models\ManagementModel\ShiftModel;
@@ -18,7 +20,7 @@ class PrescriptionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(UserModel $userModel,MedicalRecordModel $medical_recordModel)
+    public function index(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel)
     {
         //dd($userModel,$medical_recordModel);
         $medicine = MedicineModel::get();
@@ -27,7 +29,7 @@ class PrescriptionController extends Controller
         $prescription= PrescriptionModel::where('medical_record_id',$medical_recordModel->id)->first();
         $shift = ShiftModel::get();
         //dd($prescription->prescription_detail);
-        return view('management/prescription/index',compact('userModel','medical_recordModel','medicine','manufacturers','categories','prescription','shift'));
+        return view('management/prescription/index',compact('numberModel','userModel','medical_recordModel','medicine','manufacturers','categories','prescription','shift'));
     }
 
     /**
@@ -36,6 +38,29 @@ class PrescriptionController extends Controller
     public function create()
     {
         //
+    }
+
+    public function update_number_medical_record(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel){
+        if(!empty($numberModel) && !empty($userModel) && !empty($medical_recordModel)){
+            $number_medical_record_model = Number_medicalRecordModel::where([
+                ['number_id',$numberModel->id],
+                ['patient_uuid',$userModel->uuid]
+            ])->first();
+                dd(1);
+            if(!empty($number_medical_record_model)){
+                $update_number_medicalRecord = $number_medical_record_model->update([
+                    'medical_record_id' => $medical_recordModel->id
+                ]);
+                if(!empty($update_number_medicalRecord)){
+                    $numberModel->update([
+                        'status' => 3
+                    ]);
+                    return redirect()->back();
+                }
+            }
+            //dd('đa',$update_number_medicalRecord,$userModel,$medical_recordModel);
+        }
+
     }
 
     public function print_prescription(UserModel $userModel,MedicalRecordModel $medical_recordModel){

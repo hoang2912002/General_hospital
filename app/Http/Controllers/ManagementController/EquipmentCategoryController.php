@@ -20,7 +20,7 @@ class EquipmentCategoryController extends Controller
     {
         $this->authorize('viewAny', EquipmentCategoryModel::class);
         $name_page = [
-            'name' => 'Thư mục',
+            'name' => 'Danh sách',
             'total' => 'Loại thiết bị y tế',
             'route' => 'equipment_category.index'
         ];

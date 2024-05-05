@@ -19,6 +19,7 @@ use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -29,8 +30,8 @@ class UserController extends Controller
     {
         $this->authorize('viewAny',UserModel::class);
         $name_page = [
-            'name' => 'User Index',
-            'total' => 'User',
+            'name' => 'Danh sách',
+            'total' => 'Người dùng',
             'route' => 'user.index'
         ];
 
@@ -84,8 +85,8 @@ class UserController extends Controller
     {
         $this->authorize('create',UserModel::class);
         $name_page = [
-            'name' => 'User Create',
-            'total' => 'User',
+            'name' => 'Thêm',
+            'total' => 'Người dùng',
             'route' => 'user.index'
         ];
         $groups = GroupModel::get()->all();
@@ -98,15 +99,20 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         try {
-            //dd($request->last_name);
-            $login = LoginModel::create($request->only('email','phone_number','password','activated'));
+            //dd($request);
+            $login = LoginModel::create([
+                'email' => $request->arr['email'],
+                'phone_number' => $request->arr['phone_number'],
+                'password' => bcrypt($request->arr['password']),
+                'activated' => 1
+            ]);
             if(!empty($login)){
                 $arr_user = [
                     'uuid' => (string)Str::uuid(),
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'gender' => $request->gender,
-                    'dob' => $request->birthdate,
+                    'first_name' =>$request->arr['first_name'],
+                    'last_name' =>$request->arr['last_name'],
+                    'gender' =>$request->arr['gender'],
+                    'dob' => $request->arr['dob'],
                     'login_id' => $login->id,
                 ];
                 //dd($arr_user);
@@ -114,27 +120,21 @@ class UserController extends Controller
                 if(!empty($user)){
                     $role = GroupUserModel::create([
                         'user_uuid' => $user->uuid,
-                        'group_id' => $request->role,
+                        'group_id' => $request->arr['role'],
                     ]);
                     if(!empty($role)){
-                        if($request->hasFile('avatar')){
-                            $avatar = $request->avatar;
-                            $nameAvatar = $avatar->getClientOriginalName();
-                            $dirFolder = 'img/general_hospital/management/avatar/';
-                            $newAvatar = $dirFolder . $user->uuid . '-' . $nameAvatar;
-
+                        if(!empty($request->arr['description']) && !empty($request->arr['image'])){
+                            $newStr = str_replace('<p><br></p>', "", $request->arr['description']);
+                            $newStr = str_replace('<p><strong>  </strong></p>', "", $newStr);
+                            $newStr = str_replace('<p><strong> </strong> </p>', "", $newStr);
+                            $newStr = str_replace("\u{FEFF}", "", $newStr);
                             $staffInformation= [
                                 'staff_uuid'=> $user->uuid,
-                                'image'=> $newAvatar,
-                                'description'=> $request->description,
+                                'image'=> $request->arr['image'],
+                                'description'=> $request->arr['description'],
                             ];
-                            @unlink($newAvatar);
                             $staff = StaffModel::create($staffInformation);
-                            if(!empty($staff)){
-                                if(!empty($avatar)){
-                                    $avatar->move($dirFolder, $newAvatar);
-                                }
-                            }
+
                         }
                         return redirect()->route('user.index')->with('success' , 'Thêm' . $request->first_name . $request->last_name  . 'thành công!' );
                     }
@@ -178,8 +178,8 @@ class UserController extends Controller
     {
         $this->authorize('update',$userModel);
         $name_page = [
-            'name' => 'User Update',
-            'total' => 'User',
+            'name' => 'Cập nhật',
+            'total' => 'Người dùng',
             'route' => 'user.index'
         ];
         $groups = GroupModel::all();
@@ -196,13 +196,14 @@ class UserController extends Controller
     public function update(UpdateRequest $request, UserModel $userModel)
     {
         try {
-            //dd($request,$userModel->login);
+            $password = $userModel->login->password;
+
             $arr_login = [
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
+                'email' => $request->arr['email'],
+                'phone_number' => $request->arr['phone_number'],
 
             ];
-            if($request->password !== null){
+            if($request->arr['password'] !== null){
                 $password = $request->password;
                 $arr_login['password'] = $password;
             }
@@ -210,51 +211,42 @@ class UserController extends Controller
             $login = $userModel->login->update($arr_login);
             if(!empty($login)){
                 $arr_user = [
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'gender' => $request->gender,
-                    'dob' => $request->birthdate,
+                    'first_name' => $request->arr['first_name'],
+                    'last_name' => $request->arr['last_name'],
+                    'gender' => $request->arr['gender'],
+                    'dob' => $request->arr['dob'],
                     'login_id' => $userModel->login_id,
                 ];
                 $user = $userModel->update($arr_user);
                 if(!empty($user)){
-                    $group_name = GroupModel::where('id',$request->role)->value('name');
+                    $group_name = GroupModel::where('id',$request->arr['role'])->value('name');
                     $role = $userModel->group_user()->update([
                         'user_uuid' => $userModel->uuid,
-                        'group_id' => $request->role
+                        'group_id' => $request->arr['role']
                     ]);
                     if(!empty($role)){
                         $staffInformation= [
                             'staff_uuid'=> $userModel->uuid,
-                            'description'=> $request->description,
+                            'description'=> $request->arr['description'],
                         ];
                         //DD($staffInformation);
-                        if($request->hasFile('avatar')){
-                            //dd(1);
-                            $avatar = $request->avatar;
-                            $nameAvatar = $avatar->getClientOriginalName();
-                            $dirFolder = 'img/general_hospital/management/avatar/';
-                            $newAvatar = $dirFolder . $userModel->uuid . '-' . $nameAvatar;
-                            //dd(1);
-
-                            $staffInformation['image']= $newAvatar;
-                            //dd($staffInformation);
-                            if(!empty($userModel->image)){
-                                @unlink($userModel->image);
+                        if(!empty($request->arr['image'])){
+                            $staffInformation['image']= $request->arr['image'];
+                            //dd($userModel->staff);
+                            if(!empty($userModel->staff)){
+                                $staff = $userModel->staff()->update($staffInformation);
                             }
-                            $staff = $userModel->staff()->updateOrCreate($staffInformation);
-                            if(!empty($staff)){
-                                if(!empty($avatar)){
-                                    $avatar->move($dirFolder, $newAvatar);
-
-                                }
+                            else{
+                               $staff = StaffModel::create($staffInformation);
                             }
+                            //dd($request->arr,$staff);
                         }
                         else{
+                            //dd(2);
                             $staff = $userModel->staff()->update($staffInformation);
                         }
 
-                        return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
+                        //return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
                     }
                 }
             }
@@ -282,7 +274,7 @@ class UserController extends Controller
             'total' => 'User',
             'route' => 'user.index'
         ];
-        return view('management.user.test',compact('name_page'));
+        return view('management.user.setting',compact('name_page'));
     }
     public function profile(){
         return view('management.user.profile');
@@ -290,6 +282,92 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function readFiles(Request $request,UserModel $userModel){
+        try {
+            if(!empty($userModel)){
+                $name_image= explode('/',$userModel->staff->image) ?? '';
+                $file_size = '';
+                if($userModel->staff->image !== ''){
+                    $file_size = filesize($userModel->staff->image);
+                }
+                $arr[] = [
+                    'image' => asset($userModel->staff->image ?? ''),
+                    'name' => $name_image[4] ?? '',
+                    'size' => $file_size,
+                ];
+                return response()->json(['status' => "success",'arr' => $arr]);
+            }
+
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+    public function save_image(Request $request){
+        try {
+            if($request->hasFile('file')){
+                //dd('1',$request);
+                //dd(1);
+                $files = $request->file;
+                foreach($files as $file){
+                    $namefile = $file->getClientOriginalName();
+                    $dirFolder = 'img/general_hospital/management/avatar/';
+                    $newfile = $dirFolder . Carbon::now()->getTimestampMs() . '-' . $namefile;
+                    //dd(1);
+
+                    $user_image[]= $newfile;
+                    if(!empty($file)){
+                        $file->move($dirFolder, $newfile);
+                    }
+                }
+                //dd($medicine_image);
+            }
+            return response()->json(['status' => "success",'message' => "Lưu file thành công",'medicine_image' => $newfile,'arr_image' => $user_image]);
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+
+    }
+
+    public function delete_image(Request $request,UserModel $userModel){
+        try {
+            if(!empty($userModel->staff->image)){
+                $name_image= explode('/',$request->filename[0]) ?? '';
+                unset($name_image[0], $name_image[1],$name_image[2]);
+                $name_image = implode('/',$name_image);
+                if($userModel->staff->image === $request->filename || file_exists($userModel->staff->image)){
+                    unlink($userModel->staff->image);
+                    $userModel->staff->update([
+                        'image' => ''
+                    ]);
+                }
+            }
+            else{
+                //Kiểm tra coi nếu path 1 có ảnh trong project thì xóa k thì sẽ qa path 2 vì $request sẽ lưu cả ảnh đã bị xóa r nên phải làm v
+                $path = public_path(). '/' .  $request->filename[0];
+                if(file_exists($path)){
+                    File::delete($path);
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+
+    public function delete_imageCreate( Request $request){
+        try {
+            if(!empty($request->filename[0])){
+                //dd($request);
+                $path = public_path(). '/' .  $request->filename[0];
+                if(file_exists($path)){
+                    File::delete($path);
+                }
+            }
+
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+
     public function destroy(UserModel $userModel)
     {
         try {

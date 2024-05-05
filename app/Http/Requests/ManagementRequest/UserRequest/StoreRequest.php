@@ -23,17 +23,17 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'birthdate' => 'required|date|before:today',
-            'gender' => 'required|boolean',
-            'email' => 'required|email|unique:logins,email',
-            'phone_number' => ['required', new Phone_number('Số điện thoại này không đúng định dạng!') , 'unique:logins,phone_number'],
-            'role' => 'required',
-            'password' => 'required|min:3|max:20',
-            'activated' => 'required',
-            'description' => 'sometimes',
-            'avatar' => 'sometimes|image'
+            '*.first_name' => 'required',
+            '*.last_name' => 'required',
+            '*.dob' => 'required|date|before:today',
+            '*.gender' => 'required|boolean',
+            '*.email' => 'required|email|unique:logins,email',
+            '*.phone_number' => ['required', new Phone_number('Số điện thoại này không đúng định dạng!') , 'unique:logins,phone_number'],
+            '*.role' => 'required',
+            '*.password' => 'required|min:3|max:20',
+            '*.activated' => 'sometimes',
+            '*.description' => 'required',
+            '*.image' => 'sometimes'
         ];
     }
     public function messages()

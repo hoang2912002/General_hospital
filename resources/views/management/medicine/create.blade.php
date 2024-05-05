@@ -163,10 +163,10 @@
                                         <div class="col-12 col-sm-12">
                                             <label class="">Thông tin chi tiết</label>
                                             <p class="form-text text-muted text-xs ms-1 d-inline">
-                                            (optional)
+                                            (không bắt buộc)
                                             </p>
                                             <div id="edit-deschiption" class="h-50">
-                                                <p>Some initial <strong>bold</strong> text</p>
+                                                <p>Thêm thông tin<strong>chi tiết</strong></p>
                                             </div>
                                             @error('edit-deschiption')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
@@ -197,7 +197,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility">Activated</small>
+                                                <small id="profileVisibility">Kích hoạt</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox"
@@ -208,7 +208,7 @@
                                     </div>
                                     <div class="button-row d-flex mt-4">
                                         <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" type="button"
-                                            id="medicine-button" title="create">Create</button>
+                                            id="medicine-button" title="create">Thêm</button>
                                     </div>
                                 </div>
                             </div>

@@ -47,7 +47,7 @@
                                 <div class="multisteps-form__progress">
                                     <button class="multisteps-form__progress-btn js-active" type="button"
                                         title="User Info">
-                                        <span>User Info</span>
+                                        <span>Thông tin người dùng</span>
                                     </button>
 
                                 </div>
@@ -64,23 +64,23 @@
                             @method('POST')
                             <div class="card multisteps-form__panel p-3 border-radius-xl bg-white js-active"
                                 data-animation="FadeIn">
-                                <h5 class="font-weight-bolder mb-0">User Create</h5>
-                                <p class="mb-0 text-sm">Private informations</p>
+                                <h5 class="font-weight-bolder mb-0">Thêm người dùng</h5>
+                                <p class="mb-0 text-sm">Thông tin cá nhân</p>
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6">
-                                            <label>First name</label>
-                                            <input class="multisteps-form__input form-control" type="text" placeholder="eg. Michael" name="first_name" value="{{ old('first_name') ?? '' }}">
-                                            @error('first_name')
+                                            <label>Họ</label>
+                                            <input class="multisteps-form__input form-control" type="text" placeholder="Nguyễn Văn" id="last_name" name="last_name" value="{{ old('last_name') ?? '' }}">
+                                            @error('last_name')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label>Last name</label>
-                                            <input class="multisteps-form__input form-control" type="text" placeholder="eg. Michael" name="last_name" value="{{ old('last_name') ?? '' }}">
-                                            @error('last_name')
+                                            <label>Tên</label>
+                                            <input class="multisteps-form__input form-control" type="text" placeholder="A" id="first_name" name="first_name" value="{{ old('first_name') ?? '' }}">
+                                            @error('first_name')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
                                                 </div>
@@ -89,8 +89,8 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6">
-                                            <label>Birthdate</label>
-                                            <input class="multisteps-form__input form-control" type="date" name="birthdate">
+                                            <label>Ngày sinh</label>
+                                            <input class="multisteps-form__input form-control" type="date" name="birthdate" id="birthdate">
                                             @error('birthdate')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
@@ -99,11 +99,11 @@
                                         </div>
 
                                         <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-                                            <label>Gender</label>
+                                            <label>Giới tính</label>
                                             <select class="form-control" name="gender" id="choices-gender" >
-                                                <option value="">Choose gender ...</option>
-                                                <option value="1">Male</option>
-                                                <option value="0">Female</option>
+                                                <option value="">Chọn giới tính ...</option>
+                                                <option value="1">Nam</option>
+                                                <option value="0">Nữ</option>
                                             </select>
                                             @error('gender')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
@@ -114,8 +114,8 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6  mt-3 mt-sm-0">
-                                            <label>Phone number</label>
-                                            <input id="phone" class="form-control" type="number" placeholder="+40 735 631 620" name="phone_number" value="{{ old('phone_number') ?? '' }}">
+                                            <label>Số điện thoại</label>
+                                            <input class="form-control" type="number" id="phone_number" placeholder="+40 735 631 620" name="phone_number" value="{{ old('phone_number') ?? '' }}">
                                             @error('phone_number')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
@@ -123,9 +123,9 @@
                                             @enderror
                                         </div>
                                         <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-                                            <label>Role</label>
+                                            <label>Vai trò</label>
                                             <select class="form-control" name="role" id="choices-role" >
-                                                <option value="">Choose role ...</option>
+                                                <option value="">Chọn vai trò ...</option>
                                                 @foreach ($groups as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -139,8 +139,8 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6">
-                                            <label>Email Address</label>
-                                            <input class="multisteps-form__input form-control" type="email" placeholder="eg. argon@dashboard.com" name="email" value="{{ old('email') ?? '' }}">
+                                            <label>Địa chỉ email</label>
+                                            <input class="multisteps-form__input form-control" type="email" placeholder="eg. argon@dashboard.com" id="email" name="email" value="{{ old('email') ?? '' }}">
                                             @error('email')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
@@ -148,8 +148,8 @@
                                             @enderror
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label>Password</label>
-                                            <input class="multisteps-form__input form-control" type="password" placeholder="******" name="password">
+                                            <label>Mật khẩu</label>
+                                            <input class="multisteps-form__input form-control" id="password" type="password" placeholder="******" name="password">
                                             @error('password')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                     {{ $message }}
@@ -160,7 +160,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility" style="font-weight: bold">Introduction dentist</small>
+                                                <small id="profileVisibility" style="font-weight: bold">Thêm thông tin nhân viên</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox" value="1"
@@ -172,25 +172,36 @@
                                     <div class="div-infor-dentist" style="display:none">
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-12">
-                                                <label for="description" class="form-label">Description</label>
-                                                <textarea class="form-control" id="description" rows="10" name="description">{{ $serviceModel->description ?? old('description') }}</textarea>
+                                                <label class="">Thông tin chi tiết</label>
+                                                <p class="form-text text-muted text-xs ms-1 d-inline">
+                                                (Không bắt buộc)
+                                                </p>
+                                                <div id="edit-deschiption" class="h-50">
+                                                    <p>Thông tin chi tiết <strong>Nhân viên</strong></p>
+                                                </div>
+                                                @error('edit-deschiption')
+                                                    <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
+                                                        role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-12">
-                                                <label>Avatar</label>
-                                                <div class="custom-file">
-                                                    <input type="file"class="multisteps-form__input form-control @error('avatar')  is-invalid @enderror"id="dentistAvatar" name="avatar"  value="avatar">
-                                                    @error('avatar')
-                                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
-                                                            role="alert">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
+                                                <div class="multisteps-form__content">
+                                                    <div class="row mt-3">
+                                                        <div class="col-12">
+                                                            <label>Ảnh</label>
+                                                            <div class="form-control dropzone dz-clickable"
+                                                                id="staff-image">
 
-                                                <div class=" d-flex justify-content-center pip" id="avatar">
-                                                    <img style="width: 200px"  src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921'"title="" id="loading_before"/>
+                                                                <div class="fallback">
+                                                                    <input name="file[]" type="file" multiple />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -198,7 +209,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility">Activated</small>
+                                                <small id="profileVisibility">Kích hoạt</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault23" checked="" onchange="visible()" name="activated" value="1">
@@ -206,8 +217,8 @@
                                         </div>
                                     </div>
                                     <div class="button-row d-flex mt-4">
-                                        <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                            type="submit" title="create">Thêm</button>
+                                        <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" id="user-create"
+                                            type="button" title="create">Thêm</button>
                                     </div>
                                 </div>
                             </div>
@@ -220,6 +231,133 @@
     </div>
 @endsection
 @push('js')
+    <script src="{{ asset('asset/admin/js') }}/plugins/dropzone.min.js"></script>
+    <script src="{{ asset('asset/admin/js') }}/plugins/quill.min.js"></script>
+
+    <script>
+        $('#btn-infor-dentist').on('click', function() {
+            var option = $('#btn-infor-dentist');
+            $('.div-infor-dentist').slideToggle();
+        })
+         if (document.getElementById('edit-deschiption')) {
+            var quill = new Quill('#edit-deschiption', {
+                theme: 'snow' // Specify theme in configuration
+            });
+        };
+    </script>
+    <script>
+        Dropzone.autoDiscover = false;
+        var arr_image_user = [];
+        var uploadedDocumentMap = {};
+        let token = $('meta[name="csrf-token"]').attr('content');
+        $(function() {
+            //medicine_image
+            var myDropzone = new Dropzone('#staff-image', {
+                paramName: "file",
+                url: '{!! route('user.save_image') !!}',
+                uploadMultiple: true,
+                maxFiles: 10,
+                acceptedFiles: '.jpg, .jpeg,.png,.gif',
+                autoProcessQueue: true, // myDropzone.processQueue() to upload dropped files
+                addRemoveLinks: true,
+                dictRemoveFile: "Remove image",
+                params: {
+                    _token: token
+                },
+                removedfile: function(file) {
+                    var filename = ''
+                    if (file.hasOwnProperty('upload')) {
+                        filename = file.upload.filename;
+                    } else {
+                        filename = file.name;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('user.delete_imageCreate') }}',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        data: {
+                            filename: arr_image_user,
+                        },
+                        success: function(data) {
+
+                        }
+                    });
+                    // remove file name from uploadedDocumentMap object
+                    Reflect.deleteProperty(uploadedDocumentMap, file.name);
+
+                    file.previewElement.remove();
+                    arr_image_user.splice(0, 1)
+                    //console.log('array_',arr_image_user);
+                    //removeElement(arr_image_user, file.name);
+                    $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
+                },
+                init: function(e) {
+                    // .on event handlers see dropzone docs for info
+                },
+                error:function(file, response) {
+                    // error handling
+                },
+                success:function(file, response) {
+                    //console.log(response.medicine_image);
+                    if (response.status == "success") {
+                       arr_image_user.push(response.medicine_image)
+                       //console.log('trong dropzone',arr_image_user);
+                    }
+                }
+            });
+            //form submit
+            var btn_sevice =  $('#user-create').on('click', function(e) {
+                //myDropzone.processQueue();
+                var first_name =$('#first_name').val();
+                var last_name =$('#last_name').val();
+                var birthdate =$('#birthdate').val();
+                var choices_gender =$('#choices-gender').find(":selected").val();
+                var choices_role =$('#choices-role').find(":selected").val();
+                var phone_number =$('#phone_number').val();
+                console.log(phone_number);
+                var email =$('#email').val();
+                var password =$('#password').val();
+                var description = $('#edit-deschiption').find('.ql-editor').get(0).outerHTML;
+                var arr =
+                {
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'dob': birthdate,
+                    'gender': choices_gender,
+                    'role': choices_role,
+                    'phone_number': phone_number,
+                    'email': email,
+                    'password': password,
+                    'description':  description,
+                    'image': arr_image_user[0]
+                };
+                //console.log(arr,arr_image_user);
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        token
+                    },
+                    type: 'POST',
+                    url: '{!! route('user.store') !!}',
+                    data: {
+                        'arr': arr,
+                    },
+                    success: function(result) {
+                        var url = "{{ route('user.index') }}"
+                            window.location.href = url;
+                            myDropzone.processQueue();
+
+                    }
+                });
+                //});
+            });
+        })
+
+    </script>
+@endpush
+@push('js')
     {{-- <script src="{{ asset('asset/admin') }}/js/plugins/dropzone.min.js"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
@@ -230,7 +368,7 @@
 
         }); --}}
     </script>
-    <script>
+    {{-- <script>
         $('#btn-infor-dentist').on('click', function() {
             var option = $('#btn-infor-dentist');
             $('.div-infor-dentist').slideToggle();
@@ -280,5 +418,5 @@
             alert("Your browser doesn't support to File API")
         }
     });
-    </script>
+    </script> --}}
 @endpush

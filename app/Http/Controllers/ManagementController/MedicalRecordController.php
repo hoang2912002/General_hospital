@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\MedicalRecordRequest\StoreRequest;
 use App\Models\ManagementModel\GroupModel;
 use App\Models\ManagementModel\MedicalRecordModel;
+use App\Models\ManagementModel\Number_medicalRecordModel;
+use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\PrescriptionDetailModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
@@ -17,7 +19,7 @@ class MedicalRecordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,UserModel $userModel)
+    public function index(Request $request,NumberModel $numberModel,UserModel $userModel)
     {
         if($request->ajax()){
 
@@ -42,13 +44,13 @@ class MedicalRecordController extends Controller
             ->editColumn('re_exam_date', function ($medical_record) {
                 return $medical_record->re_exam_date;
             })
-            ->addColumn('action', function ($medical_record) {
+            ->addColumn('action', function ($medical_record) use ($numberModel) {
                 //dd($medical_record->user_uuid->uuid);
                 $prescription_params = $medical_record->user_uuid . $medical_record->id;
                 $routeDestroy = "'" . route('medical_record.destroy',$medical_record->id) . "'";
                 $route_edit =  '<a href="'. route('medical_record.edit', $medical_record->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                 $service_result =  '<a href="'. route('user.index') .'" class="badge bg-gradient-success" title="Kết quả xét nghiệm"><i class="fas fa-solid fa-microscope"></i></a>';
-                $prescription =  '<a href="'. route('prescription.index',['userModel' =>$medical_record->user_uuid, 'medical_recordModel' => $medical_record->id]) .'" class="badge bg-gradient-info" title="Xem toa thuốc"><i class="fas fa-solid fa-file-medical"></i></a>';
+                $prescription =  '<a href="'. route('prescription.index',['numberModel' => $numberModel->id ,'userModel' =>$medical_record->user_uuid, 'medical_recordModel' => $medical_record->id]) .'" class="badge bg-gradient-info" title="Xem toa thuốc"><i class="fas fa-solid fa-file-medical"></i></a>';
                 $test_requisition =  '<a class="badge bg-gradient-success" title="Phiếu chỉ định" data-bs-toggle="modal" data-bs-target="#modal-test-requisition" data-medical-record="'. $medical_record->id .'"><i class="fas fa-solid fa-microscope"></i></a>';
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
                 return $route_edit . '&nbsp' . $test_requisition. '&nbsp' . $prescription . '&nbsp'    . $route_delete;
@@ -62,22 +64,22 @@ class MedicalRecordController extends Controller
             'name' => 'Danh sách bệnh nhân',
             'total' => 'Khám bệnh',
             'route' => "medical_record.index",
-            'params' => ['userModel' => $userModel->uuid],
+            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid],
         ];
         //dd($name_page);
-        return view('management.medical_record.index',compact('name_page','userModel'));
+        return view('management.medical_record.index',compact('name_page','userModel','numberModel'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(UserModel $userModel)
+    public function create(NumberModel $numberModel,UserModel $userModel)
     {
         $name_page = [
             'name' => 'Thêm hồ sơ bệnh án',
             'total' => 'Bệnh nhân',
             'route' => "medical_record.index",
-            'params' => ['userModel' => $userModel->uuid],
+            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid],
         ];
         $role = GroupModel::where('slug','benh-nhan')->first();
         if(empty($role)){
@@ -87,7 +89,7 @@ class MedicalRecordController extends Controller
             ]);
         }
         $shift = ShiftModel::get();
-        return view('management.medical_record.create',compact('name_page','userModel','role','shift'));
+        return view('management.medical_record.create',compact('name_page','userModel','role','shift','numberModel'));
     }
 
     /**
@@ -114,8 +116,17 @@ class MedicalRecordController extends Controller
                     'shift_id' => $request->shift_id,
                     'appointment_id' => null,
                 ]);
+                $number_medical_record = Number_medicalRecordModel::where([
+                    'number_id' => $request->number_id,
+                    'patient_uuid' => $request->user_uuid,
+                ]);
+                if(!empty($number_medical_record->get()->all())){
+                    $number_medical_record->update([
+                        'medical_record_id' => $medical_record->id
+                    ]);
+                }
                 if(!empty($medical_record)){
-                    return redirect()->route('medical_record.index',$request->user_uuid)->with('success' , 'Thêm hồ sơ bệnh án thành công!' );
+                    return redirect()->route('medical_record.index',['numberModel' => $request->number_id,'userModel' => $request->user_uuid])->with('success' , 'Thêm hồ sơ bệnh án thành công!' );
                 }
             }
         } catch (\Throwable $th) {
@@ -174,7 +185,19 @@ class MedicalRecordController extends Controller
             return redirect()->back()->with('reload', false);
         }
     }
-
+    public function update_note(Request $request,MedicalRecordModel $medical_recordModel){
+        try {
+            if(!empty($request->note)){
+                $note = $medical_recordModel->update($request->all());
+                //dd($note);
+                if(!empty($note)){
+                    return redirect()->back()->with('reload', true);
+                }
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('reload', false);
+        }
+    }
     public function delete_reason(MedicalRecordModel $medical_recordModel){
         //dd($medical_recordModel->update(['reason', '']));
         try {

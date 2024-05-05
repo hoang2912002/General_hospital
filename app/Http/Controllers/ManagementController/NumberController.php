@@ -24,7 +24,7 @@ class NumberController extends Controller
      */
     public function ticket(Request $request){
         $name_page = [
-            'name' => 'Danh mục số thứ tự',
+            'name' => 'Danh sách số thứ tự',
             'total' => 'Phòng khám',
             'route' => 'number.index'
         ];
@@ -70,7 +70,7 @@ class NumberController extends Controller
 
     public function waiting_patient(Request $request, RoomModel $roomModel){
         $name_page = [
-            'name' => 'Danh mục số thứ tự',
+            'name' => 'Danh sách số thứ tự',
             'total' => 'Phòng khám',
             'route' => 'number.index'
         ];

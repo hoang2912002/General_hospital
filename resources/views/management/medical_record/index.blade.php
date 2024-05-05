@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
-                                                <a href="{{ route('medical_record.create',$userModel) }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm hồ sơ bệnh ánh mới</a>&nbsp;
+                                                <a href="{{ route('medical_record.create',['numberModel' => $numberModel,'userModel' => $userModel]) }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm hồ sơ bệnh ánh mới</a>&nbsp;
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                 name: 'action'
             },
         ];
-        renderTable("{!! route('medical_record.index',$userModel->uuid) !!}", columns);
+        renderTable("{!! route('medical_record.index',['numberModel' => $numberModel->id,'userModel' => $userModel->uuid]) !!}", columns);
     </script>
 
     <script>

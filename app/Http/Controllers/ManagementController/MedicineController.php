@@ -23,7 +23,7 @@ class MedicineController extends Controller
     {
         $this->authorize('viewAny',MedicineModel::class);
         $name_page = [
-            'name' => 'Mục lục thuốc',
+            'name' => 'Mục sách',
             'total' => 'Thuốc',
             'route' => 'medicine.index'
         ];
@@ -74,7 +74,7 @@ class MedicineController extends Controller
     {
         $this->authorize('create',MedicineModel::class);
         $name_page = [
-            'name' => 'Thêm thuốc',
+            'name' => 'Thêm',
             'total' => 'Thuốc',
             'route' => 'medicine.index'
         ];
@@ -137,7 +137,7 @@ class MedicineController extends Controller
     {
 
         $name_page = [
-            'name' => 'Chi tiết thuốc',
+            'name' => 'Chi tiết',
             'total' => 'Thuốc',
             'route' => 'medicine.index'
         ];
@@ -151,7 +151,7 @@ class MedicineController extends Controller
     {
         $this->authorize('update',$medicineModel);
         $name_page = [
-            'name' => 'Cập nhật thuốc',
+            'name' => 'Cập nhật',
             'total' => 'Thuốc',
             'route' => 'medicine.index'
         ];
@@ -183,7 +183,7 @@ class MedicineController extends Controller
      */
     public function update(UpdateRequest $request, MedicineModel $medicineModel)
     {
-        dd(1);
+        //dd(1);
         try {
             $name_page = [
                 'name' => 'Mục lục thuốc',

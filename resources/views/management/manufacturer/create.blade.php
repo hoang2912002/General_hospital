@@ -23,7 +23,7 @@
                                 <div class="multisteps-form__progress">
                                     <button class="multisteps-form__progress-btn js-active" type="button"
                                         title="User Info">
-                                        <span>{{ $name_page['total'] }} Information</span>
+                                        <span>{{ $name_page['total'] }} thông tin</span>
                                     </button>
 
                                 </div>
@@ -86,7 +86,7 @@
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">
                                             <label class="form-check-label mb-0">
-                                                <small id="profileVisibility">Activated</small>
+                                                <small id="profileVisibility">Kích hoạt</small>
                                             </label>
                                             <div class="form-check form-switch ms-2">
                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault23" checked="" onchange="visible()" name="activated" value="1">
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="button-row d-flex mt-4">
                                         <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                            type="submit" title="create">Create</button>
+                                            type="submit" title="create">Thêm</button>
                                     </div>
                                 </div>
                             </div>

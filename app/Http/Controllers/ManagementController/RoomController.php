@@ -19,8 +19,8 @@ class RoomController extends Controller
     {
         $this->authorize('viewAny',RoomModel::class);
         $name_page = [
-            'name' => 'Room Index',
-            'total' => 'Room',
+            'name' => 'Danh sách',
+            'total' => 'Phòng',
             'route' => 'room.index'
         ];
 
@@ -68,7 +68,7 @@ class RoomController extends Controller
     {
         $this->authorize('create',RoomModel::class);
         $name_page = [
-            'name' => 'Thêm phòng',
+            'name' => 'Thêm',
             'total' => 'Phòng',
             'route' => 'room.index'
         ];
@@ -110,7 +110,7 @@ class RoomController extends Controller
     {
         $this->authorize('update', $roomModel);
         $name_page = [
-            'name' => 'Cập nhật phòng',
+            'name' => 'Cập nhật',
             'total' => 'Phòng',
             'route' => 'room.index'
         ];

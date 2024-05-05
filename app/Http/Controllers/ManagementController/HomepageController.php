@@ -11,7 +11,7 @@ class HomepageController extends Controller
     public function index(){
         //$this->authorize('viewAny',HomepageController::class);
         $name_page = [
-            'name' => 'Homepage',
+            'name' => 'Trang chủ',
             'total' => 'Dashboard',
             'route' => 'index'
         ];

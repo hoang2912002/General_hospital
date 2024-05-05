@@ -18,8 +18,8 @@ class CategoryController extends Controller
     {
         $this->authorize('viewAny',CategoryModel::class);
         $name_page = [
-            'name' => 'Category Index',
-            'total' => 'Medicine Category',
+            'name' => 'Danh sách',
+            'total' => 'Loại thuốc',
             'route' => 'category.index'
         ];
 
@@ -59,8 +59,8 @@ class CategoryController extends Controller
     {
         $this->authorize('create', CategoryModel::class);
         $name_page = [
-            'name' => 'Category Create',
-            'total' => 'Medicine Category',
+            'name' => 'Thêm',
+            'total' => 'Loại thuốc',
             'route' => 'category.index'
         ];
         return view('management.category.create',compact('name_page'));
@@ -97,8 +97,8 @@ class CategoryController extends Controller
     {
         $this->authorize('update', $categoryModel);
         $name_page = [
-            'name' => 'Category Update',
-            'total' => 'Medicine Category',
+            'name' => 'Cập nhật',
+            'total' => 'Loại thuốc',
             'route' => 'category.index'
         ];
         return view('management.category.update',compact('name_page','categoryModel'));

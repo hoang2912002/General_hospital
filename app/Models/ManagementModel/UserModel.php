@@ -48,7 +48,9 @@ class UserModel extends Model
     public function medical_record_doctor(){
         return $this->hasMany(MedicalRecordModel::class,'doctor_uuid','uuid');
     }
-
+    public function number_medical_record(){
+        return $this->hasMany(Number_medicalRecordModel::class,'patient_uuid','uuid');
+    }
     public function name(){
         return $this->last_name . ' ' . $this->first_name;
     }

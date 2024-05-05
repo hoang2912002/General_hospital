@@ -3,388 +3,385 @@
     <link rel="stylesheet" href="{{ asset('asset/admin/css/prescription.css') }}">
 @endpush
 @section('content')
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <div class="card  mb-4">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
-                                            <h5 class="font-weight-bolder">
-                                                $53,000
-                                            </h5>
-                                            <p class="mb-0">
-                                                <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                                since yesterday
-                                            </p>
-                                        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="card  mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
+                                        <h5 class="font-weight-bolder">
+                                            $53,000
+                                        </h5>
+                                        <p class="mb-0">
+                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                            since yesterday
+                                        </p>
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div
-                                            class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                        <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <div class="card  mb-4">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
-                                            <h5 class="font-weight-bolder">
-                                                <span class="small">$ </span>
-                                                <span id="state1" countto="23980">23,980</span>
-                                            </h5>
-                                            <p class="mb-0">
-                                                <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                                since last week
-                                            </p>
-                                        </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="card  mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                                        <h5 class="font-weight-bolder">
+                                            <span class="small">$ </span>
+                                            <span id="state1" countto="23980">23,980</span>
+                                        </h5>
+                                        <p class="mb-0">
+                                            <span class="text-success text-sm font-weight-bolder">+3%</span>
+                                            since last week
+                                        </p>
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div
-                                            class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <div class="card  mb-4">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
-                                            <h5 class="font-weight-bolder">
-                                                +3,462
-                                            </h5>
-                                            <p class="mb-0">
-                                                <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                                since last quarter
-                                            </p>
-                                        </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="card  mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
+                                        <h5 class="font-weight-bolder">
+                                            +3,462
+                                        </h5>
+                                        <p class="mb-0">
+                                            <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                                            since last quarter
+                                        </p>
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div
-                                            class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                            <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                        <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <div class="card  mb-4">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
-                                            <h5 class="font-weight-bolder">
-                                                $103,430
-                                            </h5>
-                                            <p class="mb-0">
-                                                <span class="text-success text-sm font-weight-bolder">+5%</span> than last
-                                                month
-                                            </p>
-                                        </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="card  mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                                        <h5 class="font-weight-bolder">
+                                            $103,430
+                                        </h5>
+                                        <p class="mb-0">
+                                            <span class="text-success text-sm font-weight-bolder">+5%</span> than last
+                                            month
+                                        </p>
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div
-                                            class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                            <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                                        <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 col-md-8 mb-4 mb-md-0">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Function</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Technology</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Employed</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
+                                                class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">John Michael</h6>
+                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                    <p class="text-xs text-secondary mb-0">Organization</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-success">Online</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
+                                                class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">Alexa Liras</h6>
+                                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
+                                    <p class="text-xs text-secondary mb-0">Developer</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-secondary">Offline</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-4.jpg"
+                                                class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">Laurent Perrier</h6>
+                                            <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Executive</p>
+                                    <p class="text-xs text-secondary mb-0">Projects</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-success">Online</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
+                                                class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">Michael Levi</h6>
+                                            <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
+                                    <p class="text-xs text-secondary mb-0">Developer</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-success">Online</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
+                                                class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">Richard Gran</h6>
+                                            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                    <p class="text-xs text-secondary mb-0">Executive</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-secondary">Offline</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header pb-0 p-3">
+                    <h6 class="mb-0">Categories</h6>
+                </div>
+                <div class="card-body p-3">
+                    <ul class="list-group">
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                    <i class="ni ni-mobile-button text-white opacity-10"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">Devices</h6>
+                                    <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
+                                            sold</span></span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button
+                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                    <i class="ni ni-tag text-white opacity-10"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">Tickets</h6>
+                                    <span class="text-xs">123 closed, <span class="font-weight-bold">15
+                                            open</span></span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button
+                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                    <i class="ni ni-box-2 text-white opacity-10"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">Error logs</h6>
+                                    <span class="text-xs">1 is active, <span class="font-weight-bold">40
+                                            closed</span></span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button
+                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                    <i class="ni ni-satisfied text-white opacity-10"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">Happy users</h6>
+                                    <span class="text-xs font-weight-bold">+ 430</span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button
+                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-12 col-md-8 mb-4 mb-md-0">
-                <div class="card">
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Function</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Technology</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Employed</th>
-                                    <th class="text-secondary opacity-7"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
-                                                    class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">John Michael</h6>
-                                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                        <p class="text-xs text-secondary mb-0">Organization</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm badge-success">Online</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
-                                                    class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">Alexa Liras</h6>
-                                                <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                        <p class="text-xs text-secondary mb-0">Developer</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm badge-secondary">Offline</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-4.jpg"
-                                                    class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">Laurent Perrier</h6>
-                                                <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Executive</p>
-                                        <p class="text-xs text-secondary mb-0">Projects</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm badge-success">Online</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
-                                                    class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">Michael Levi</h6>
-                                                <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                        <p class="text-xs text-secondary mb-0">Developer</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm badge-success">Online</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
-                                                    class="avatar avatar-sm me-3">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">Richard Gran</h6>
-                                                <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                        <p class="text-xs text-secondary mb-0">Executive</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm badge-secondary">Offline</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-12">
+                <div class="card mb-4">
                     <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
+                        <h4 class="mb-1">Lịch phân công</h6>
                     </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-mobile-button text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                        <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
-                                                sold</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-tag text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                        <span class="text-xs">123 closed, <span class="font-weight-bold">15
-                                                open</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-box-2 text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                        <span class="text-xs">1 is active, <span class="font-weight-bold">40
-                                                closed</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-satisfied text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Happy users</h6>
-                                        <span class="text-xs font-weight-bold">+ 430</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card mb-4">
-                        <div class="card-header pb-0 p-3">
-                            <h4 class="mb-1">Lịch phân công</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-12 col-md-12 col-xl-12 mt-md-0 mt-4">
-                                <div id='calendar'></div>
-                            </div>
+                    <div class="card-body">
+                        <div class="col-12 col-md-12 col-xl-12 mt-md-0 mt-4">
+                            <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('management.assignment.modal_detail')
+    </div>
+    @include('management.assignment.modal_detail')
 @endsection
 @push('js')
     <script src="{{ asset('asset/admin') }}/js/plugins/countup.min.js"></script>
@@ -392,12 +389,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         if (document.getElementById('state1')) {
-        const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
+            const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
         }
     </script>
 
@@ -406,7 +403,9 @@
             $.ajax({
                 url: '{{ route('assignment.render_calender') }}',
                 type: 'POST',
-                data: { staff_uuid: '{{ Auth::user()->user->uuid ?? null }}'  },
+                data: {
+                    staff_uuid: '{{ Auth::user()->user->uuid ?? null }}'
+                },
                 success: function(data) {
                     var result = data.arr;
                     var calendarEl = document.getElementById('calendar');
@@ -415,28 +414,46 @@
                             scheduleDetails: {
                                 text: 'Lịch phân công',
                                 click: function() {
-                                //var jsonData = JSON.stringify(data);//chuyển data thành json
+                                    //var jsonData = JSON.stringify(data);//chuyển data thành json
                                     $.ajax({
                                         url: '{{ route('assignment.detail') }}',
                                         type: 'GET',
-                                        data: { staff_uuid: '{{ Auth::user()->user->uuid ?? null }}'  },
+                                        data: {
+                                            staff_uuid: '{{ Auth::user()->user->uuid ?? null }}'
+                                        },
                                         success: function(response) {
-                                            myModal = new bootstrap.Modal(document.getElementById('modal-detail-assignment'));
+                                            myModal = new bootstrap.Modal(document
+                                                .getElementById(
+                                                    'modal-detail-assignment'));
 
                                             myModal.show();
                                             console.log(response);
-                                            var title = 'Lịch phân công của: ' + response.date['user_name'] + ' ' + response.date['date_start'] + '-'  + response.date['date_end'];
-                                            var arrExists = response.hasOwnProperty('arr') && Object.keys(response.arr).length > 0;
-                                            var arrShiftExists = response.hasOwnProperty('arr_shift') && Object.keys(response.arr_shift).length > 0;
+                                            var title = 'Lịch phân công của: ' +
+                                                response.date['user_name'] + ' ' +
+                                                response.date['date_start'] + '-' +
+                                                response.date['date_end'];
+                                            var arrExists = response.hasOwnProperty(
+                                                    'arr') && Object.keys(response.arr)
+                                                .length > 0;
+                                            var arrShiftExists = response
+                                                .hasOwnProperty('arr_shift') && Object
+                                                .keys(response.arr_shift).length > 0;
                                             //console.log(arrExists);
                                             if (arrExists && arrShiftExists) {
-                                                $('#title_assignment_detail').text(title);
+                                                $('#title_assignment_detail').text(
+                                                    title);
 
-                                                renderData(response); // Gọi hàm để render dữ liệu
+                                                renderData(
+                                                response); // Gọi hàm để render dữ liệu
                                             } else {
-                                                $('#title_assignment_detail').text(title);
-                                                $('#assignment-detail-table tbody').empty(); // Xóa dữ liệu cũ trong bảng
-                                                $('#assignment-detail-table tbody').append('<tr><td colspan="5" class="text-center">Không tìm thấy dữ liệu</td></tr>'); // Thêm thông báo không tìm thấy dữ liệu vào bảng
+                                                $('#title_assignment_detail').text(
+                                                    title);
+                                                $('#assignment-detail-table tbody')
+                                                    .empty(); // Xóa dữ liệu cũ trong bảng
+                                                $('#assignment-detail-table tbody')
+                                                    .append(
+                                                        '<tr><td colspan="5" class="text-center">Không tìm thấy dữ liệu</td></tr>'
+                                                        ); // Thêm thông báo không tìm thấy dữ liệu vào bảng
                                             }
                                         },
                                     });
@@ -457,8 +474,8 @@
                         weekNumbers: true,
                         dayMaxEvents: true,
                     });
-                    $.each(result, function (indexInArray, sub_arr) {
-                        $.each(sub_arr, function (index,eventData) {
+                    $.each(result, function(indexInArray, sub_arr) {
+                        $.each(sub_arr, function(index, eventData) {
                             // Lấy thông tin từ dữ liệu trả về
                             var room_id = eventData.room_id;
                             var room_name = eventData.room_name;
@@ -490,7 +507,8 @@
                                 }
                                 // Thêm sự kiện vào lịch
                                 calendar.addEvent({
-                                    title: eventData.shift_name + ' phòng: ' + eventData.room_name,
+                                    title: eventData.shift_name + ' phòng: ' + eventData
+                                        .room_name,
                                     start: startDateTime.format(),
                                     end: endDateTime.format(),
                                     extendedProps: eventData
@@ -512,7 +530,7 @@
                                     // Tạo sự kiện
                                     createEvent(startHour, startMinute, endHour, endMinute);
                                 }
-                                currentDate.add(1, 'days');// Chuyển sang ngày tiếp theo
+                                currentDate.add(1, 'days'); // Chuyển sang ngày tiếp theo
                             }
 
                         });
@@ -522,39 +540,40 @@
                 }
             });
         }
-        setTimeout(function(){
+        setTimeout(function() {
             getEvent();
         }, 150);
+
         function renderData(data) {
-        // Xóa dữ liệu cũ trong bảng
-        $('#assignment-detail-table tbody').empty();
-        $('#assignment-detail-table thead').empty();
-        // Thêm dữ liệu mới vào bảng
-        var headerRow = $('<tr>').append($('<th>').text('Ca/Thứ')); // Thêm cột cho shift
-        $.each(data.arr_day, function(index, item) {
+            // Xóa dữ liệu cũ trong bảng
+            $('#assignment-detail-table tbody').empty();
+            $('#assignment-detail-table thead').empty();
+            // Thêm dữ liệu mới vào bảng
+            var headerRow = $('<tr>').append($('<th>').text('Ca/Thứ')); // Thêm cột cho shift
+            $.each(data.arr_day, function(index, item) {
 
-            headerRow.append($('<th>').text(item.name));
-        });
-        $('#assignment-detail-table thead').append(headerRow);
-        $.each(data.arr_shift, function(index, shift) {
-            var row = $('<tr>').append($('<td>').text(shift.name)); // Thêm cột cho tên ca làm việc
-
-            // Kiểm tra nếu có dữ liệu phòng cho ca và ngày làm việc
-            var hasRoomData = false;
-            $.each(data.arr_day, function(index_day, day) {
-                if (data.arr[index] && data.arr[index][day.name]) {
-                    //hasRoomData = true;
-                    row.append($('<td>').text(data.arr[index][day.name].room));
-                } else {
-                    row.append($('<td>').text('')); // Thêm ô trống
-                }
+                headerRow.append($('<th>').text(item.name));
             });
+            $('#assignment-detail-table thead').append(headerRow);
+            $.each(data.arr_shift, function(index, shift) {
+                var row = $('<tr>').append($('<td>').text(shift.name)); // Thêm cột cho tên ca làm việc
 
-            // Nếu không có dữ liệu phòng cho bất kỳ ca nào, không thêm hàng vào bảng
-            //if (hasRoomData) {
+                // Kiểm tra nếu có dữ liệu phòng cho ca và ngày làm việc
+                var hasRoomData = false;
+                $.each(data.arr_day, function(index_day, day) {
+                    if (data.arr[index] && data.arr[index][day.name]) {
+                        //hasRoomData = true;
+                        row.append($('<td>').text(data.arr[index][day.name].room));
+                    } else {
+                        row.append($('<td>').text('')); // Thêm ô trống
+                    }
+                });
+
+                // Nếu không có dữ liệu phòng cho bất kỳ ca nào, không thêm hàng vào bảng
+                //if (hasRoomData) {
                 $('#assignment-detail-table tbody').append(row);
-            //}
-        });
-    }
+                //}
+            });
+        }
     </script>
 @endpush

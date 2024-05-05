@@ -30,7 +30,7 @@
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
                                                 <a href="{{ route('service.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
-                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Import</button>&nbsp;
+                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Thêm file excel</button>&nbsp;
                                                 <div class="modal fade" id="import" tabindex="-1" style="display: none;"aria-hidden="true">
                                                     <div class="modal-dialog mt-lg-10">
                                                         <div class="modal-content">
@@ -49,8 +49,8 @@
                                                                     <input type="file" placeholder="Browse file..."class="form-control mb-3"  accept=".xlsx" name="file">
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button"class="btn bg-gradient-secondary btn-sm"data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"class="btn bg-gradient-primary btn-sm" name="import_excel">Upload</button>
+                                                                    <button type="button"class="btn bg-gradient-secondary btn-sm"data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="submit"class="btn bg-gradient-primary btn-sm" name="import_excel">Thêm</button>
                                                                 </div>
                                                             </form>
 
@@ -61,7 +61,7 @@
                                                     <form action="{{route('user.export')}}" method="POST"  class="ms-auto my-auto" >
                                                         @csrf
                                                         @method('POST')
-                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Export</button>
+                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Xuất file excel</button>
                                                     </form>
 
 
@@ -73,12 +73,12 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Thumbnail</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#444</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ảnh</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gía</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kích hoạt</th>
                                                 </tr>
                                             </thead>
                                         </table>

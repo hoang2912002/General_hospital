@@ -18,7 +18,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewAny',DepartmentModel::class);
         $name_page = [
-            'name' => 'Bảng quản lý Khoa',
+            'name' => 'Danh sách',
             'total' => 'Khoa',
             'route' => 'department.index'
         ];
@@ -59,7 +59,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('create',DepartmentModel::class);
         $name_page = [
-            'name' => 'Thêm khoa',
+            'name' => 'Thêm',
             'total' => 'Khoa',
             'route' => 'department.index'
         ];
@@ -97,7 +97,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('update',$departmentModel);
         $name_page = [
-            'name' => 'Cập nhật khoa',
+            'name' => 'Cập nhật',
             'total' => 'Khoa',
             'route' => 'department.index'
         ];

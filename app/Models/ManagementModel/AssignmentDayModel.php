@@ -36,6 +36,9 @@ class AssignmentDayModel extends Model
             case 'thu_7':
                 return 6;
                 break;
+            case 'chu_nhat':
+                return 0;
+                break;
             default:
                 return 0;
                 break;

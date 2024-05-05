@@ -45,7 +45,7 @@
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nhà sản xuất</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kích hoạt</th>
                                                 </tr>
                                             </thead>
                                         </table>

@@ -18,8 +18,8 @@ class ShiftController extends Controller
     {
         $this->authorize('viewAny',ShiftModel::class);
         $name_page = [
-            'name' => 'Shift Index',
-            'total' => 'Shift',
+            'name' => 'Danh sách',
+            'total' => 'Ca',
             'route' => 'shift.index'
         ];
 
@@ -60,8 +60,8 @@ class ShiftController extends Controller
     {
         $this->authorize('create',ShiftModel::class);
         $name_page = [
-            'name' => 'Shift Create',
-            'total' => 'Shift',
+            'name' => 'Thêm',
+            'total' => 'Ca',
             'route' => 'shift.index'
         ];
         return view('management.shift.create',compact('name_page'));
@@ -98,8 +98,8 @@ class ShiftController extends Controller
         $this->authorize('update',$shiftModel);
 
         $name_page = [
-            'name' => 'Shift Update',
-            'total' => 'Shift',
+            'name' => 'Cập nhật',
+            'total' => 'Ca',
             'route' => 'shift.index'
         ];
         return view('management.shift.update',compact('shiftModel','name_page'));

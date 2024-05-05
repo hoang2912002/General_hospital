@@ -20,8 +20,8 @@ class GroupController extends Controller
     {
         $this->authorize('viewAny',GroupModel::class);
         $name_page = [
-            'name' => 'Group Index',
-            'total' => 'Group',
+            'name' => 'Danh mục',
+            'total' => 'Nhóm',
             'route' => 'group.index'
         ];
 
@@ -62,8 +62,8 @@ class GroupController extends Controller
     {
         $this->authorize('create', GroupModel::class);
         $name_page = [
-            'name' => 'Group Create',
-            'total' => 'Group',
+            'name' => 'Thêm',
+            'total' => 'Nhóm',
             'route' => 'group.index'
         ];
         return view('management.group.create',compact('name_page'));
@@ -100,8 +100,8 @@ class GroupController extends Controller
     {
         $this->authorize('update', $groupModel);
         $name_page = [
-            'name' => 'Group Edit',
-            'total' => 'Group',
+            'name' => 'Cập nhật',
+            'total' => 'Nhóm',
             'route' => 'group.index'
         ];
         return view('management.group.update',compact('name_page','groupModel'));

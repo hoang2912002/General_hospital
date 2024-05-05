@@ -19,8 +19,8 @@ class ServiceController extends Controller
     {
         $this->authorize('viewAny',ServiceModel::class);
         $name_page = [
-            'name' => 'Service Index',
-            'total' => 'Service',
+            'name' => 'Danh sách',
+            'total' => 'Dịch vụ',
             'route' => 'service.index'
         ];
 
@@ -68,8 +68,8 @@ class ServiceController extends Controller
     {
         $this->authorize('create',ServiceModel::class);
         $name_page = [
-            'name' => 'Service Create',
-            'total' => 'Service',
+            'name' => 'Thêm',
+            'total' => 'Dịch vụ',
             'route' => 'service.index'
         ];
         $room = RoomModel::get();
@@ -189,8 +189,8 @@ class ServiceController extends Controller
     {
         $this->authorize('update',$serviceModel);
         $name_page = [
-            'name' => 'Service Update',
-            'total' => 'Service',
+            'name' => 'Cập nhật',
+            'total' => 'Dịch vụ',
             'route' => 'service.index'
         ];
 

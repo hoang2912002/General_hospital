@@ -13,7 +13,7 @@
                     <a href="{{ route('prescription.print_prescription', ['userModel' => $userModel->uuid, 'medical_recordModel' => $medical_recordModel->id]) }}" class="btn btn-outline-secondary mb-3 button_index"><i class="fa ni fa-solid fa-print "></i>In</a>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-gradient-info mb-3 button_index" >Ẩn tiêu đề</button>
+                    <a href="{{ route('prescription.update_number_medical_record', ['numberModel' => $numberModel->id, 'userModel' => $userModel->uuid, 'medical_recordModel' => $medical_recordModel->id]) }}" class="btn btn-outline-gradient-info mb-3 button_index">Đã khám</a>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-danger mb-3 button_index" data-bs-toggle="modal" data-bs-target="#modal-medical-record">Hồ sơ bệnh án</button>
@@ -27,6 +27,7 @@
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-primary  mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-index"><i class="fa ni fa-solid fa-capsules text-sm"></i> Thuốc</button>
                 </li>
+
             </ul>
         </div>
     </div>
@@ -44,7 +45,7 @@
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto d-grid" style="justify-items: end;">
                         <h5>Bác sĩ: {{ Auth::user()->user->first_name . ' ' . Auth::user()->user->last_name }}</h5>
-                        <p class="mb-0">Khoa:fsdfsdf</p>
+                        <p class="mb-0">Khoa: </p>
                         <p class="mb-0">Số điện thoại: {{ Auth::user()->phone_number  }}</p>
                         <p class="mb-0">Thứ 2 đến Thứ 7</p>
 
@@ -89,7 +90,7 @@
                         @if (!empty($medical_recordModel->re_exam_date))
                             <h6>Dặn dò:</h6>
                             <p>{{ $medical_recordModel->note }}&nbsp;
-                                <a class=" trigger-modal" href="#" data-bs-toggle="modal" data-bs-target="#update_disease">
+                                <a class=" trigger-modal" href="#" data-bs-toggle="modal" data-bs-target="#update_note">
                                     <i class="fas fa-solid fa-pen"></i>
                                 </a>
                                 <a href="{{route('medical_record.delete_disease',$medical_recordModel->id)}}" class="" ><i class="fas fa-trash"></i></a>
@@ -146,6 +147,8 @@
 @include('management.prescription.service_result')
 <!-- Modal update reason -->
 @include('management.prescription.update_reason')
+<!-- Modal update note -->
+@include('management.prescription.update_note')
 <!-- Modal medical record -->
 @include('management.prescription.modal_medical_record')
 <!-- Modal re_exam_date -->

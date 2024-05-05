@@ -17,7 +17,9 @@ class NumberModel extends Model
     public function room(){
         return $this->hasOne(RoomModel::class,'id','room_id');
     }
-
+    public function number_medical_record(){
+        return $this->hasOne(Number_medicalRecordModel::class,'number_id','id');
+    }
     public function date_time(){
 
         $created_at = Carbon::parse($this->created_at)->timezone('Asia/Ho_Chi_Minh');
@@ -38,7 +40,7 @@ class NumberModel extends Model
                 return '<span class="badge bg-gradient-primary">Đang khám</span>';
                 break;
             case 3:
-                return '<span class="badge bg-gradient-success">Đã khám</span>';
+                return '<span class="badge bg-gradient-warning">Đã khám</span>';
                 break;
             default:
                 return '<span class="badge bg-gradient-info">Đang chờ</span>';

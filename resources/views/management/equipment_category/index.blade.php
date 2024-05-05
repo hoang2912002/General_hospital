@@ -31,7 +31,7 @@
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
                                                 <a href="{{ route('equipment_category.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
-                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Import</button>&nbsp;
+                                                <button type="button" class="btn btn-outline-primary btn-sm mb-0"data-bs-toggle="modal" data-bs-target="#import">Thêm file excel</button>&nbsp;
                                                 <div class="modal fade" id="import" tabindex="-1" style="display: none;"aria-hidden="true">
                                                     <div class="modal-dialog mt-lg-10">
                                                         <div class="modal-content">
@@ -62,7 +62,7 @@
                                                     <form action="{{route('user.export')}}" method="POST"  class="ms-auto my-auto" >
                                                         @csrf
                                                         @method('POST')
-                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Export</button>
+                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Xuất file excel</button>
                                                     </form>
 
 

@@ -9,6 +9,7 @@ use App\Models\ManagementModel\AssignmentDayModel;
 use App\Models\ManagementModel\AssignmentModel;
 use App\Models\ManagementModel\AssignmentRoomModel;
 use App\Models\ManagementModel\AssignmentShiftModel;
+use App\Models\ManagementModel\ShiftModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +26,8 @@ class AssignmentController extends Controller
     public function index(Request $request)
     {
         $name_page = [
-            'name' => 'Danh sách lịch phân công',
-            'total' => 'Lịch',
+            'name' => 'Danh sách',
+            'total' => 'Lịch phân công',
             'route' => 'assignment.index'
         ];
         if($request->ajax()){
@@ -139,7 +140,9 @@ class AssignmentController extends Controller
             }
             $assignment_shift = AssignmentShiftModel::where('assignment_id',$request->assignment ?? $assignment->id )->get();
             $assignment_day = AssignmentDayModel::where('assignment_id',$request->assignment ?? $assignment->id)->get();
-
+            $shift = ShiftModel::get()->toArray();
+            $array_shift =  array_column($shift, null,'id');
+            //dd($array_id_prescription_details);
                 $arr = [];
                 foreach($assignment_day as $day){
                     foreach($assignment_shift as $shift){
@@ -160,12 +163,14 @@ class AssignmentController extends Controller
                         'name' => $day->day($day->day_id),
                     ];
                 }
+
+                //dd($arr_shift);
                 $assignment['date_start'] = $assignment->date($assignment['date_start']);
                 $assignment['date_end'] = $assignment->date($assignment['date_end']);
                 $assignment['user_name'] = $assignment->staff->first_name . ' '  . $assignment->staff->last_name;
                 //dd($assignment);
                 //dd($assignment);
-                return response()->json(['arr'=> $arr,'date' => $assignment,'arr_shift'=>$arr_shift,'arr_day'=>$arr_day]);
+                return response()->json(['arr'=> $arr,'date' => $assignment,'arr_shift'=>$array_shift,'arr_day'=>$arr_day]);
                 //dd($arr);
 
         } catch (\Throwable $th) {

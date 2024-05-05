@@ -18,8 +18,8 @@ class ManufacturerController extends Controller
     {
         $this->authorize('viewAny',ManufacturerModel::class);
         $name_page = [
-            'name' => 'Manufacturer Index',
-            'total' => 'Manufacturer',
+            'name' => 'Danh mục',
+            'total' => 'Nhà sản xuất',
             'route' => 'manufacturer.index'
         ];
 
@@ -68,8 +68,8 @@ class ManufacturerController extends Controller
     {
         $this->authorize('create', ManufacturerModel::class);
         $name_page = [
-            'name' => 'Manufacturer Create',
-            'total' => 'Manufacturer',
+            'name' => 'Thêm',
+            'total' => 'Nhà sản xuất',
             'route' => 'manufacturer.index'
         ];
         return view('management.manufacturer.create',compact('name_page'));
@@ -108,7 +108,7 @@ class ManufacturerController extends Controller
     {
         $this->authorize('update', $manufacturerModel);
         $name_page = [
-            'name' => 'Cập nhập nhà sản xuất',
+            'name' => 'Cập nhập',
             'total' => 'Nhà sản xuất',
             'route' => 'manufacturer.index'
         ];

@@ -16,6 +16,9 @@ class AssignmentShiftModel extends Model
     public function assignment_room(){
         return $this->hasMany(AssignmentRoomModel::class,'assignment_shift_id','id');
     }
+    public function shift_tbl(){
+        return $this->hasOne(ShiftModel::class,'id','shift_id');
+    }
 
     public function shift_name(){
         return $this->hasOne(ShiftModel::class,'id','shift_id');

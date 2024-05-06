@@ -28,7 +28,9 @@ class ServiceModel extends Model
     public function room(){
         return $this->hasOne(RoomModel::class,'id','room_id');
     }
-
+    public function test_requisition(){
+        return $this->hasMany(TestRequisitionModel::class,'service_id','id');
+    }
     public function price()
     {
         $price = number_format($this->price,'0',".",".") . ' VNĐ';

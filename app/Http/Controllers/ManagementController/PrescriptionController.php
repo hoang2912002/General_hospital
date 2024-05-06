@@ -46,7 +46,7 @@ class PrescriptionController extends Controller
                 ['number_id',$numberModel->id],
                 ['patient_uuid',$userModel->uuid]
             ])->first();
-                dd(1);
+                //dd(1);
             if(!empty($number_medical_record_model)){
                 $update_number_medicalRecord = $number_medical_record_model->update([
                     'medical_record_id' => $medical_recordModel->id

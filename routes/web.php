@@ -20,6 +20,7 @@ use App\Http\Controllers\ManagementController\PrescriptionDetailController;
 use App\Http\Controllers\ManagementController\RoleController;
 use App\Http\Controllers\ManagementController\RoomController;
 use App\Http\Controllers\ManagementController\ServiceController;
+use App\Http\Controllers\ManagementController\ServiceResultController;
 use App\Http\Controllers\ManagementController\ShiftController;
 use App\Http\Controllers\ManagementController\test_requisitionController;
 use App\Http\Controllers\ManagementController\TestRequisitionController;
@@ -29,6 +30,7 @@ use App\Models\ManagementModel\AssignmentModel;
 use App\Models\ManagementModel\ManufacturerModel;
 use App\Models\ManagementModel\MedicineModel;
 use App\Models\ManagementModel\MedicineTypeModel;
+use App\Models\ManagementModel\ServiceResultModel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -289,6 +291,16 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('{numberModel}/list', 'patient_list')->name('patient_list');
         Route::get('/{numberModel}/{userModel}', 'patient_medical_record')->name('patient_medical_record');
         Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{userModel}', 'edit')->name('edit');
+        Route::patch('update/{userModel}', 'update')->name('update');
+        Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
+    });
+    Route::group(['controller' => ServiceResultController::class, 'prefix' => 'service_result', 'as' => 'service_result.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('{numberModel}/list', 'patient_list')->name('patient_list');
+        Route::get('/{numberModel}/{userModel}', 'patient_medical_record')->name('patient_medical_record');
+        Route::get('/{medical_record_id}/{service_id}/{day_id}/{shift_id}/create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{userModel}', 'edit')->name('edit');
         Route::patch('update/{userModel}', 'update')->name('update');

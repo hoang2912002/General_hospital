@@ -253,6 +253,12 @@
                                     <span class="sidenav-normal"> Dịch vụ </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('service_result.index') }}">
+                                    <span class="sidenav-mini-icon"> D </span>
+                                    <span class="sidenav-normal"> Kết quả dịch vụ </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

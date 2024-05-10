@@ -22,7 +22,7 @@
                     <button type="button" class="btn btn-outline-warning mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-re-exam-date">Tái khám</button>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-service-result">Kết quả xét nghiệm</button></button>
+                    <button type="button" class="btn btn-outline-success mb-3 button_index " data-bs-toggle="modal" data-medical-record-id="{{ $medical_recordModel->id }}" data-bs-target="#modal-service-result">Kết quả xét nghiệm</button></button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-primary  mb-3 button_index " data-bs-toggle="modal" data-bs-target="#modal-index"><i class="fa ni fa-solid fa-capsules text-sm"></i> Thuốc</button>
@@ -397,6 +397,67 @@
                     $('.pagination').append(button);
                 });
                 $('.pagination').append(nextButton);
+            }
+            //Mở modal kết quả xét nghiệm
+            $('#modal-service-result').on('show.bs.modal', function (event) {
+                // Gửi yêu cầu Ajax để lấy toàn bộ dữ liệu
+                $.ajax({
+                    url: '{!! route('prescription.service_result',$medical_recordModel->id) !!}', // Thay thế bằng route tương ứng trong Laravel của bạn
+                    type: 'GET',
+
+                    success: function(response) {
+
+                        if (response.length > 0) {
+                            originalData = response;
+                            render_Service_result_Data(originalData); // Gọi hàm để render dữ liệu
+                        } else {
+                            $('#service_result-table tbody').empty(); // Xóa dữ liệu cũ trong bảng
+                            $('#service_result-table tbody').append('<tr><td colspan="5" class="text-center">Không tìm thấy dữ liệu</td></tr>'); // Thêm thông báo không tìm thấy dữ liệu vào bảng
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+             //Render data modal kết quả xét nghiệm
+             function render_Service_result_Data(data) {
+                // Xóa dữ liệu cũ trong bảng
+                $('#service_result-table tbody').empty();
+
+                // Thêm dữ liệu mới vào bảng
+                $.each(data, function(index, item) {
+                    var formattedPrice = formatCurrency(item.price);
+                    var imagePath = "{{ asset('') }}" + item.result_file_path;
+
+                    var row = $('<tr>').append(
+                        $('<td>').append(
+                            $('<div>').addClass('d-flex px-2 py-1').append(
+                                $('<div>').append(
+                                    $('<a>').attr('href', imagePath).attr('target', '_blank').append(
+                                        $('<img>').attr('src', imagePath).addClass('avatar avatar-md me-3').attr('alt', 'table image')
+                                    )
+                                ),
+                                $('<div>').addClass('d-flex flex-column justify-content-center').append(
+                                    $('<h6>').addClass('mb-0 text-sm').text(item.service_name)
+                                )
+                            )
+                        ),
+                        $('<td>').append(
+                            $('<h6>').addClass('text-sm text-secondary mb-0 text-danger').text(formattedPrice)
+                        ),
+
+                        // $('<td>').addClass('align-middle text-sm').append(
+                        //     $('<div>').addClass('progress mx-auto').append(
+                        //         $('<div>').addClass('progress-bar bg-gradient-success').attr('role', 'progressbar').css('width', '80%').attr('aria-valuenow', '80').attr('aria-valuemin', '0').attr('aria-valuemax', '100')
+                        //     )
+                        // ),
+                        $('<td>').addClass('align-middle text-sm').append(
+                            $('<span>').addClass('text-secondary text-sm').html(item.note)
+                        )
+                    );
+                    $('#service_result-table tbody').append(row);
+                });
             }
 
             $('#create_note').on('click',function(){

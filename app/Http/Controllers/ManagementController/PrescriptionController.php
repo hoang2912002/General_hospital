@@ -201,7 +201,22 @@ class PrescriptionController extends Controller
         }
         return response()->json($medicine);
     }
+    public function service_result(MedicalRecordModel $medical_recordModel){
+        if(!empty($medical_recordModel)){
+            //dd($medical_recordModel->service_result);
+            $service_result =$medical_recordModel->service_result;
+            foreach($service_result as $index => $service){
+                $service_result[$index]['service_name'] = $service->service->name;
 
+            }
+            //dd($service_result);
+        }
+        else{
+            $service_result = null;
+
+        }
+        return response()->json($service_result);
+    }
     public function category_select_medicine(Request $request){
         $prescription_details = PrescriptionDetailModel::where('prescription_id',$request->prescription)->get()->toArray();
         $array_id_prescription_details =  array_column($prescription_details, 'medicine_id');

@@ -36,5 +36,10 @@ class ServiceModel extends Model
         $price = number_format($this->price,'0',".",".") . ' VNĐ';
         return '<span class="text-danger font-size-15 font-weight-bold">' . $price . '</span>';
     }
+    public function price_format()
+    {
+        $price = number_format($this->price,'0',".",".") . ' VNĐ';
+        return  $price ;
+    }
 
 }

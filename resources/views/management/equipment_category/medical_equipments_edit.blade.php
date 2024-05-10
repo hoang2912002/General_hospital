@@ -267,7 +267,6 @@
                                                     title="create">Create</button>
                                             </div>
                                         @endif
-
                                     </div>
                                 </div>
                             </div>

@@ -51,6 +51,7 @@
                                                 </tr>
                                             </thead>
                                         </table>
+
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
@@ -90,6 +91,7 @@
         setTimeout(function(){
             renderTable("{!! route('service_result.index') !!}", columns);
         }, 500);
+        
     </script>
 
 @endpush

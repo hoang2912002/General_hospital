@@ -242,6 +242,7 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update_re_exam_date/{medical_recordModel}', 'update_re_exam_date')->name('update_re_exam_date');
         //Route::post('/{numberModel}/{userModel}/{medical_recordModel}/update_number_medical_record}', 'update_number_medical_record')->name('update_number_medical_record');
         Route::get('/{numberModel}/{userModel}/{medical_recordModel}/update_number_medical_record', 'update_number_medical_record')->name('update_number_medical_record');
+        Route::get('/{medical_recordModel}/service_result', 'service_result')->name('service_result');
 
     });
     //
@@ -296,6 +297,7 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{userModel}', 'update')->name('update');
         Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
     });
+    //Service_result
     Route::group(['controller' => ServiceResultController::class, 'prefix' => 'service_result', 'as' => 'service_result.'],function(){
         Route::get('/', 'index')->name('index');
         Route::get('{numberModel}/list', 'patient_list')->name('patient_list');
@@ -305,6 +307,10 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{userModel}', 'edit')->name('edit');
         Route::patch('update/{userModel}', 'update')->name('update');
         Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
+        Route::post('save_image', 'save_image')->name('save_image');
+        Route::get('readFiles/{userModel}', 'readFiles')->name('readFiles');
+        Route::post('delete_image/{userModel}', 'delete_image')->name('delete_image');
+        Route::post('delete_imageCreate', 'delete_imageCreate')->name('delete_imageCreate');
     });
     //Bill
     Route::group(['controller' => BillController::class, 'prefix' => 'bill', 'as' => 'bill.'],function(){

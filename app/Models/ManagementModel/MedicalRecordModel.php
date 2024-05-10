@@ -32,7 +32,9 @@ class MedicalRecordModel extends Model
     public function appointment(){
         return ($this->appointment_id == NULL) ? 'Không' : 'Có';
     }
-
+    public function service_result(){
+        return $this->hasMany(ServiceResultModel::class,'medical_record_id','id');
+    }
     public function shift(){
         switch ($this->shift_id) {
             case 1:

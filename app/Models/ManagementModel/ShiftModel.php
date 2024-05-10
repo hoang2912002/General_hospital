@@ -40,7 +40,7 @@ class ShiftModel extends Model
             case 7:
                 return '10 giờ 30 phút';
                 break;
-
+                
             default:
                 return '11 giờ 00';
                 break;

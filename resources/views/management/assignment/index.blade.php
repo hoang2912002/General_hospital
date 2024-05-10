@@ -10,9 +10,16 @@
             padding: 10px;
         }
         .table td {vertical-align: 50% }
-        @media (min-width: 200px) {
+        @media screen and (max-width: 2576px) {
             #modal-detail-assignment .modal-dialog {
                 max-width: 56.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+        }
+        @media screen and (max-width: 1728px) {
+            #modal-detail-assignment .modal-dialog {
+                max-width: 70.66667%;
+                margin-left: 350px;
                 /* 66.66667% of the viewport width for col-8 */
             }
         }

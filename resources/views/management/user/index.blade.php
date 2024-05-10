@@ -93,9 +93,6 @@
                                                         Giới tính</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                        Ngày sinh</th>
-                                                    <th
-                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Email</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -140,10 +137,6 @@
             {
                 data: 'gender',
                 name: 'gender'
-            },
-            {
-                data: 'dob',
-                name: 'dob'
             },
             {
                 data: 'email',

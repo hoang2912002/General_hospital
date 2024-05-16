@@ -37,7 +37,8 @@
 
     <script>
         let totalprice = true;
-        function renderTable(url, columns, totalprice) {
+        let order = undefined;
+        function renderTable(url, columns, totalprice, order_table =  (order !== undefined) ? order : 0) {
             $('#dataTable').DataTable({
                 deferRender: true,
                 "paging": true,
@@ -54,9 +55,9 @@
 
                 ajax: url,
                 columns: columns,
-                // "order": [
-                //     [1, 'desc']
-                // ],
+                "order": [
+                    [order_table, 'asc']
+                ],
                 // "columnDefs": [
                 //     {"className": "dt-center", "targets": "_all"}
                 // ],

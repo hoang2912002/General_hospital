@@ -18,66 +18,64 @@ class BillController extends Controller
     {
         //$this->authorize('viewAny',UserModel::class);
         $name_page = [
-            'name' => 'User Index',
-            'total' => 'User',
-            'route' => 'user.index'
+            'name' => 'Danh sách',
+            'total' => 'Hóa đơn',
+            'route' => 'bill.index'
         ];
-
         if($request->ajax()){
+            $bills = BillModel::where('status', 1)->get();
+            return DataTables::of($bills)
+            ->editColumn('id', function ($bill) {
+                return $bill->id;
+            })
+            ->editColumn('full_name', function ($bill) {
 
-            // $numbers = NumberModel::where([
-            //     ['status',3],
-            // ])->get();
-            $numbers = NumberModel::where('status', 3)
-            ->with('number_medical_record') // Sử dụng eager loading để tải các bản ghi từ Number_medicalRecordModel liên quan
-            ->get();
-            // foreach($numbers as $number){
-            //     $arr[] = Number_medicalRecordModel::where([
-            //         ['number_id',$number->id],
-            //     ])->get()->all();
-            // }
-            return DataTables::of($numbers)
-            ->editColumn('uuid', function ($user) {
-                return $user->uuid;
+                return $bill->user->name();
             })
-            ->editColumn('first_name', function ($user) {
+            ->editColumn('dob', function ($bill) {
 
-                return $user->first_name;
+                return $bill->user->dob();
             })
-            ->editColumn('last_name', function ($user) {
+            ->editColumn('phone_number', function ($bill) {
 
-                return $user->last_name;
+                return $bill->user->login->phone_number;
             })
-            ->editColumn('gender', function ($user) {
-                return $user->gender();
+            ->editColumn('total_price', function ($bill) {
+                return $bill->total_price();
             })
-            ->editColumn('dob', function ($user) {
-                return $user->dob   ();
+            ->editColumn('status', function ($bill) {
+                return $bill->status();
             })
-            ->editColumn('email', function ($user) {
-                return $user->login->email;
-            })
-            ->editColumn('phone_number', function ($user) {
-                return $user->login->phone_number;
-            })
-            ->addColumn('action', function ($user) {
-                $routeDestroy = "'" . route('user.destroy',$user->uuid) . "'";
-                $route_edit =  '<a href="'. route('user.edit', $user->uuid) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                $route_detail =  '<a href="'. route('user.detail', $user->uuid) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
+            ->addColumn('action', function ($bill) {
+                //$routeDestroy = "'" . route('bill.destroy',$bill->uuid) . "'";
+                $route_edit =  '<a href="'. route('bill.edit', $bill->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                $route_detail =  '<a href="'. route('bill.detail', $bill->id) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
 
-                $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_detail . '&nbsp'  . $route_delete;
+                //$route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
+                return $route_edit . '&nbsp' . $route_detail;
             })
 
-            ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])
+            ->rawColumns(['id','full_name','dob','phone_number','total_price','status','action'])
             ->make();
         }
-        return view('management.user.index',compact('name_page'));
+        return view('management.bill.index',compact('name_page'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
+
+    public function detail(BillModel $billModel){
+        $name_page = [
+            'name' => 'Chi tiết',
+            'total' => 'Hóa đơn',
+            'route' => 'bill.index'
+        ];
+        //dd($billModel->bill_service_result);
+        $isActiveTab1 = true;
+        return view('management.bill.detail',compact('name_page','billModel','isActiveTab1'));
+    }
+
     public function create()
     {
         //
@@ -113,6 +111,21 @@ class BillController extends Controller
     public function update(Request $request, BillModel $billModel)
     {
         //
+    }
+
+
+    public function update_status(Request $request, BillModel $billModel){
+        //dd($request);
+        try {
+            if(!empty($request->status)){
+                $status = $billModel->update(['status' => $request->status]);
+                if(!empty($status)){
+                    return redirect()->back()->with('success','Thanh toán thành công!');
+                }
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Thanh toán thất bại!');
+        }
     }
 
     /**

@@ -35,6 +35,9 @@ class MedicalRecordModel extends Model
     public function service_result(){
         return $this->hasMany(ServiceResultModel::class,'medical_record_id','id');
     }
+    public function prescription(){
+        return $this->hasOne(PrescriptionModel::class,'medical_record_id','id');
+    }
     public function shift(){
         switch ($this->shift_id) {
             case 1:

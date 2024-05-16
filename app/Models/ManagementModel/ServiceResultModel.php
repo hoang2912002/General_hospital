@@ -22,4 +22,5 @@ class ServiceResultModel extends Model
     public function service(){
         return $this->hasOne(ServiceModel::class,'id','service_id');
     }
+    
 }

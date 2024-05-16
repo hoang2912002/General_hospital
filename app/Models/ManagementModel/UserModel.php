@@ -80,7 +80,7 @@ class UserModel extends Model
                 return '<span class="badge badge-sm bg-gradient-info">Nữ</span>';
                 break;
             case '1':
-                return '<span class="badge badge-sm bg-gradient-primary">Name</span>';
+                return '<span class="badge badge-sm bg-gradient-primary">Nam</span>';
                 break;
             default:
                 break;

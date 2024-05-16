@@ -49,6 +49,10 @@
                 max-width: 66.66667%;
                 /* 66.66667% of the viewport width for col-8 */
             }
+            #create-waiting-patient .modal-dialog {
+                max-width: 66.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
             #modal-service-result .modal-dialog {
                 max-width: 66.66667%;
                 /* 66.66667% of the viewport width for col-8 */

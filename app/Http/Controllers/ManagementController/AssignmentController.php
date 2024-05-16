@@ -170,8 +170,8 @@ class AssignmentController extends Controller
                 $assignment['user_name'] = $assignment->staff->first_name . ' '  . $assignment->staff->last_name;
                 //dd($assignment);
                 //dd($assignment);
-                return response()->json(['arr'=> $arr,'date' => $assignment,'arr_shift'=>$array_shift,'arr_day'=>$arr_day]);
                 //dd($arr);
+                return response()->json(['arr'=> $arr,'date' => $assignment,'arr_shift'=>$array_shift,'arr_day'=>$arr_day]);
 
         } catch (\Throwable $th) {
             dd($th->getMessage());

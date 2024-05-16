@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="col-12 col-sm-6  mt-3 mt-sm-0">
                                                 <label>Ngày khám</label>
-                                                <input class="form-control" type="date" placeholder="" name="exam_date" value="{{ old('exam_date') ?? '' }}">
+                                                <input class="form-control" type="date" placeholder="" name="exam_date" value="{{ old('exam_date') ?? date('Y-m-d') }}">
                                                 @error('exam_date')
                                                     <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                         {{ $message }}
@@ -151,12 +151,9 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Ca khám</label>
-                                                <select class="form-control" name="shift_id" id="shift" >
-                                                    <option value="">Chọn ca khám ...</option>
-                                                    @foreach ($shift as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input class="multisteps-form__input form-control" type="hidden" placeholder="" name="shift_id" value="{{ old('shift_id') ?? $shift }}">
+                                                <input class="multisteps-form__input form-control" type="text" placeholder="" name="" value="{{ old('shift_id') ?? $shiftModel->name }}" readonly>
+                                                
                                                 @error('shift_id')
                                                     <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
                                                         {{ $message }}

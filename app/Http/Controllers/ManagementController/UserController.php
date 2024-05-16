@@ -245,8 +245,11 @@ class UserController extends Controller
                             //dd(2);
                             $staff = $userModel->staff()->update($staffInformation);
                         }
+                        // if(!empty($staff)){
+                        //     dd($staff);
+                        //     return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
+                        // }
 
-                        //return redirect()->route('user.index')->with('success' , 'Cập nhập thông tin ' . $group_name . ' ' . $request->first_name . ' ' . $request->last_name . ' thành công!');
                     }
                 }
             }

@@ -26,7 +26,7 @@ class ExcelImportAssignments implements ToModel,WithHeadingRow
     public function model(array $row)
     {
 
-
+        //dd($row);
         //dd($newArray['thu_2'],$row);
 
         //print_r($previousRowData);
@@ -99,8 +99,11 @@ class ExcelImportAssignments implements ToModel,WithHeadingRow
 
         $assignmentDayModel  = new AssignmentDayModel();
         foreach ($row as $key => $value) {
-            if (strpos($key, 'thu_') === 0) {
+            //dd(strpos('chu_nhat', 'chu_nhat') === 0,$value,$row,$key);
+            if (strpos($key, 'thu_') === 0 || strpos($key, 'chu_nhat') === 0) {
+                //kiểm tra xem chuỗi $key bắt đầu bằng 'thu_' hay không.
                 $day = $assignmentDayModel->day_check($key);
+
                 $assignment_day_id = $assignmentDayModel->where([
                     ['assignment_id',$assignment_id],
                     ['day_id',$day],

@@ -48,40 +48,6 @@
         }
     </style>
 @endpush
-{{-- @section('content')
-<div class="accordion-1">
-    <div class="container">
-      <div class="row my-5">
-        <div class="col-md-6 mx-auto text-center">
-          <h2>Frequently Asked Questions</h2>
-          <p>A lot of people don’t appreciate the moment until it’s passed. I'm not trying my hardest, and I'm not trying to do </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-10 mx-auto">
-          <div class="accordion" id="accordionRental">
-            <div class="accordion-item mb-3">
-              <h5 class="accordion-header" id="headingOne">
-                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  How do I order?
-                  <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                  <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                </button>
-              </h5>
-              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionRental" style="">
-                <div class="accordion-body text-sm opacity-8">
-                  We’re not always in the position that we want to be at. We’re constantly growing. We’re constantly making mistakes. We’re constantly trying to express ourselves and actualize our dreams. If you have the opportunity to play this game
-                  of life you need to appreciate every moment. A lot of people don’t appreciate the moment until it’s passed.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-@endsection --}}
 @section('content')
     <div class="row mb-12">
         <div class="col-12">
@@ -134,7 +100,21 @@
                                                         <div class="accordion-body text-sm opacity-8">
                                                             <div class="multisteps-form__content">
                                                                 <div class="row mt-3">
-                                                                    <div class="col-12 col-sm-12">
+                                                                    <div class="col-12 col-sm-6">
+                                                                        <label>Số series</label>
+                                                                        <input type="hidden" value="{{ $value->id }}" id="medical_equipment_id">
+                                                                        <input class="multisteps-form__input form-control"
+                                                                            type="text" placeholder="eg. Michael"
+                                                                            name="series" id="series"
+                                                                            value="{{ $value->series ?? old('series')  }}" readonly>
+                                                                        @error('series')
+                                                                            <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
+                                                                                role="alert">
+                                                                                {{ $message }}
+                                                                            </div>
+                                                                        @enderror
+                                                                    </div>
+                                                                    <div class="col-12 col-sm-6">
                                                                         <label>Tên thiết bị y tế</label>
                                                                         <input class="multisteps-form__input form-control"
                                                                             type="text" placeholder="eg. Michael"
@@ -249,7 +229,7 @@
                                             <div class="row mt-3">
                                                 <div class="col-sm-auto  d-flex">
                                                     <label class="form-check-label mb-0">
-                                                        <small id="profileVisibility">Activated</small>
+                                                        <small id="profileVisibility">Kích hoạt</small>
                                                     </label>
                                                     <div class="form-check form-switch ms-2">
                                                         <input class="form-check-input"
@@ -290,7 +270,7 @@
     </script>
     <script>
         Dropzone.autoDiscover = false;
-        var arr_image_medicine = [];
+        var arr_image_medicine = {};
         var uploadedDocumentMap = {};
         let token = $('meta[name="csrf-token"]').attr('content');
         $(".dropzone").each(function(){
@@ -378,7 +358,7 @@
                                     uploadedDocumentMap[value.name] = value.name;
                                     console.log('sdsd',value.name);
                                     //arr_image_medicine.push('img/general_hospital/management/medical_equipment/'+value.name);
-                                    arr_image_medicine[value.id] = 'img/general_hospital/management/medical_equipment/'+value.name;
+                                    arr_image_medicine= ['img/general_hospital/management/medical_equipment/'+value.name];
                                     console.log('test_Arr',arr_image_medicine);
                                     //arr_image_medicine.push(value.id);
                                 }
@@ -397,7 +377,8 @@
                     //console.log('dsds',response.status == 'success',response.medicine_image);
                     if (response.status == "success") {
                        //arr_image_medicine.push(response.medicine_image)
-                       arr_image_medicine[$('#' + dropzoneId).closest('.col-12').find('#id_medical_equipment').val()] = response.medicine_image;
+                       arr_image_medicine[$('#' + dropzoneId).closest('.col-12').find('#id_medical_equipment').val()] = response.image;
+                       arr_image_medicine = Object.values(arr_image_medicine)
                        console.log('trong dropzone',arr_image_medicine);
                     }
                 }
@@ -405,27 +386,18 @@
             //form submit
             var btn_sevice =  $('#medicine-button').on('click', function(e) {
                 //myDropzone.processQueue();
-                var name =$('#name').val();
-                var price =$('#price').val();
-                var quantity =$('#quantity').val();
-                var category =$('#choices-category').find(":selected").val();
-                var manufacturer =$('#choices-manufacturer').find(":selected").val();
-                var imp_date =$('#imp_date').val();
-                var exp_date =$('#exp_date').val();
-                var description = $('#edit-deschiption').find('.ql-editor').get(0).outerHTML;
-                var imagelength = Object.keys(uploadedDocumentMap).length;
-                console.log('fsdfsd',arr_image_medicine)
+
 
                 var arr =
                 {
-                    'name': name,
-                    'price': price,
-                    'quantity': quantity,
-                    'category_id': category,
-                    'manufacturer_id': manufacturer,
-                    'imp_date': imp_date,
-                    'exp_date': exp_date,
-                    'description':   description ,
+                    'name': $('#name').val(),
+                    'series': $('#series').val(),
+                    'quantity': $('#quantity').val(),
+                    'medical_equipment_id': $('#medical_equipment_id').val(),
+                    'status': $('#choices-medical_equipment_edit_status').find(":selected").val(),
+                    'production_date':$('#production_date').val(),
+                    'exp_date': $('#exp_date').val(),
+                    'note':   $('#edit-deschiption').find('.ql-editor').get(0).outerHTML ,
                     'image': arr_image_medicine[0]
                 };
                 console.log(arr,arr_image_medicine);
@@ -435,14 +407,15 @@
                         token
                     },
                     type: 'PATCH',
-                    url: "{{ route('medicine.update', $equipmentCategoryModel->id) }}",
+                    url: "{{ route('equipment_category.medicalEquipments_update', $equipmentCategoryModel->slug) }}",
                     data: {
                         'arr': arr,
                     },
                     success: function(result) {
-                        var url = "{{ route('medicine.index') }}"
-                            window.location.href = url;
+                        if(result.success == true){
+                            window.location.href = result.route;
                             myDropzone.processQueue();
+                        }
 
                     }
                 });

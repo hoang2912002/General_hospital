@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\EquipmentCategoryRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\EquipmentCategoryRequest\UpdateRequest;
 use App\Models\ManagementModel\EquipmentCategoryModel;
+use App\Models\ManagementModel\MedicalEquipmentModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -145,7 +146,7 @@ class EquipmentCategoryController extends Controller
                         return '<span class="text-dark  mb-0 font-weight-400">' . $medical_equipment->id . '</span>';
                     })
                     ->editColumn('image', function ($medical_equipment) {
-                        return '<img class="w-10 " src="' . $medical_equipment->image . '" alt="' . $medical_equipment->name . '">';
+                        return '<img class="" style="height:40px" src="' . asset($medical_equipment->image) . '" alt="' . $medical_equipment->name . '">';
                     })
                     ->editColumn('name', function ($medical_equipment) {
 
@@ -170,9 +171,9 @@ class EquipmentCategoryController extends Controller
 
                     ->addColumn('action', function ($medical_equipment) {
                         $routeDestroy = "'" . route('medical_equipment.destroy', $medical_equipment->id) . "'";
-                        $route_edit =  '<a href="' . route('medical_equipment.edit', $medical_equipment->id) . '" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                        //$route_edit =  '<a href="' . route('medical_equipment.edit', $medical_equipment->id) . '" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                         $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem(' . $routeDestroy . ')"><i class="fas fa-trash"></i></a>';
-                        return $route_edit .  '&nbsp'  . $route_delete;
+                        return  $route_delete;
                     })
 
                     ->rawColumns(['checkbox', 'id', 'image', 'name', 'status', 'production_date', 'exp_date', 'quantity', 'action'])
@@ -183,6 +184,43 @@ class EquipmentCategoryController extends Controller
             dd($th->getMessage());
         }
     }
+
+    public function create_medical_equipment(EquipmentCategoryModel $equipmentCategoryModel){
+        $name_page = [
+            'name' => 'Thêm',
+            'total' => 'Thiết bị y tế',
+            'route' => 'equipment_category.medicalEquipments',
+            'params' => $equipmentCategoryModel
+        ];
+        return view('management.equipment_category.create_medical_equipment', compact('name_page', 'equipmentCategoryModel'));
+    }
+
+    public function store_medical_equipment(Request $request,EquipmentCategoryModel $equipmentCategoryModel){
+        //dd($request->arr['series']);
+        try {
+            if(!empty($request->arr)){
+                $medical_equipment = MedicalEquipmentModel::create([
+                    'series' => $request->arr['series'] ,
+                    'name' => $request->arr['name'] ,
+                    'image' => $request->arr['image'] ,
+                    'status' => $request->arr['status'] ,
+                    'equipment_category_id' => $request->arr['equipment_category_id'] ,
+                    'production_date' => $request->arr['production_date'] ,
+                    'exp_date' => $request->arr['exp_date'] ,
+                    'quantity' => $request->arr['quantity'] ,
+                    'note' => $request->arr['note'] ,
+                ]);
+                if(!empty($medical_equipment)){
+                    $route = route('equipment_category.medicalEquipments', ['equipmentCategoryModel' => $equipmentCategoryModel->slug]);
+                    return response()->json(['success' => true, 'route' => $route]);
+
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+
     public function medicalEquipments_api(Request $request, EquipmentCategoryModel $equipmentCategoryModel)
     {
         $arr = $request->arr;
@@ -194,7 +232,7 @@ class EquipmentCategoryController extends Controller
     {
         $name_page = [
             'name' => $equipmentCategoryModel->name,
-            'total' => 'Loại thiết bị y tế',
+            'total' => 'Thiết bị y tế',
             'route' => 'equipment_category.index'
         ];
         $message = '';
@@ -203,6 +241,40 @@ class EquipmentCategoryController extends Controller
             $arr_update_medical_equipments[$checkbox] = $equipmentCategoryModel->medical_equipments()->where('id',$checkbox)->first();
         }
         return view('management.equipment_category.medical_equipments_edit',compact('name_page', 'equipmentCategoryModel','arr_update_medical_equipments'));
+    }
+
+
+    public function medicalEquipments_update(Request $request, EquipmentCategoryModel $equipmentCategoryModel){
+        //dd($request);
+        //dd();
+        try {
+            if(!empty($request->arr)){
+                $medical_equipments = $equipmentCategoryModel->medical_equipments()
+                ->where('id', $request->arr['medical_equipment_id'])
+                ->get();
+                foreach($medical_equipments as $medical_equipment){
+                     $medical_equipment = $medical_equipment->update([
+                        'series' => $request->arr['series'] ,
+                        'name' => $request->arr['name'] ,
+                        'image' => $request->arr['image'] ,
+                        'status' => $request->arr['status'] ,
+                        'production_date' => $request->arr['production_date'] ,
+                        'exp_date' => $request->arr['exp_date'] ,
+                        'quantity' => $request->arr['quantity'] ,
+                        'note' => $request->arr['note'] ,
+                    ]);
+                }
+
+                if(!empty($medical_equipment)){
+                    $route = route('equipment_category.medicalEquipments', ['equipmentCategoryModel' => $equipmentCategoryModel->slug]);
+                    return response()->json(['success' => true, 'route' => $route]);
+
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+
     }
 
     public function save_image(Request $request){
@@ -225,7 +297,7 @@ class EquipmentCategoryController extends Controller
                 }
                 //dd($medicine_image);
             }
-            return response()->json(['status' => "success",'message' => "Lưu file thành công",'medicine_image' => $newfile,'arr_image' => $medicine_image]);
+            return response()->json(['status' => "success",'message' => "Lưu file thành công",'image' => $newfile,'arr_image' => $medicine_image]);
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }
@@ -297,6 +369,19 @@ class EquipmentCategoryController extends Controller
                 //     File::delete($path_2);
                 // }
             }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+    public function delete_imageCreate( Request $request){
+        try {
+            if(!empty($request->filename[0])){
+                $path = public_path(). '/' .  $request->filename[0];
+                if(file_exists($path)){
+                    File::delete($path);
+                }
+            }
+
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }

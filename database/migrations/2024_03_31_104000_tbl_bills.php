@@ -14,15 +14,17 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('user_uuid');
-            $table->string('name');
-            $table->string('phone_number');
-            $table->double('total_price');
-            $table->unsignedInteger('payment_id');
-            $table->unsignedInteger('transaction_id');
-            $table->boolean('status');
+            $table->unsignedInteger('medical_record_id');
+            $table->string('name')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->double('total_price')->nullable();
+            $table->unsignedInteger('payment_id')->nullable();
+            $table->unsignedInteger('transaction_id')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
             $table->foreign('user_uuid')->references('uuid')->on('users');
             $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('medical_record_id')->references('id')->on('medical_records');
         });
     }
 

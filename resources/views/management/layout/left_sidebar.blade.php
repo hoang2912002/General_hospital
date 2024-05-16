@@ -155,7 +155,7 @@
                     <div class="collapse " id="ecommerceExamples">
                         <ul class="nav ms-4">
                             <li class="nav-item ">
-                                <a class="nav-link " href="">
+                                <a class="nav-link " href="{{ route('bill.index') }}">
                                     <span class="sidenav-mini-icon"> H </span>
                                     <span class="sidenav-normal"> Hóa đơn </span>
                                 </a>
@@ -203,12 +203,24 @@
                     </a>
                     <div class="collapse " id="authExamples">
                         <ul class="nav ms-4">
-                            {{-- <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('medicalrecord.index') }}">
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('medical_record_management.index') }}">
                                     <span class="sidenav-mini-icon"> HS </span>
                                     <span class="sidenav-normal"> Hồ sơ bệnh án </span>
                                 </a>
+                            </li>
+                            {{-- <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('test_requisition.index_management') }}">
+                                    <span class="sidenav-mini-icon"> PCĐ </span>
+                                    <span class="sidenav-normal"> Phiếu chỉ định </span>
+                                </a>
                             </li> --}}
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ route('service_result_management.index') }}">
+                                    <span class="sidenav-mini-icon"> KQDV </span>
+                                    <span class="sidenav-normal"> Kết quả dịch vụ </span>
+                                </a>
+                            </li>
                             {{-- <li class="nav-item ">
                                 <a class="nav-link " href="{{ route('prescription.index') }}">
                                     <span class="sidenav-mini-icon"> TT </span>

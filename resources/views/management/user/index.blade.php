@@ -152,6 +152,6 @@
             },
 
         ];
-        renderTable("{!! route('user.index') !!}", columns);
+        renderTable("{!! route('user.index') !!}", columns,true,2);
     </script>
 @endpush

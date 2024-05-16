@@ -9,15 +9,53 @@ use App\Models\ManagementModel\TestRequisitionModel;
 use App\Models\ManagementModel\UserModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TestRequisitionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_management(Request $request)
     {
+        $name_page = [
+            'name' => 'Danh sách',
+            'total' => 'Phiếu chỉ định',
+            'route' => 'test_requisition.index_management'
+        ];
 
+        if($request->ajax()){
+
+            $test_requisitions = TestRequisitionModel::get();
+
+            return DataTables::of($test_requisitions)
+            ->editColumn('id', function ($test_requisition) {
+                return $test_requisition->id;
+            })
+            ->editColumn('full_name', function ($test_requisition) {
+
+                return $test_requisition->medical_record->user->name();
+            })
+            ->editColumn('medical_record_id', function ($test_requisition) {
+
+                return $test_requisition->medical_record_id;
+            })
+            ->editColumn('service_name', function ($test_requisition) {
+                return $test_requisition->service->name;
+            })
+            ->addColumn('action', function ($test_requisition) {
+                $routeDestroy = "'" . route('test_requisition.destroy',$test_requisition->id) . "'";
+                $route_edit =  '<a href="'. route('test_requisition.edit', $test_requisition->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                //$route_detail =  '<a href="'. route('test_requisition.detail', $test_requisition->id) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
+
+                $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
+                return $route_edit  . '&nbsp'  . $route_delete;
+            })
+
+            ->rawColumns(['id','full_name','medical_record_id','service_name','action'])
+            ->make();
+        }
+        return view('management.test_requisition.index_management',compact('name_page'));
     }
 
     /**

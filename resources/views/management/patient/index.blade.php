@@ -41,6 +41,12 @@
                                                         Số thứ tự</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Họ và tên</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Ngày sinh</th>
+                                                    <th
+                                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Trạng thái</th>
                                                     <th
                                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -71,6 +77,14 @@
                 name: 'number_id'
             },
             {
+                data: 'full_name',
+                name: 'full_name'
+            },
+            {
+                data: 'dob',
+                name: 'dob'
+            },
+            {
                 data: 'status',
                 name: 'status'
             },
@@ -81,7 +95,7 @@
 
         ];
         setTimeout(function(){
-            renderTable("{!! route('patient.index') !!}", columns);
+            renderTable("{!! route('patient.index') !!}", columns,true,3);
         }, 500);
     </script>
 

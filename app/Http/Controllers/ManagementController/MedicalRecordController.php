@@ -9,20 +9,38 @@ use App\Models\ManagementModel\MedicalRecordModel;
 use App\Models\ManagementModel\Number_medicalRecordModel;
 use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\PrescriptionDetailModel;
+use App\Models\ManagementModel\ServiceResultModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Type\Integer;
+
 class MedicalRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,NumberModel $numberModel,UserModel $userModel)
+    public function index(Request $request,NumberModel $numberModel,UserModel $userModel,$shift)
     {
-        if($request->ajax()){
+        $number_medical_record = Number_medicalRecordModel::where([
+            'number_id' => $numberModel->id,
+            'patient_uuid' => $userModel->uuid,
+        ])->first();
 
+        //Là kiểm tra xem bảng Number_medicalRecordModel đã có id hồ sơ bệnh án hay chưa nếu có rồi thì điều hướng đến bước tiếp theo
+        if(!empty($number_medical_record->medical_record_id)){
+
+            //Kiểm tra xem nếu bệnh nhân đã có phiếu chỉ định thì sẽ điều hướng đến trang kê toa thuốc
+            $service_result = ServiceResultModel::where([
+                ['medical_record_id',$number_medical_record->medical_record_id],
+            ])->get()->all();
+            if(!empty($service_result)){
+                return redirect()->route('prescription.index',['numberModel' => $numberModel->id ,'userModel' =>$userModel->uuid, 'medical_recordModel' => $number_medical_record->medical_record_id]);
+            }
+        }
+        if($request->ajax()){
             $medical_records = MedicalRecordModel::where('user_uuid',$userModel->uuid)->get();
 
             return DataTables::of($medical_records)
@@ -47,13 +65,12 @@ class MedicalRecordController extends Controller
             ->addColumn('action', function ($medical_record) use ($numberModel) {
                 //dd($medical_record->user_uuid->uuid);
                 $prescription_params = $medical_record->user_uuid . $medical_record->id;
-                $routeDestroy = "'" . route('medical_record.destroy',$medical_record->id) . "'";
-                $route_edit =  '<a href="'. route('medical_record.edit', $medical_record->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                $service_result =  '<a href="'. route('user.index') .'" class="badge bg-gradient-success" title="Kết quả xét nghiệm"><i class="fas fa-solid fa-microscope"></i></a>';
+                //$routeDestroy = "'" . route('medical_record.destroy',$medical_record->id) . "'";
+                //$route_edit =  '<a href="'. route('medical_record.edit', $medical_record->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                 $prescription =  '<a href="'. route('prescription.index',['numberModel' => $numberModel->id ,'userModel' =>$medical_record->user_uuid, 'medical_recordModel' => $medical_record->id]) .'" class="badge bg-gradient-info" title="Xem toa thuốc"><i class="fas fa-solid fa-file-medical"></i></a>';
                 $test_requisition =  '<a class="badge bg-gradient-success" title="Phiếu chỉ định" data-bs-toggle="modal" data-bs-target="#modal-test-requisition" data-medical-record="'. $medical_record->id .'"><i class="fas fa-solid fa-microscope"></i></a>';
-                $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $test_requisition. '&nbsp' . $prescription . '&nbsp'    . $route_delete;
+                //$route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
+                return  $test_requisition. '&nbsp' . $prescription;
             })
 
             ->rawColumns(['id','disease','doctor_uuid','appointment_id','re_exam_date','action'])
@@ -64,22 +81,22 @@ class MedicalRecordController extends Controller
             'name' => 'Danh sách bệnh nhân',
             'total' => 'Khám bệnh',
             'route' => "medical_record.index",
-            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid],
+            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid,'shift' => $shift],
         ];
         //dd($name_page);
-        return view('management.medical_record.index',compact('name_page','userModel','numberModel'));
+        return view('management.medical_record.index',compact('name_page','userModel','numberModel','shift'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(NumberModel $numberModel,UserModel $userModel)
+    public function create(NumberModel $numberModel,UserModel $userModel,$shift)
     {
         $name_page = [
             'name' => 'Thêm hồ sơ bệnh án',
             'total' => 'Bệnh nhân',
             'route' => "medical_record.index",
-            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid],
+            'params' => ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid,'shift' => $shift],
         ];
         $role = GroupModel::where('slug','benh-nhan')->first();
         if(empty($role)){
@@ -88,8 +105,11 @@ class MedicalRecordController extends Controller
                 'slug' => Str::slug('Bệnh nhân'),
             ]);
         }
-        $shift = ShiftModel::get();
-        return view('management.medical_record.create',compact('name_page','userModel','role','shift','numberModel'));
+        $shiftModel = ShiftModel::where([
+            ['id',$shift]
+        ])->first();
+
+        return view('management.medical_record.create',compact('name_page','userModel','role','shift','numberModel','shiftModel'));
     }
 
     /**
@@ -97,6 +117,7 @@ class MedicalRecordController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        //dd($request);
         try {
             if(!empty($request->user_uuid) && !empty($request->doctor_uuid)){
                 //dd($request);
@@ -126,11 +147,11 @@ class MedicalRecordController extends Controller
                     ]);
                 }
                 if(!empty($medical_record)){
-                    return redirect()->route('medical_record.index',['numberModel' => $request->number_id,'userModel' => $request->user_uuid])->with('success' , 'Thêm hồ sơ bệnh án thành công!' );
+                    return redirect()->route('medical_record.index',['numberModel' => $request->number_id,'userModel' => $request->user_uuid,'shift' => $request->shift_id])->with('success' , 'Thêm hồ sơ bệnh án thành công!' );
                 }
             }
         } catch (\Throwable $th) {
-            return redirect()->route('medical_record.index',$request->user_uuid)->with('error' , 'Thêm hồ sơ bệnh án thất bại!' );
+            return redirect()->route('medical_record.index',['numberModel' => $request->number_id,'userModel' => $request->user_uuid,'shift' => $request->shift_id])->with('error' , 'Thêm hồ sơ bệnh án thất bại!' );
         }
     }
     public function render_service(UserModel $userModel,Request $request){
@@ -149,7 +170,8 @@ class MedicalRecordController extends Controller
      */
     public function edit(MedicalRecordModel $medicalRecordModel)
     {
-        //
+
+        dd($medicalRecordModel);
     }
 
     /**
@@ -157,7 +179,7 @@ class MedicalRecordController extends Controller
      */
     public function update(Request $request, MedicalRecordModel $medical_recordModel)
     {
-        //
+
     }
     public function update_disease(Request $request, MedicalRecordModel $medical_recordModel)
     {

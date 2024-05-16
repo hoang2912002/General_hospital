@@ -10,7 +10,7 @@ class MedicalEquipmentModel extends Model
     use HasFactory;
     protected $table = 'medical_equipments';
     protected $fillable = [
-        'name', 'image', 'status', 'equipment_category_id', 'production_date', 'exp_date', 'quantity', 'note'
+        'series','name', 'image', 'status', 'equipment_category_id', 'production_date', 'exp_date', 'quantity', 'note'
     ];
 
     public function equipment_category(){

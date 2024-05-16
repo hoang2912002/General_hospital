@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Models\ManagementModel\BillDetailPrescriptionModel;
+use App\Models\ManagementModel\BillDetailServiceModel;
+use App\Models\ManagementModel\BillModel;
 use App\Models\ManagementModel\CategoryModel;
 use App\Models\ManagementModel\ManufacturerModel;
 use App\Models\ManagementModel\MedicalRecordModel;
@@ -28,7 +31,23 @@ class PrescriptionController extends Controller
         $manufacturers = ManufacturerModel::get();
         $prescription= PrescriptionModel::where('medical_record_id',$medical_recordModel->id)->first();
         $shift = ShiftModel::get();
-        //dd($prescription->prescription_detail);
+        $check_number_medical_record = Number_medicalRecordModel::where([
+            'number_id' => $numberModel->id,
+            'patient_uuid' => $userModel->uuid,
+            //'medical_record_id' => $medical_recordModel->id
+        ])->first();
+        if(empty($check_number_medical_record->medical_record_id)){
+            //dd($number_medical_record,$userModel);
+            $number_medical_record = $check_number_medical_record->update([
+                'medical_record_id' => $medical_recordModel->id
+            ]);
+        }
+        if($numberModel->status === 2 || $numberModel->status === 1){
+            $numberModel->update([
+                'status' => 3
+            ]);
+        }
+        //dd($number_medical_record);
         return view('management/prescription/index',compact('numberModel','userModel','medical_recordModel','medicine','manufacturers','categories','prescription','shift'));
     }
 
@@ -41,25 +60,75 @@ class PrescriptionController extends Controller
     }
 
     public function update_number_medical_record(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel){
-        if(!empty($numberModel) && !empty($userModel) && !empty($medical_recordModel)){
-            $number_medical_record_model = Number_medicalRecordModel::where([
-                ['number_id',$numberModel->id],
-                ['patient_uuid',$userModel->uuid]
-            ])->first();
-                //dd(1);
-            if(!empty($number_medical_record_model)){
-                $update_number_medicalRecord = $number_medical_record_model->update([
-                    'medical_record_id' => $medical_recordModel->id
-                ]);
-                if(!empty($update_number_medicalRecord)){
+        try {
+            //code...
+
+            if(!empty($numberModel) && !empty($userModel) && !empty($medical_recordModel)){
+                $number_medical_record_model = Number_medicalRecordModel::where([
+                    ['number_id',$numberModel->id],
+                    ['patient_uuid',$userModel->uuid],
+                    ['medical_record_id', $medical_recordModel->id]
+                ])->first();
+                //dd($number_medical_record_model);
+                if(!empty($number_medical_record_model)){
+                    $price_prescription = 0;
+                    $price_service_result = 0;
                     $numberModel->update([
-                        'status' => 3
+                        'status' => 4
                     ]);
-                    return redirect()->back();
+                    $bill_check = BillModel::where([
+                        ['medical_record_id',$medical_recordModel->id],
+                        ['user_uuid',$userModel->uuid],
+                    ])->get()->all();
+                    if(empty($bill_check)){
+                        //dd($medical_recordModel->service_result);
+                        //dd($medical_recordModel->prescription->total_price,$medical_recordModel->id);
+                        $bill = BillModel::create([
+                            'user_uuid' => $userModel->uuid,
+                            'medical_record_id' => $medical_recordModel->id,
+                            'name' => null,
+                            'phone_number' => null,
+                            'total_price' => null,
+                            'payment_id' => null,
+                            'transaction_id' => null,
+                            'status' => 0,
+                        ]);
+                        if(!empty($bill)){
+                            if(!empty($medical_recordModel->prescription)) {
+                                $bill_detail_prescription = BillDetailPrescriptionModel::create([
+                                    'bill_id' => $bill->id,
+                                    'prescription_id' =>  $medical_recordModel->prescription->id,
+                                    'price' => $medical_recordModel->prescription->total_price
+                                ]);
+                                $price_prescription = (int)$medical_recordModel->prescription->total_price;
+                            }
+                            foreach($medical_recordModel->service_result as $service_result ){
+                                $bill_detail_service = BillDetailServiceModel::create([
+                                    'bill_id' =>$bill->id,
+                                    'service_result_id' =>$service_result->id,
+                                    'price' => $service_result->price,
+                                ]);
+                                $price_service_result += (int)$service_result->price;
+
+                            }
+                            if(!empty($bill_detail_prescription) && !empty($bill_detail_service)){
+                                $total_price = $price_service_result + $price_prescription;
+                                $bill->update(['total_price' => $total_price]);
+                            }
+
+                        }
+                        //dd($bill);
+                    }
+                    //dd($bill_check);
+                    return redirect()->route('patient.index');
                 }
             }
-            //dd('đa',$update_number_medicalRecord,$userModel,$medical_recordModel);
         }
+        catch (\Throwable $th){
+            dd($th->getMessage());
+        }
+            //dd('đa',$update_number_medicalRecord,$userModel,$medical_recordModel);
+
 
     }
 

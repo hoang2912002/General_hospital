@@ -15,6 +15,13 @@ return new class extends Migration
             $table->increments('id');
             $table->string('number');
             $table->unsignedInteger('room_id');
+            $table->string('first_name')->nullable(true);
+            $table->string('last_name')->nullable(true);
+            $table->boolean('gender')->nullable(true);
+            $table->date('dob')->nullable(true);
+            $table->string('email',100)->nullable(true);
+            $table->string('phone_number',100)->nullable(true);
+            $table->string('patient_identification_code');
             $table->boolean('status');
             $table->timestamps();
             $table->foreign('room_id')->references('id')->on('rooms');

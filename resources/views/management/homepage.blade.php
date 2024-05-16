@@ -560,6 +560,7 @@
         }, 150);
 
         function renderData(data) {
+            console.log(data);
             // Xóa dữ liệu cũ trong bảng
             $('#assignment-detail-table tbody').empty();
             $('#assignment-detail-table thead').empty();

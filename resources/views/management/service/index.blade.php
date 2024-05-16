@@ -73,7 +73,7 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#444</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ảnh</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>

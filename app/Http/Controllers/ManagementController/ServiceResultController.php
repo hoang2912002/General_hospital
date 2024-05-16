@@ -33,10 +33,9 @@ class ServiceResultController extends Controller
      */
     public function index(Request $request)
     {
-
         $users = UserModel::get();
         $group = Auth::user()->User->group_user;
-        $arr_role = ['bac-si','nhan-viet-xet-nghiem','nhan-vien-dich-vu'];
+        $arr_role = ['bac-si','nhan-vien-xet-nghiem','nhan-vien-dich-vu'];
         if(in_array($group[0]->slug,$arr_role)){
             //dd(1);
 
@@ -116,75 +115,106 @@ class ServiceResultController extends Controller
             $services = ServiceModel::where('room_id', $room_id)->get()->all();
             $shift_id =  $assignment_shift->shift_id;
             $day_id =  $assignment_day->day_id;
-            foreach($services as $service) {
-                $test_requisitions = $service->test_requisition;
-                foreach($test_requisitions as $test_requisition) {
-                    $medical_record_id = $test_requisition->medical_record_id;
-                    // Nếu medical_Record_id chưa tồn tại trong mảng, tạo một phần tử mới
-                    if(!isset($serviceData[$medical_record_id])) {
-                        $serviceData[$medical_record_id] = [
-                            'disease' => $test_requisition->medical_record->disease,
-                            'patient_name' => $test_requisition->medical_record->user->name(),
-                            'services' => [], // Mảng để lưu trữ các dịch vụ
-                        ];
-                    }
-                    $check_service_result = ServiceResultModel::where([
-                        ['medical_record_id',$medical_record_id],
-                        ['shift_id',$shift_id],
-                        ['day_id',$day_id],
-                        ['service_id',$test_requisition->service->id],
-                    ])->first();
-
-                    if(empty($check_service_result)){
-                        // Thêm dịch vụ vào mảng dịch vụ của medical_Record_id tương ứng
-                        $serviceData[$medical_record_id]['services'][] = $test_requisition->service->name;
-                    }
-
-
-                }
-            }
-
             // Biến $data để lưu trữ dữ liệu cuối cùng cho DataTables
             $data = [];
+            if(!empty($services)){
+                foreach($services as $service) {
+                    $test_requisitions = $service->test_requisition;
+                    foreach($test_requisitions as $test_requisition) {
+                        $medical_record_id = $test_requisition->medical_record_id;
+                        // Nếu medical_Record_id chưa tồn tại trong mảng, tạo một phần tử mới
+                        if(!isset($serviceData[$medical_record_id])) {
+                            $serviceData[$medical_record_id] = [
+                                'disease' => $test_requisition->medical_record->disease,
+                                'patient_name' => $test_requisition->medical_record->user->name(),
+                                'services' => [], // Mảng để lưu trữ các dịch vụ
+                            ];
+                        }
+                        $check_service_result = ServiceResultModel::where([
+                            ['medical_record_id',$medical_record_id],
+                            ['shift_id',$shift_id],
+                            ['day_id',$day_id],
+                            ['service_id',$test_requisition->service->id],
+                        ])->first();
 
-            // Duyệt qua mảng dịch vụ đã nhóm và định dạng dữ liệu cho DataTables
-            foreach($serviceData as $medical_record_id => $recordData) {
-                //dd($recordData['services'] !== [],!empty($recordData['services']));
-                if(!empty($recordData['services']))
-                {
-                    $service = ServiceModel::whereIn('name', $recordData['services'])->get()->toArray();
-                    $arr_service_id = array_column($service, 'id');
-                    $route_create_service_result = '<a href="'. route('service_result.create', [
-                        'medical_record_id' => $medical_record_id,
-                        'service_id' => implode('-', $arr_service_id),
-                        'day_id' => $day_id,
-                        'shift_id' => $shift_id,
-                    ]) .'" class="badge bg-gradient-success" title="Chi tiết dịch vụ"><i class="fas fa-solid fa-hospital-user"></i></a>';
-                    $check = '';
-                    $route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                    $route_delete = '';
-                    $route =  $route_edit . '&nbsp' . $route_create_service_result . '&nbsp' . $route_delete  ;
-                    $data[] = [
-                        'disease' => $recordData['disease'],
-                        'patient_name' => $recordData['patient_name'],
-                        'service_name' => implode(' ,', $recordData['services']), // Gộp các dịch vụ thành một chuỗi
-                        'action' => $route, // Bạn có thể thêm hành động nếu cần
-                    ];
+                        if(empty($check_service_result)){
+                            // Thêm dịch vụ vào mảng dịch vụ của medical_Record_id tương ứng
+                            $serviceData[$medical_record_id]['services'][] = $test_requisition->service->name;
+                        }
+                    }
                 }
-
+                // Duyệt qua mảng dịch vụ đã nhóm và định dạng dữ liệu cho DataTables
+                foreach($serviceData as $medical_record_id => $recordData) {
+                    //dd($recordData['services'] !== [],!empty($recordData['services']));
+                    if(!empty($recordData['services']))
+                    {
+                        $service = ServiceModel::whereIn('name', $recordData['services'])->get()->toArray();
+                        $arr_service_id = array_column($service, 'id');
+                        $route_create_service_result = '<a href="'. route('service_result.create', [
+                            'medical_record_id' => $medical_record_id,
+                            'service_id' => implode('-', $arr_service_id),
+                            'day_id' => $day_id,
+                            'shift_id' => $shift_id,
+                        ]) .'" class="badge bg-gradient-success" title="Chi tiết dịch vụ"><i class="fas fa-solid fa-hospital-user"></i></a>';
+                        $check = '';
+                        $route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                        $route_delete = '';
+                        $route =  $route_edit . '&nbsp' . $route_create_service_result . '&nbsp' . $route_delete  ;
+                        $data[] = [
+                            'disease' => $recordData['disease'],
+                            'patient_name' => $recordData['patient_name'],
+                            'service_name' => implode(' ,', $recordData['services']), // Gộp các dịch vụ thành một chuỗi
+                            'action' => $route, // Bạn có thể thêm hành động nếu cần
+                        ];
+                    }
+                }
             }
             return response()->json(['data' => $data]);
         }
+
         return view('management.service_result.index',compact('name_page','assignment_room','shift_name'));
     }
+    public function index_management(Request $request){
+        $name_page = [
+            'name' =>  'Danh mục',
+            'total' => 'Kết quả dịch vụ',
+            'route' => 'service_result.index_management'
+        ];
+        if($request->ajax()){
 
+            $service_results = ServiceResultModel::get();
 
+            return DataTables::of($service_results)
+            ->editColumn('id', function ($service_result) {
+                return $service_result->id;
+            })
+            ->editColumn('medical_record_id', function ($service_result) {
+
+                return $service_result->medical_record_id;
+            })
+            ->editColumn('slug', function ($service_result) {
+
+                return '<p class="text-dark  mb-0 font-weight-400">'.$service_result->slug.'</span>';
+            })
+
+            ->addColumn('action', function ($service_result) {
+                $routeDestroy = "'" . route('service_result.destroy',$service_result->slug) . "'";
+                $route_edit =  '<a href="'. route('service_result.edit', $service_result->slug) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
+                return $route_edit .  '&nbsp'  . $route_delete;
+            })
+            ->rawColumns(['id','name','slug','action'])
+            ->make();
+        }
+        return view('management.service_result.index_management',compact('name_page','assignment_room','service_result_name'));
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create($medical_record_id,$service_id,$day_id,$shift_id)
     {
-        if(!empty($medical_record_id) && !empty($shift_id) && !empty($service_id) && !empty($day_id)){
+        //dd($medical_record_id,$service_id,$day_id,$shift_id,is_numeric($day_id));
+        if(!empty($medical_record_id) && !empty($shift_id) && !empty($service_id) && is_numeric($day_id)){
             //dd($medical_record_id,$service_id,$day_id,$shift_id);
             $services = explode('-',$service_id);
             //dd($services);
@@ -217,10 +247,12 @@ class ServiceResultController extends Controller
             if(!empty($request->arr)){
                 foreach($request->arr['service_id_arr'] as $index =>  $service_id){
                     //dd($request->arr['price'][$index]);
-                    $price = explode('VNĐ',$request->arr['price'][$index]);
+                    $price = explode(' VNĐ',$request->arr['price'][$index]);
                     $price = explode('.' , $price[0]);
-                    $price = implode('',$price);
+                    //$price = explode(' ' , $price[1]);
                     //dd($price);
+                    $price = implode('',$price);
+
                     //$arr_price[] = $price;
                     $service_result = ServiceResultModel::create([
                         'medical_record_id' => $request->arr['medical_record_id'],

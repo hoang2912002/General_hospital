@@ -18,6 +18,16 @@
           const example = new Choices(gender);
 
         }
+        if (document.getElementById('choices-gender-patient')) {
+          var gender = document.getElementById('choices-gender-patient');
+          const example = new Choices(gender);
+
+        }
+        if (document.getElementById('bill-status')) {
+          var bill_status = document.getElementById('bill-status');
+          const example = new Choices(bill_status);
+
+        }
         if (document.getElementById('choices-gender1')) {
           var gender = document.getElementById('choices-gender1');
           const example = new Choices(gender);

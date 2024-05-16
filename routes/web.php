@@ -11,6 +11,7 @@ use App\Http\Controllers\ManagementController\LoginController;
 use App\Http\Controllers\ManagementController\ManufacturerController;
 use App\Http\Controllers\ManagementController\MedicalEquipmentController;
 use App\Http\Controllers\ManagementController\MedicalRecordController;
+use App\Http\Controllers\ManagementController\MedicalRecordManagementController;
 use App\Http\Controllers\ManagementController\MedicineController;
 use App\Http\Controllers\ManagementController\MedicineTypeController;
 use App\Http\Controllers\ManagementController\NumberController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\ManagementController\RoleController;
 use App\Http\Controllers\ManagementController\RoomController;
 use App\Http\Controllers\ManagementController\ServiceController;
 use App\Http\Controllers\ManagementController\ServiceResultController;
+use App\Http\Controllers\ManagementController\ServiceResultManagementController;
 use App\Http\Controllers\ManagementController\ShiftController;
 use App\Http\Controllers\ManagementController\test_requisitionController;
 use App\Http\Controllers\ManagementController\TestRequisitionController;
@@ -176,13 +178,17 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::post('store', 'store')->name('store');
         Route::get('edit/{equipmentCategoryModel}', 'edit')->name('edit');
         Route::get('{equipmentCategoryModel}/medicalEquipments', 'medicalEquipments')->name('medicalEquipments');
+        Route::get('{equipmentCategoryModel}/create_medical_equipment', 'create_medical_equipment')->name('create_medical_equipment');
+        Route::post('{equipmentCategoryModel}/store_medical_equipment', 'store_medical_equipment')->name('store_medical_equipment');
         Route::post('{equipmentCategoryModel}/medicalEquipments/api', 'medicalEquipments_api')->name('medicalEquipments_api');
-        Route::any('{equipmentCategoryModel}/medicalEquipments/medicalEquipments_edit', 'medicalEquipments_edit')->name('medicalEquipments_edit');
+        Route::any('{equipmentCategoryModel}/medicalEquipments_edit', 'medicalEquipments_edit')->name('medicalEquipments_edit');
+        Route::patch('{equipmentCategoryModel}/medicalEquipments_update', 'medicalEquipments_update')->name('medicalEquipments_update');
         Route::patch('update/{equipmentCategoryModel}', 'update')->name('update');
         Route::delete('destroy/{equipmentCategoryModel}', 'destroy')->name('destroy');
         Route::post('save_image', 'save_image')->name('save_image');
         Route::get('readFiles/{equipmentCategoryModel}', 'readFiles')->name('readFiles');
         Route::post('delete_image/{equipmentCategoryModel}', 'delete_image')->name('delete_image');
+        Route::post('delete_imageCreate', 'delete_imageCreate')->name('delete_imageCreate');
     });
     //Medical Equipments
     Route::group(['controller' => MedicalEquipmentController::class, 'prefix' => 'medical_equipment', 'as' => 'medical_equipment.'],function(){
@@ -254,12 +260,23 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{prescriptionDetailModel}', 'update')->name('update');
         Route::delete('destroy/{prescriptionDetailModel}', 'destroy')->name('destroy');
     });
-    //Medical record
-    Route::group(['controller' => MedicalRecordController::class, 'prefix' => 'medical_record', 'as' => 'medical_record.'],function(){
-        Route::get('/{numberModel}/{userModel}', 'index')->name('index');
-        Route::get('/{numberModel}/{userModel}/create', 'create')->name('create');
+    //Medical record management ở đây dùng management vào tên route cho role quản lý ví dụ index_management
+
+    Route::group(['controller' => MedicalRecordManagementController::class, 'prefix' => 'medical_record_management', 'as' => 'medical_record_management.'],function(){
+        Route::get('', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{medical_recordModel}', 'edit')->name('edit');
+        Route::patch('update/{medical_recordModel}', 'update')->name('update');
+        Route::delete('destroy/{medical_recordModel}', 'destroy')->name('destroy');
+    });
+    //Medical record
+    Route::group(['controller' => MedicalRecordController::class, 'prefix' => 'medical_record', 'as' => 'medical_record.'],function(){
+        Route::get('/{numberModel}/{userModel}/{shift}', 'index')->name('index');
+        Route::get('', 'index_management')->name('index_management');
+        Route::get('/{numberModel}/{userModel}/{shift}/create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit_management/{medical_recordModel}', 'edit_management')->name('edit_management');
         Route::patch('update/{medical_recordModel}', 'update')->name('update');
         Route::patch('update_reason/{medical_recordModel}', 'update_reason')->name('update_reason');
         Route::patch('update_disease/{medical_recordModel}', 'update_disease')->name('update_disease');
@@ -268,12 +285,13 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('delete_reason/{medical_recordModel}', 'delete_reason')->name('delete_reason');
         Route::get('delete_disease/{medical_recordModel}', 'delete_disease')->name('delete_disease');
         Route::patch('update/{medical_recordModel}', 'update')->name('update');
-        Route::delete('destroy/{medical_recordModel}', 'destroy')->name('destroy');
+        Route::delete('destroy_management/{medical_recordModel}', 'destroy_management')->name('destroy_management');
         Route::get('{userModel}/render_service', 'render_service')->name('render_service');
     });
-    //Phiếu chỉ định
+    //Phiếu chỉ định ở đây dùng management vào tên route cho role quản lý ví dụ index_management
     Route::group(['controller' => TestRequisitionController::class, 'prefix' => 'test_requisition', 'as' => 'test_requisition.'],function(){
         Route::get('/{userModel}', 'index')->name('index');
+        //Route::get('', 'index_management')->name('index_management');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{test_requisitionModel}', 'edit')->name('edit');
@@ -289,7 +307,8 @@ Route::middleware([CheckLogin::class])->group(function(){
     //Patient
     Route::group(['controller' => PatientController::class, 'prefix' => 'patient', 'as' => 'patient.'],function(){
         Route::get('/', 'index')->name('index');
-        Route::get('{numberModel}/list', 'patient_list')->name('patient_list');
+        Route::get('/{numberModel}/{shift}/qr_scan', 'patient_qr_scan')->name('patient_qr_scan');
+        Route::post('/{numberModel}/{shift}/patient_scan', 'patient_scan')->name('patient_scan');
         Route::get('/{numberModel}/{userModel}', 'patient_medical_record')->name('patient_medical_record');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
@@ -297,9 +316,23 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{userModel}', 'update')->name('update');
         Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
     });
-    //Service_result
+    //Service_result management
+    Route::group(['controller' => ServiceResultManagementController::class, 'prefix' => 'service_result_management', 'as' => 'service_result_management.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{service_resultModel}', 'edit')->name('edit');
+        Route::patch('update/{service_resultModel}', 'update')->name('update');
+        Route::delete('destroy/{service_resultModel}', 'destroy')->name('destroy');
+        Route::post('save_image', 'save_image')->name('save_image');
+        Route::get('readFiles/{userModel}', 'readFiles')->name('readFiles');
+        Route::post('delete_image/{userModel}', 'delete_image')->name('delete_image');
+        Route::post('delete_imageCreate', 'delete_imageCreate')->name('delete_imageCreate');
+    });
+    //Service result
     Route::group(['controller' => ServiceResultController::class, 'prefix' => 'service_result', 'as' => 'service_result.'],function(){
         Route::get('/', 'index')->name('index');
+        Route::get('/index_management', 'index_management')->name('index_management');
         Route::get('{numberModel}/list', 'patient_list')->name('patient_list');
         Route::get('/{numberModel}/{userModel}', 'patient_medical_record')->name('patient_medical_record');
         Route::get('/{medical_record_id}/{service_id}/{day_id}/{shift_id}/create', 'create')->name('create');
@@ -316,9 +349,11 @@ Route::middleware([CheckLogin::class])->group(function(){
     Route::group(['controller' => BillController::class, 'prefix' => 'bill', 'as' => 'bill.'],function(){
         Route::get('/', 'index')->name('index');
         Route::get('create', 'create')->name('create');
+        Route::get('{billModel}/detail', 'detail')->name('detail');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{billModel}', 'edit')->name('edit');
         Route::patch('update/{billModel}', 'update')->name('update');
+        Route::patch('update_status/{billModel}', 'update_status')->name('update_status');
         Route::delete('destroy/{billModel}', 'destroy')->name('destroy');
     });
 });

@@ -11,7 +11,7 @@ class NumberModel extends Model
     use HasFactory;
     protected $table = "numbers";
     protected $fillable = [
-        'number','room_id', 'status'
+        'number','room_id','first_name','last_name','gender','dob','email','phone_number','patient_identification_code','status'
     ];
 
     public function room(){
@@ -30,17 +30,44 @@ class NumberModel extends Model
 
         return 'Ngày khám ' . $date . ' Giờ ' . $hour;
     }
-
+    public function name(){
+        return $this->last_name . ' ' . $this->first_name;
+    }
+    public function dob(){
+        return date('d-m-Y', strtotime($this->dob));
+    }
     public function status() {
         switch ($this->status) {
             case 1:
                 return '<span class="badge bg-gradient-info">Đang chờ</span>';
                 break;
             case 2:
-                return '<span class="badge bg-gradient-primary">Đang khám</span>';
+                return '<span class="badge bg-gradient-primary">Đang xét nghiệm</span>';
                 break;
             case 3:
-                return '<span class="badge bg-gradient-warning">Đã khám</span>';
+                return '<span class="badge bg-gradient-warning">Đang khám</span>';
+                break;
+            case 4:
+                return '<span class="badge bg-gradient-success">Đã khám</span>';
+                break;
+            default:
+                return '<span class="badge bg-gradient-info">Đang chờ</span>';
+                break;
+        }
+    }
+    public function status_table($status) {
+        switch ($status) {
+            case 1:
+                return '<span class="badge bg-gradient-info">Đang chờ</span>';
+                break;
+            case 2:
+                return '<span class="badge bg-gradient-primary">Đang xét nghiệm</span>';
+                break;
+            case 3:
+                return '<span class="badge bg-gradient-warning">Đang khám</span>';
+                break;
+            case 4:
+                return '<span class="badge bg-gradient-success">Đã khám</span>';
                 break;
             default:
                 return '<span class="badge bg-gradient-info">Đang chờ</span>';

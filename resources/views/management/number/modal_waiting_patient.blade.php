@@ -20,6 +20,9 @@
                                     <thead>
                                         <tr>
                                             <th>Số thứ tự</th>
+                                            <th>Họ và tên</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Số điện thoại</th>
                                             <th>Trạng thái</th>
                                         </tr>
                                     </thead>

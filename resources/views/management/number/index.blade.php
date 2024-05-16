@@ -1,6 +1,8 @@
 @extends('management.layout.main')
 @include('management.layout.table')
+
 @push('css')
+
 <style>
     .footer {
         position: fixed;
@@ -15,6 +17,12 @@
         @media (min-width: 200px) {
             #modal-waiting-patient .modal-dialog {
                 max-width: 36.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
+        }
+        @media  screen and (max-width: 2576px) {
+            #create-waiting-patient .modal-dialog {
+                max-width: 46.66667%;
                 /* 66.66667% of the viewport width for col-8 */
             }
         }
@@ -37,7 +45,7 @@
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
-                                                <a href="{{ route('room.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
+
                                             </div>
                                         </div>
                                     </div>
@@ -70,14 +78,14 @@
         </div>
     </div>
     @include('management.number.modal_waiting_patient')
+
+    {{-- Không dùng đến --}}
     @include('management.number.create_waiting_patient')
 @endsection
 @push('js')
+
     <script>
         function handleClick(id) {
-            // Sử dụng giá trị slug ở đây
-            console.log('Slug:', id);
-
             // Ví dụ: Mở modal với slug làm tham số
             $.ajax({
                 url: '{!! route('number.render_waiting_patient') !!}', // Đường dẫn tới API hoặc tập lệnh xử lý dữ liệu trên máy chủ
@@ -115,6 +123,9 @@
 
                 var row = $('<tr>').append(
                     $('<td>').text(item.number),
+                    $('<td>').text(item.last_name + ' ' + item.first_name),
+                    $('<td>').text(item.dob),
+                    $('<td>').text(item.phone_number),
                     $('<td>').append(badgeElement),
                 );
                 $('#waiting-patient-table tbody').append(row);
@@ -128,15 +139,68 @@
                     room_id: $('#room_id').val(),
                 },
                 success: function (response) {
-                    window.location.href = response.pdfRoute;
-                    // Load lại trang hiện tại sau 1 giây (1000ms)
-                    setTimeout(function(){
-                        window.location.reload();
-                    }, 1000);
+                    console.log(response.room !== {},response.room.id);
+                    if(response.room !== {}){
+                        $('#title_create_waiting_patient').text('Khoa: ' + response.room.department_name + '- Phòng: '+ response.room.name);
+                        $('#room_id_tbl_number').val(response.room.id);
+                        $('#patient_number').val(response.room.number);
+                        $('#create-waiting-patient').modal('show');
+                    }
+
+                    // window.location.href = response.pdfRoute;
+                    // // Load lại trang hiện tại sau 1 giây (1000ms)
+                    // setTimeout(function(){
+                    //     window.location.reload();
+                    // }, 1000);
+
                 }
             });
-        })
+        });
+        $('#patient_medical_record_update').on('click',function(){
+            $.ajax({
+                type: "POST",
+                url: '{!! route('number.store') !!}',
+                data: {
+                    arr: {
+                        'room_id_tbl_number': $('#room_id_tbl_number').val(),
+                        'number': $('#patient_number').val(),
+                        'role': $('#role').val(),
+                        'patient_identification_code': $('#patient_identification_code').val(),
+                        'last_name': $('#last_name_patient').val(),
+                        'first_name': $('#first_name_patient').val(),
+                        'gender': $('#choices-gender-patient').val(),
+                        'dob': $('#dob_patient').val(),
+                        'email': $('#email_patient').val(),
+                        'phone_number': $('#phone_number_patient').val(),
+
+                    },
+                },
+                success: function (response) {
+                        if(response.success == true){
+                            console.log(1);
+                            window.location.href = response.pdfRoute;
+                            // window.location.href = response.pdfRoute;
+                            // // Load lại trang hiện tại sau 1 giây (1000ms)
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1000);
+                        }
+                        else{
+                            //alert("Thêm phiếu chỉ định thất bại!");
+                        }
+                    }
+
+            });
+        });
     </script>
+    @if (!empty(session()->has('pdf')))
+    <script>
+        setTimeout(function(){
+            window.location.reload(); // Reload trang sau khi in PDF
+        }, 1000);
+    </script>
+    @endif
+
     <script>
         var columns = [{
                 data: 'id',

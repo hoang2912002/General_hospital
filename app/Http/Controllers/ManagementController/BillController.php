@@ -8,7 +8,8 @@ use App\Models\ManagementModel\Number_medicalRecordModel;
 use App\Models\ManagementModel\NumberModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Support\Str;
 class BillController extends Controller
 {
     /**
@@ -16,14 +17,14 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        //$this->authorize('viewAny',UserModel::class);
+        $this->authorize('viewAny',BillModel::class);
         $name_page = [
             'name' => 'Danh sách',
             'total' => 'Hóa đơn',
             'route' => 'bill.index'
         ];
         if($request->ajax()){
-            $bills = BillModel::where('status', 1)->get();
+            $bills = BillModel::where('status', 0)->get();
             return DataTables::of($bills)
             ->editColumn('id', function ($bill) {
                 return $bill->id;
@@ -74,6 +75,12 @@ class BillController extends Controller
         //dd($billModel->bill_service_result);
         $isActiveTab1 = true;
         return view('management.bill.detail',compact('name_page','billModel','isActiveTab1'));
+    }
+
+    public function print_pdf_bill(BillModel $billModel){
+        //return view('management.bill.print_pdf_bill',compact('billModel'));
+        $pdf = FacadePdf::loadview('management.bill.print_pdf_bill',compact('billModel'))->setPaper('A4');
+        return $pdf->download('hoa-don-benh-nhan-'. Str::slug($billModel->user->name()) . '.pdf');
     }
 
     public function create()

@@ -44,7 +44,7 @@
                         </ul>
 
                     </div>
-                    <a href="{{ route('bill.index') }}" class="btn bg-gradient-secondary ms-3 mb-0">In hóa đơn</a>
+                    <a href="{{ route('bill.print_pdf_bill',$billModel->id) }}" class="btn bg-gradient-secondary ms-3 mb-0">In hóa đơn</a>
                     <a href="{{ route('bill.index') }}" class="btn bg-gradient-primary ms-3 mb-0">Quay về</a>
                 </div>
                 <div class="card-body p-3 mt-2">

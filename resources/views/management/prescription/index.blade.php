@@ -10,7 +10,7 @@
         <div class="card position-sticky top-1">
             <ul class="nav flex-column bg-white border-radius-lg p-3  d-flex align-content-center">
                 <li class="nav-item">
-                    <a href="{{ route('prescription.print_prescription', ['userModel' => $userModel->uuid, 'medical_recordModel' => $medical_recordModel->id]) }}" class="btn btn-outline-secondary mb-3 button_index"><i class="fa ni fa-solid fa-print "></i>In</a>
+                    <a href="{{ route('prescription.print_prescription', ['numberModel' => $numberModel->id,'userModel' => $userModel->uuid, 'medical_recordModel' => $medical_recordModel->id]) }}" class="btn btn-outline-secondary mb-3 button_index"><i class="fa ni fa-solid fa-print "></i>In</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('prescription.update_number_medical_record', ['numberModel' => $numberModel->id, 'userModel' => $userModel->uuid, 'medical_recordModel' => $medical_recordModel->id]) }}" class="btn btn-outline-gradient-info mb-3 button_index">Đã khám</a>

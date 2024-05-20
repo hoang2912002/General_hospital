@@ -18,6 +18,7 @@ class TestRequisitionController extends Controller
      */
     public function index_management(Request $request)
     {
+
         $name_page = [
             'name' => 'Danh sách',
             'total' => 'Phiếu chỉ định',

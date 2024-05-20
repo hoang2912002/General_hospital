@@ -41,29 +41,44 @@ class MedicalRecordModel extends Model
     public function shift(){
         switch ($this->shift_id) {
             case 1:
-                return '7 giờ 30 phút';
+                return '06:00:00 đến 08:00:00';
                 break;
             case 2:
-                return '8 giờ 00';
+                return '08:00:00 đến 10:00:00';
                 break;
             case 3:
-                return '8 giờ 30 phút';
+                return '10:00:00 đến 12:00:00';
                 break;
             case 4:
-                return '9 giờ 00';
+                return '12:00:00 đến 14:00:00';
                 break;
             case 5:
-                return '9 giờ 30 phút';
+                return '14:00:00 đến 16:00:00';
                 break;
             case 6:
-                return '10 giờ 00';
+                return '16:00:00 đến 18:00:00';
                 break;
             case 7:
-                return '10 giờ 30 phút';
+                return '18:00:00 đến 20:00:00';
+                break;
+            case 8:
+                return '20:00:00 đến 22:00:00';
+                break;
+            case 9:
+                return '22:00: đến 00:00:00';
+                break;
+            case 10:
+                return '00:00:00 đến 02:00:00';
+                break;
+            case 11:
+                return '02:00:00 đến 04:00:00';
+                break;
+            case 12:
+                return '02:00:00 đến 04:00:00';
                 break;
 
             default:
-                return '11 giờ 00';
+                return '06:00:00 đến 08:00:00';
                 break;
         }
     }

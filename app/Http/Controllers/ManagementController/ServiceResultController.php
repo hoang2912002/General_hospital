@@ -33,6 +33,7 @@ class ServiceResultController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',ServiceResultModel::class);
         $users = UserModel::get();
         $group = Auth::user()->User->group_user;
         $arr_role = ['bac-si','nhan-vien-xet-nghiem','nhan-vien-dich-vu'];
@@ -143,30 +144,36 @@ class ServiceResultController extends Controller
                         }
                     }
                 }
+                if(!empty($serviceData)){
                 // Duyệt qua mảng dịch vụ đã nhóm và định dạng dữ liệu cho DataTables
-                foreach($serviceData as $medical_record_id => $recordData) {
-                    //dd($recordData['services'] !== [],!empty($recordData['services']));
-                    if(!empty($recordData['services']))
-                    {
-                        $service = ServiceModel::whereIn('name', $recordData['services'])->get()->toArray();
-                        $arr_service_id = array_column($service, 'id');
-                        $route_create_service_result = '<a href="'. route('service_result.create', [
-                            'medical_record_id' => $medical_record_id,
-                            'service_id' => implode('-', $arr_service_id),
-                            'day_id' => $day_id,
-                            'shift_id' => $shift_id,
-                        ]) .'" class="badge bg-gradient-success" title="Chi tiết dịch vụ"><i class="fas fa-solid fa-hospital-user"></i></a>';
-                        $check = '';
-                        $route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                        $route_delete = '';
-                        $route =  $route_edit . '&nbsp' . $route_create_service_result . '&nbsp' . $route_delete  ;
-                        $data[] = [
-                            'disease' => $recordData['disease'],
-                            'patient_name' => $recordData['patient_name'],
-                            'service_name' => implode(' ,', $recordData['services']), // Gộp các dịch vụ thành một chuỗi
-                            'action' => $route, // Bạn có thể thêm hành động nếu cần
-                        ];
+                    foreach($serviceData as $medical_record_id => $recordData) {
+                        //dd($recordData['services'] !== [],!empty($recordData['services']));
+                        if(!empty($recordData['services']))
+                        {
+                            $service = ServiceModel::whereIn('name', $recordData['services'])->get()->toArray();
+                            $arr_service_id = array_column($service, 'id');
+                            $route_create_service_result = '<a href="'. route('service_result.create', [
+                                'medical_record_id' => $medical_record_id,
+                                'service_id' => implode('-', $arr_service_id),
+                                'day_id' => $day_id,
+                                'shift_id' => $shift_id,
+                            ]) .'" class="badge bg-gradient-success" title="Chi tiết dịch vụ"><i class="fas fa-solid fa-hospital-user"></i></a>';
+                            $check = '';
+                            $route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                            $route_delete = '';
+                            $route =  $route_edit . '&nbsp' . $route_create_service_result . '&nbsp' . $route_delete  ;
+                            $data[] = [
+                                'disease' => $recordData['disease'],
+                                'patient_name' => $recordData['patient_name'],
+                                'service_name' => implode(' ,', $recordData['services']), // Gộp các dịch vụ thành một chuỗi
+                                'action' => $route, // Bạn có thể thêm hành động nếu cần
+                            ];
+                        }
+
                     }
+                }
+                else{
+                    $data = [];
                 }
             }
             return response()->json(['data' => $data]);
@@ -213,6 +220,7 @@ class ServiceResultController extends Controller
      */
     public function create($medical_record_id,$service_id,$day_id,$shift_id)
     {
+        $this->authorize('create', ServiceResultModel::class);
         //dd($medical_record_id,$service_id,$day_id,$shift_id,is_numeric($day_id));
         if(!empty($medical_record_id) && !empty($shift_id) && !empty($service_id) && is_numeric($day_id)){
             //dd($medical_record_id,$service_id,$day_id,$shift_id);

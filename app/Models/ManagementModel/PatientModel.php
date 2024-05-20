@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Models\ManagementModel;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PatientModel extends Model
+{
+    use HasFactory;
+    protected $primaryKey = 'uuid';
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $table = 'users';
+    protected $fillable = [
+        'uuid', 'first_name', 'last_name', 'gender', 'dob', 'login_id'
+    ];
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+    public function login()
+    {
+        return $this->hasOne(LoginModel::class,'id','login_id');
+    }
+    public function staff()
+    {
+        return $this->hasOne(StaffModel::class,'staff_uuid','uuid');
+    }
+
+    public function group_user(){
+        return $this->belongsToMany(GroupModel::class,'group_users','user_uuid','group_id','uuid','id')->withPivot('group_id');
+    }
+    public function gr_user(){
+        return $this->hasOne(GroupUserModel::class,'user_uuid','uuid');
+    }
+    public function dob(){
+        return date('d-m-Y', strtotime($this->dob));
+    }
+    public function birthdate()
+    {
+        return  date('d/m/Y', strtotime($this->dob));
+
+    }
+    public function medical_record(){
+        return $this->hasMany(MedicalRecordModel::class,'user_uuid','uuid');
+    }
+    public function medical_record_doctor(){
+        return $this->hasMany(MedicalRecordModel::class,'doctor_uuid','uuid');
+    }
+    public function number_medical_record(){
+        return $this->hasMany(Number_medicalRecordModel::class,'patient_uuid','uuid');
+    }
+    public function name(){
+        return $this->last_name . ' ' . $this->first_name;
+    }
+    public function aboard_name(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getPermision()
+    {
+        $groups = $this->group_user;
+        foreach($groups as $group){
+            $permissions = array_map(function($permission){
+                return $permission->name;
+            },$group->role->all());
+        }
+        //dd($permissions);
+        return $permissions ?? ['null'];
+    }
+
+    public function patient_gender(){
+        return ($this->gender == 0) ? 'Nữ' :'Nam';
+    }
+
+    public function gender(){
+        switch ($this->gender) {
+            case '0':
+                return '<span class="badge badge-sm bg-gradient-info">Nữ</span>';
+                break;
+            case '1':
+                return '<span class="badge badge-sm bg-gradient-primary">Nam</span>';
+                break;
+            default:
+                break;
+        }
+    }
+
+}

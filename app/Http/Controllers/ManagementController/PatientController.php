@@ -16,6 +16,7 @@ use App\Models\ManagementModel\MedicalRecordModel;
 use App\Models\ManagementModel\Number_medicalRecordModel;
 use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\PatientIdentificationModel;
+use App\Models\ManagementModel\PatientModel;
 use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class PatientController extends Controller
 {
     public function index(Request $request)
     {
-
+        $this->authorize('viewAny',PatientModel::class);
         $users = UserModel::get();
         $group = Auth::user()->User->group_user;
 
@@ -342,6 +343,7 @@ class PatientController extends Controller
     }
 
     public function create(){
+        $this->authorize('create', PatientModel::class);
         $name_page = [
             'name' => 'Thêm bệnh nhân',
             'total' => 'Khám bệnh',
@@ -418,7 +420,7 @@ class PatientController extends Controller
     }
 
     public function edit(UserModel $userModel){
-
+        $this->authorize('update', $userModel);
         $name_page = [
             'name' => 'Sửa thông tin bệnh nhân',
             'total' => 'Khám bệnh',
@@ -513,19 +515,20 @@ class PatientController extends Controller
         }
     }
 
-    // public function destroy(UserModel $userModel)
-    // {
-    //     //$this->authorize('delete', $manufacturerModel);
-    //     try {
-    //         if(empty($userModel->medical_record())){
-    //             $userModel->delete();
-    //             return 1;
-    //         }
-    //         else{
-    //             return 0;
-    //         }
-    //     } catch (\Throwable $th) {
-    //         dd($th->getMessage());
-    //     }
-    // }
+    public function destroy(UserModel $userModel)
+    {
+        //$this->authorize('delete', $manufacturerModel);
+        $this->authorize('delete', $userModel);
+        try {
+            if(empty($userModel->medical_record())){
+                $userModel->delete();
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
 }

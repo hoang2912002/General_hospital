@@ -28,6 +28,16 @@
           const example = new Choices(bill_status);
 
         }
+        if (document.getElementById('choices-medical_equipment_edit_status')) {
+          var medical_equipment = document.getElementById('choices-medical_equipment_edit_status');
+          const example = new Choices(medical_equipment);
+
+        }
+        if (document.getElementById('choices-equipment_category')) {
+          var equipment_category = document.getElementById('choices-equipment_category');
+          const example = new Choices(equipment_category);
+
+        }
         if (document.getElementById('choices-gender1')) {
           var gender = document.getElementById('choices-gender1');
           const example = new Choices(gender);

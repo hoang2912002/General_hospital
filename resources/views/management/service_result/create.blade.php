@@ -141,7 +141,7 @@
                                             <div class="row mt-3">
                                                 <div class="col-sm-auto  d-flex">
                                                     <label class="form-check-label mb-0">
-                                                        <small id="profileVisibility">Activated</small>
+                                                        <small id="profileVisibility">Kích hoạt</small>
                                                     </label>
                                                     <div class="form-check form-switch ms-2">
                                                         <input class="form-check-input"
@@ -156,7 +156,7 @@
                                                 <button
                                                     class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
                                                     type="button" id="service-result-button"
-                                                    title="create">Create</button>
+                                                    title="create">Thêm</button>
                                             </div>
                                         @endif
                                     </div>

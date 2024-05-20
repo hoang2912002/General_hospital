@@ -16,8 +16,7 @@ class MedicalRecordManagementController extends Controller
 {
     public function index(Request $request)
     {
-
-
+        $this->authorize('viewAny',MedicalRecordModel::class);
         if($request->ajax()){
             $medical_records = MedicalRecordModel::get();
 
@@ -87,6 +86,7 @@ class MedicalRecordManagementController extends Controller
     }
 
     public function create(){
+        $this->authorize('create', MedicalRecordModel::class);
         $name_page = [
             'name' => 'Thêm',
             'total' => 'Hồ sơ bênh án',
@@ -153,6 +153,7 @@ class MedicalRecordManagementController extends Controller
     }
 
     public function update(UpdateRequest $request, MedicalRecordModel $medical_recordModel){
+        $this->authorize('update', $medical_recordModel);
         try {
             if(!empty($request->user_uuid) && !empty($request->doctor_uuid)){
                 //dd($request);
@@ -185,6 +186,6 @@ class MedicalRecordManagementController extends Controller
 
     public function destroy(MedicalRecordModel $medicalRecordModel)
     {
-        //
+        $this->authorize('delete', $medicalRecordModel);
     }
 }

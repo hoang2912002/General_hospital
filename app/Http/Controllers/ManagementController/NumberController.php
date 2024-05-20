@@ -26,6 +26,7 @@ class NumberController extends Controller
      * Show the form for creating a new resource.
      */
     public function ticket(Request $request){
+        $this->authorize('viewAny',NumberModel::class);
         $name_page = [
             'name' => 'Danh sách số thứ tự',
             'total' => 'Phòng khám',
@@ -181,7 +182,8 @@ class NumberController extends Controller
     }
     public function create_waiting_patient(Request $request)
     {
-        //dd($request);
+        $this->authorize('create', NumberModel::class);
+
         $check_number = NumberModel::where('room_id',$request->room_id);
         $number = (!empty($check_number->get()->all())) ? $check_number->get()->last()->number + 1 : 1;
         $room = RoomModel::where('id',$request->room_id)->first();

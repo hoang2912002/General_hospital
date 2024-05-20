@@ -13,6 +13,7 @@ use Yajra\DataTables\DataTables;
 class ServiceResultManagementController extends Controller
 {
     public function index(Request $request){
+        $this->authorize('viewAny',ServiceResultModel::class);
         $name_page = [
             'name' =>  'Danh mục',
             'total' => 'Kết quả dịch vụ',
@@ -62,6 +63,7 @@ class ServiceResultManagementController extends Controller
     }
 
     public function create(){
+        $this->authorize('create',ServiceResultModel::class);
         $name_page = [
             'name' =>  'Thêm',
             'total' => 'Kết quả dịch vụ',

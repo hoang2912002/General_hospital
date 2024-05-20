@@ -16,6 +16,9 @@ class BillModel extends Model
     public function user(){
         return $this->hasOne(UserModel::class,'uuid','user_uuid');
     }
+    public function medical_record(){
+        return $this->hasOne(MedicalRecordModel::class,'id','medical_record_id');
+    }
 
     public function payment(){
         return $this->hasOne(PaymentModel::class,'id','payment_id');

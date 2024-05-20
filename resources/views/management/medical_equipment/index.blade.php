@@ -29,7 +29,7 @@
                                         </div>
                                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                                             <div class="ms-auto my-auto d-flex">
-                                                <a href="{{ route('equipment_category.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
+                                                <a href="{{ route('medical_equipment.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm</a>&nbsp;
                                             </div>
                                         </div>
                                     </div>
@@ -38,9 +38,12 @@
                                         <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ảnh</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên</th>
-                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày sản xuất</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hạn sử dụng</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng</th>
                                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chức năng</th>
                                                 </tr>
                                             </thead>
@@ -62,25 +65,43 @@
     </div>
 @endsection
 @push('js')
-    <script>
-        var columns = [{
-                data: 'id',
-                name: 'id'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'slug',
-                name: 'slug'
-            },
-            {
-                data: 'action',
-                name: 'action'
-            },
+<script>
 
-        ];
-        renderTable("{!! route('equipment_category.index') !!}", columns);
-    </script>
+    var columns = [
+
+        {
+            data: 'image',
+            name: 'image'
+        },
+        {
+            data: 'name',
+            name: 'name'
+        },
+        {
+            data: 'status',
+            name: 'status'
+        },
+        {
+            data: 'production_date',
+            name: 'production_date'
+        },
+        {
+            data: 'exp_date',
+            name: 'exp_date'
+        },
+        {
+            data: 'quantity',
+            name: 'quantity'
+        },
+        {
+            data: 'action',
+            name: 'action'
+        },
+
+    ];
+    setTimeout(function(){
+        renderTable("{!! route('medical_equipment.index') !!}", columns,false);
+    }, 150);
+
+</script>
 @endpush

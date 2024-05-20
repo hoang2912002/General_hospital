@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ManagementController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\ShiftRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\ShiftRequest\UpdateRequest;
+use App\Models\ManagementModel\LoginModel;
 use App\Models\ManagementModel\ShiftModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -17,6 +18,7 @@ class ShiftController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny',ShiftModel::class);
+
         $name_page = [
             'name' => 'Danh sách',
             'total' => 'Ca',

@@ -18,6 +18,7 @@ use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Support\Str;
 class PrescriptionController extends Controller
 {
     /**
@@ -25,6 +26,7 @@ class PrescriptionController extends Controller
      */
     public function index(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel)
     {
+        $this->authorize('viewAny',PrescriptionModel::class);
         //dd($userModel,$medical_recordModel);
         $medicine = MedicineModel::get();
         $categories = CategoryModel::get();
@@ -132,13 +134,12 @@ class PrescriptionController extends Controller
 
     }
 
-    public function print_prescription(UserModel $userModel,MedicalRecordModel $medical_recordModel){
+    public function print_prescription(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel){
         $prescription = PrescriptionModel::where('medical_record_id',$medical_recordModel->id)->first();
         //dd($prescription->prescription_detail);
 
         $pdf = FacadePdf::loadview('management.prescription.print_prescription',compact('prescription','userModel','medical_recordModel'))->setPaper('A4');
-        //dd($pdf);
-        return $pdf->download('benh-nhan-' . $userModel->name() . '-toa-thuoc' . '.pdf');
+        return $pdf->download('benh-nhan-' . Str::slug($userModel->name()) . '-toa-thuoc' . '.pdf');
         //return view('management.prescription.print_prescription',compact('prescription','userModel','medical_recordModel'));
     }
 

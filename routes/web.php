@@ -198,6 +198,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{medicalEquipmentModel}', 'edit')->name('edit');
         Route::patch('update/{medicalEquipmentModel}', 'update')->name('update');
         Route::delete('destroy/{medicalEquipmentModel}', 'destroy')->name('destroy');
+        Route::get('readFiles/{medicalEquipmentModel}', 'readFiles')->name('readFiles');
+        Route::post('delete_image/{medicalEquipmentModel}', 'delete_image')->name('delete_image');
     });
     //Assignment
     Route::group(['controller' => AssignmentController::class, 'prefix' => 'assignment', 'as' => 'assignment.'],function(){
@@ -233,7 +235,7 @@ Route::middleware([CheckLogin::class])->group(function(){
     // Prescription
     Route::group(['controller' => PrescriptionController::class, 'prefix' => 'prescription', 'as' => 'prescription.'],function(){
         Route::get('/{numberModel}/{userModel}/{medical_recordModel}', 'index')->name('index');
-        Route::get('/{userModel}/{medical_recordModel}/print_prescription', 'print_prescription')->name('print_prescription');
+        Route::get('/{numberModel}/{userModel}/{medical_recordModel}/print_prescription', 'print_prescription')->name('print_prescription');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{prescriptionModel}', 'edit')->name('edit');
@@ -291,7 +293,7 @@ Route::middleware([CheckLogin::class])->group(function(){
     //Phiếu chỉ định ở đây dùng management vào tên route cho role quản lý ví dụ index_management
     Route::group(['controller' => TestRequisitionController::class, 'prefix' => 'test_requisition', 'as' => 'test_requisition.'],function(){
         Route::get('/{userModel}', 'index')->name('index');
-        //Route::get('', 'index_management')->name('index_management');
+        Route::get('', 'index_management')->name('index_management');
         Route::get('create', 'create')->name('create');
         Route::post('store', 'store')->name('store');
         Route::get('edit/{test_requisitionModel}', 'edit')->name('edit');
@@ -355,5 +357,6 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{billModel}', 'update')->name('update');
         Route::patch('update_status/{billModel}', 'update_status')->name('update_status');
         Route::delete('destroy/{billModel}', 'destroy')->name('destroy');
+        Route::get('print_pdf_bill/{billModel}', 'print_pdf_bill')->name('print_pdf_bill');
     });
 });

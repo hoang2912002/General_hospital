@@ -24,6 +24,7 @@ class MedicalRecordController extends Controller
      */
     public function index(Request $request,NumberModel $numberModel,UserModel $userModel,$shift)
     {
+        $this->authorize('viewAny',MedicalRecordModel::class);
         $number_medical_record = Number_medicalRecordModel::where([
             'number_id' => $numberModel->id,
             'patient_uuid' => $userModel->uuid,
@@ -92,6 +93,7 @@ class MedicalRecordController extends Controller
      */
     public function create(NumberModel $numberModel,UserModel $userModel,$shift)
     {
+        $this->authorize('create', MedicalRecordModel::class);
         $name_page = [
             'name' => 'Thêm hồ sơ bệnh án',
             'total' => 'Bệnh nhân',

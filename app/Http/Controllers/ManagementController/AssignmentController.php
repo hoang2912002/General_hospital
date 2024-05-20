@@ -25,6 +25,7 @@ class AssignmentController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny',AssignmentModel::class);
         $name_page = [
             'name' => 'Danh sách',
             'total' => 'Lịch phân công',
@@ -49,14 +50,14 @@ class AssignmentController extends Controller
             })
             ->addColumn('action', function ($assignment) {
                 $routeDestroy = "'" . route('assignment.destroy',$assignment->id) . "'";
-                $route_edit =  '<a href="'. route('assignment.edit', $assignment->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+
                 $route_detail =  '<a href="#" class="badge bg-gradient-success" data-bs-toggle="modal" data-assignment-id="'.$assignment->id.'"
                 data-bs-target="#modal-detail-assignment"  onclick="handleClick(\''.$assignment->id.'\')">
                 <i class="fas fa-solid fa-file"></i>
                 </a>';
                 //$route_detail =  '<a href="'. route('user.detail', $user->uuid) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_detail . '&nbsp'  . $route_delete;
+                return  $route_detail . '&nbsp'  . $route_delete;
             })
             ->rawColumns(['id','full_name','date_start','date_end','action'])
             ->make();
@@ -222,10 +223,8 @@ class AssignmentController extends Controller
      */
     public function destroy(AssignmentModel $assignmentModel)
     {
+        $this->authorize('delete', $assignmentModel);
         try {
-
-            //if()
-            //dd($assignmentModel->assignment_shift);
             foreach($assignmentModel->assignment_day as $day){
                 foreach($assignmentModel->assignment_shift as $shift){
                     $assignment_room = AssignmentRoomModel::where([

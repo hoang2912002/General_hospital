@@ -77,9 +77,9 @@
                                             <label>Tên</label>
                                             <input type="hidden" value="{{ $serviceModel->id }}">
                                             <input class="multisteps-form__input form-control" type="text"
-                                                placeholder="eg. Michael" name="first_name" id="name"
-                                                value="{{ old('first_name') ?? '' }}">
-                                            @error('first_name')
+                                                placeholder="eg. Michael" name="name" id="name"
+                                                value="{{ $serviceModel->name ??  old('name') }}">
+                                            @error('name')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
                                                     role="alert">
                                                     {{ $message }}
@@ -92,8 +92,8 @@
                                             <label>Giá</label>
                                             <input class="multisteps-form__input form-control" type="text" id="price"
                                                 placeholder="10.000VNĐ" name="price"
-                                                value="{{ old('first_name') ?? '' }}">
-                                            @error('first_name')
+                                                value="{{ $serviceModel->price ??  old('price') }}">
+                                            @error('price')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
                                                     role="alert">
                                                     {{ $message }}
@@ -108,7 +108,7 @@
                                                 (không bắt buộc)
                                             </p>
                                             <div id="edit-deschiption" class="h-50">
-                                                <p>Thông tin <strong>chi tiết</strong></p>
+                                                {!! $serviceModel->description !!}
                                             </div>
                                             @error('edit-deschiption')
                                                 <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
@@ -186,59 +186,117 @@
     <script src="{{ asset('asset/admin/js') }}/plugins/dropzone.min.js"></script>
     <script src="{{ asset('asset/admin/js') }}/plugins/quill.min.js"></script>
     <script>
+         if (document.getElementById('edit-deschiption')) {
+            var quill = new Quill('#edit-deschiption', {
+                theme: 'snow' // Specify theme in configuration
+            });
+        };
+    </script>
+    <script>
         Dropzone.autoDiscover = false;
-        var arr_image_service = {};
+        var arr_image_service = [];
         let token = $('meta[name="csrf-token"]').attr('content');
         $(function() {
             //service thumbnail
-            var myDropzoneThumbnail = new Dropzone('#service-thumbnail', {
+            var myDropzone = new Dropzone('#service-thumbnail', {
                 paramName: "file",
                 url: '{!! route('service.dropzone') !!}',
-                uploadMultiple: false,
-                maxFiles: 10,
+                uploadMultiple: true,
+                maxFiles: 1,
                 acceptedFiles: '.jpg, .jpeg,.png,.gif',
-                autoProcessQueue: false, // myDropzone.processQueue() to upload dropped files
+                autoProcessQueue: true, // myDropzone.processQueue() to upload dropped files
                 addRemoveLinks: true,
-                dictRemoveFile: "Remove image",
+                //dictRemoveFile: "Xóa ảnh",
                 params: {
                     _token: token
                 },
+                success: function(file, response) {
+                    $('form').append('<input type="hidden" name="file[]" value="' + response.name + '">');
+                    //console.log($("input[name=file[]]").prop('type','hidden'));
+                    uploadedDocumentMap[file.name] = response.name;
+                    arr_image_service = jQuery.grep(arr_image_service, function(value) {
+                        console.log('success',value == 'img/general_hospital/management/service_image/' + response.name);
+                        return value != 'img/general_hospital/management/service_image/' + response.name;
+                    });
+                },
+                removedfile: function(file) {
+                    // console.log('remove calls');
+                    // console.log('remove file');
+                    // console.log(file);
+                    // remove uploaded file from table and storage folder starts
+                    var filename = ''
+                    if (file.hasOwnProperty('upload')) {
+                        filename = file.upload.filename;
+                    } else {
+                        filename = file.name;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('service.delete_thumbnail', $serviceModel->slug) }}',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        data: {
+                            filename: arr_image_service,
+                        },
+                        success: function(data) {
+                            //console.log('removed success: ' + data);
+
+                        }
+                    });
+                    // remove file name from uploadedDocumentMap object
+                    Reflect.deleteProperty(uploadedDocumentMap, file.name);
+
+                    file.previewElement.remove();
+                    arr_image_service.splice(0, 1)
+                    console.log('array_',arr_image_service);
+                    removeElement(arr_image_service, file.name);
+                    $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
+                },
+
                 init: function() {
                     //console.log('init calls');
-                    myDropzoneThumbnail = this;
+                    myDropzone = this;
                     // Read Files from tables and storage folder starts
                     $.ajax({
-                        url: "{{ route('service.readFilesThumbnail', $serviceModel->slug) }}",
+                        url: "{{ route('service.readFiles', $serviceModel->slug) }}",
                         type: 'get',
                         dataType: 'json',
                         success: function(response) {
-                            console.log('dfsds',response.arr);
-                           // arr_image_service['images'] = (response.arr_image);
                             $.each(response.arr, function(key, value) {
+                                //console.log(response);
                                 var mockFile = {
                                     name: value.name,
                                     size: value.size,
                                     accepted: true,
                                     kind: 'image'
                                 };
-                                myDropzoneThumbnail.emit("addedfile", mockFile);
-                                myDropzoneThumbnail.files.push(mockFile);
-                                myDropzoneThumbnail.emit("thumbnail", mockFile, value.thumbnail);
+                                if(value.size != '' && value.name != ''){
+                                    myDropzone.emit("addedfile", mockFile);
+                                    myDropzone.files.push(mockFile);
+                                    myDropzone.emit("thumbnail", mockFile, value.image);
 
-                                myDropzoneThumbnail.emit("complete", mockFile);
-                                console.log(arr_image_service);
+                                    myDropzone.emit("complete", mockFile);
+                                    uploadedDocumentMap[value.name] = value.name;
+                                    console.log(value.name);
+                                    arr_image_service.push('img/general_hospital/management/service_image/'+value.name);
+                                }
+                                else{
+                                    uploadedDocumentMap[value.name] =  value.name;
+                                    //arr_image_service.push(value.image);
+                                }
                             });
                         }
                     });
                 },
-                error: function(file, response) {
+                error:function(file, response) {
                     // error handling
                 },
-                success: function(file, response) {
-                    //console.log(response,'111');
+                success:function(file, response) {
+                    console.log('dsds',response);
                     if (response.status == "success") {
-                        //arr_image_service.push(response.service_image)
-                        //console.log(arr_image_service);
+                       arr_image_service.push(response.service_image);
+                       console.log('trong dropzone',arr_image_service);
                     }
                 }
             });
@@ -247,70 +305,102 @@
             var myDropzone = new Dropzone('#service-image', {
                 paramName: "file",
                 url: '{!! route('service.dropzone') !!}',
-                uploadMultiple: false,
-                maxFiles: 10,
+                uploadMultiple: true,
+                maxFiles: 1,
                 acceptedFiles: '.jpg, .jpeg,.png,.gif',
-                autoProcessQueue: false, // myDropzone.processQueue() to upload dropped files
+                autoProcessQueue: true, // myDropzone.processQueue() to upload dropped files
                 addRemoveLinks: true,
-                timeout: 5000,
-                dictRemoveFile: "Remove image",
+                //dictRemoveFile: "Xóa ảnh",
                 params: {
                     _token: token
                 },
+                success: function(file, response) {
+                    $('form').append('<input type="hidden" name="file[]" value="' + response.name + '">');
+                    //console.log($("input[name=file[]]").prop('type','hidden'));
+                    uploadedDocumentMap[file.name] = response.name;
+                    arr_image_service = jQuery.grep(arr_image_service, function(value) {
+                        console.log('success',value == 'img/general_hospital/management/service_image/' + response.name);
+                        return value != 'img/general_hospital/management/service_image/' + response.name;
+                    });
+                },
+                removedfile: function(file) {
+                    // console.log('remove calls');
+                    // console.log('remove file');
+                    // console.log(file);
+                    // remove uploaded file from table and storage folder starts
+                    var filename = ''
+                    if (file.hasOwnProperty('upload')) {
+                        filename = file.upload.filename;
+                    } else {
+                        filename = file.name;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('service.delete_thumbnail', $serviceModel->slug) }}',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        data: {
+                            filename: arr_image_service,
+                        },
+                        success: function(data) {
+                            //console.log('removed success: ' + data);
+
+                        }
+                    });
+                    // remove file name from uploadedDocumentMap object
+                    Reflect.deleteProperty(uploadedDocumentMap, file.name);
+
+                    file.previewElement.remove();
+                    arr_image_service.splice(0, 1)
+                    console.log('array_',arr_image_service);
+                    removeElement(arr_image_service, file.name);
+                    $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
+                },
+
                 init: function() {
-                    console.log('1',arr_image_service);
+                    //console.log('init calls');
                     myDropzone = this;
                     // Read Files from tables and storage folder starts
-
                     $.ajax({
                         url: "{{ route('service.readFiles', $serviceModel->slug) }}",
                         type: 'get',
                         dataType: 'json',
-                        // data: { 'serviceModel' : $('#input-thumbnail-service').val() },
                         success: function(response) {
-                            //console.log(response);
-
-                            $.each(response.arr_image, function(key, value) {
-                                //console.log(value);
+                            $.each(response.arr, function(key, value) {
+                                //console.log(response);
                                 var mockFile = {
                                     name: value.name,
                                     size: value.size,
                                     accepted: true,
                                     kind: 'image'
                                 };
-                                myDropzone.emit("addedfile", mockFile);
-                                myDropzone.files.push(mockFile);
-                                myDropzone.emit("thumbnail", mockFile, value.image);
+                                if(value.size != '' && value.name != ''){
+                                    myDropzone.emit("addedfile", mockFile);
+                                    myDropzone.files.push(mockFile);
+                                    myDropzone.emit("thumbnail", mockFile, value.image);
 
-                                myDropzone.emit("complete", mockFile);
+                                    myDropzone.emit("complete", mockFile);
+                                    uploadedDocumentMap[value.name] = value.name;
+                                    console.log(value.name);
+                                    arr_image_service.push('img/general_hospital/management/service_image/'+value.name);
+                                }
+                                else{
+                                    uploadedDocumentMap[value.name] =  value.name;
+                                    //arr_image_service.push(value.image);
+                                }
                             });
                         }
                     });
-
-                    // $.each(arr_image_service.images, function(key, value) {
-                    //     console.log('sfsdfsd',key);
-                    // var mockFile = {
-                    //                 name: value.name,
-                    //                 size: value.size,
-                    //                 accepted: true,
-                    //                 kind: 'image'
-                    //             };
-                    //             myDropzone.emit("addedfile", mockFile);
-                    //             myDropzone.files.push(mockFile);
-                    //             myDropzone.emit("thumbnail", mockFile, value.image);
-
-                    //             myDropzone.emit("complete", mockFile);
-
-                    //         })
                 },
-                error: function(file, response) {
+                error:function(file, response) {
                     // error handling
                 },
-                success: function(file, response) {
-                    //console.log(response.service_image);
+                success:function(file, response) {
+                    console.log('dsds',response);
                     if (response.status == "success") {
-                        arr_image_service.push(response.service_image)
-                        //console.log(arr_image_service);
+                       arr_image_service.push(response.service_image);
+                       console.log('trong dropzone',arr_image_service);
                     }
                 }
             });
@@ -344,10 +434,8 @@
                         var url = "{{ route('service.index') }}"
                         window.location.href = url;
                         myDropzone.processQueue();
-
                     }
                 });
-                //});
             });
         })
     </script>

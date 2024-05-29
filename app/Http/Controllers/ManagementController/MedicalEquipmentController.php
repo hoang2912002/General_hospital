@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportMedicalEquipments;
 use App\Http\Controllers\Controller;
+use App\Imports\ExcelImportMedicalEquipments;
 use App\Models\ManagementModel\EquipmentCategoryModel;
 use App\Models\ManagementModel\MedicalEquipmentModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
+
 class MedicalEquipmentController extends Controller
 {
     /**
@@ -235,6 +239,26 @@ class MedicalEquipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+     public function import(Request $request)
+     {
+         if(!empty($request->file('file'))){
+             $path = $request->file("file")->getRealPath();
+             //dd($path);
+             Excel::import(new ExcelImportMedicalEquipments, $path);
+             return back();
+         }
+         else{
+             return back()->with('error','Vui lòng chọn file excel');
+         }
+
+
+     }
+     public function export()
+     {
+         return Excel::download(new ExcelExportMedicalEquipments , 'thiet-bi-y-te-'  . date('s_i_H-Y_m_d') .  '.xlsx');
+     }
+
     public function destroy(MedicalEquipmentModel $medicalEquipmentModel)
     {
         try {

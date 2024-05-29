@@ -25,12 +25,7 @@
                     </a>
                     <div class="collapse  show " id="myprofile">
                         <ul class="nav ms-4">
-                            <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('user.profile')}}">
-                                    <span class="sidenav-mini-icon"> T </span>
-                                    <span class="sidenav-normal"> Trang cá nhân </span>
-                                </a>
-                            </li>
+
                             <li class="nav-item ">
                                 <a class="nav-link " href="{{ route('user.setting')}}">
                                     <span class="sidenav-mini-icon"> C </span>
@@ -148,7 +143,7 @@
                         </div>
                     </li>
                 @endif
-                @if (Auth::user()->User->group_user[0]->slug === 'thu-ngan')
+                @if (Auth::user()->User->group_user[0]->slug === 'thu-ngan' || Auth::user()->User->group_user[0]->slug === 'quan-ly')
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link "
                             aria-controls="ecommerceExamples" role="button" aria-expanded="false">
@@ -161,12 +156,22 @@
                         </a>
                         <div class="collapse " id="ecommerceExamples">
                             <ul class="nav ms-4">
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="{{ route('bill.index') }}">
-                                        <span class="sidenav-mini-icon"> H </span>
-                                        <span class="sidenav-normal"> Hóa đơn </span>
-                                    </a>
-                                </li>
+                                @if (Auth::user()->User->group_user[0]->slug === 'thu-ngan')
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="{{ route('bill.index') }}">
+                                            <span class="sidenav-mini-icon"> H </span>
+                                            <span class="sidenav-normal"> Hóa đơn </span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (Auth::user()->User->group_user[0]->slug === 'quan-ly')
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="{{ route('bill_management.index') }}">
+                                            <span class="sidenav-mini-icon"> H </span>
+                                            <span class="sidenav-normal"> Hóa đơn </span>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </li>

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
             $table->double('price');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedInteger('room_id');
             $table->timestamps();
             $table->foreign('room_id')->references('id')->on('rooms');

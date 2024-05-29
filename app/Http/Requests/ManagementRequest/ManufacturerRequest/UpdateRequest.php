@@ -25,8 +25,6 @@ class UpdateRequest extends FormRequest
         $id = request()->route()->manufacturerModel->id;
         return [
             'name' => 'required|unique:manufacturers,name',
-            'email' => 'required|email|unique:manufacturers,email,' .$id,
-            'phone_number' => ['required', new Phone_number('Số điện thoại này không đúng định dạng!') , 'unique:manufacturers,phone_number,'.$id],
             'activated' => 'required',
             'address' => 'required',
         ];

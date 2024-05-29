@@ -22,5 +22,33 @@ class ServiceResultModel extends Model
     public function service(){
         return $this->hasOne(ServiceModel::class,'id','service_id');
     }
-    
+
+    public function day(){
+        switch ($this->day_id) {
+            case 1:
+                return 'Thứ 2';
+                break;
+            case 2:
+               return 'Thứ 3';
+                break;
+            case 3:
+                return 'Thứ 4';
+                break;
+            case 4:
+                return 'Thứ 5';
+                break;
+            case 5:
+               return 'Thứ 6';
+                break;
+            case 6:
+                return 'Thứ 7';
+                break;
+            case 0:
+                return 'Chủ nhật';
+                break;
+            default:
+                return 'Thứ 2';
+                break;
+        }
+    }
 }

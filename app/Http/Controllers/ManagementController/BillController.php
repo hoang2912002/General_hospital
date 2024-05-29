@@ -24,7 +24,8 @@ class BillController extends Controller
             'route' => 'bill.index'
         ];
         if($request->ajax()){
-            $bills = BillModel::where('status', 0)->get();
+            //$bills = BillModel::where('status', 0)->get();
+            $bills = BillModel::get();
             return DataTables::of($bills)
             ->editColumn('id', function ($bill) {
                 return $bill->id;

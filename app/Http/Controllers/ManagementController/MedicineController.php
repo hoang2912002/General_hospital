@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportMedicines;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\MedicineRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\MedicineRequest\UpdateRequest;
+use App\Imports\ExcelImportMedicines;
 use App\Models\ManagementModel\ManufacturerModel;
 use App\Models\ManagementModel\MedicineModel;
 use App\Models\ManagementModel\MedicineTypeModel;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 class MedicineController extends Controller
 {
     /**
@@ -109,7 +112,6 @@ class MedicineController extends Controller
         try {
             //dd($request);
             if($request->hasFile('file')){
-                //dd(1);
                 $files = $request->file;
                 foreach($files as $file){
                     $namefile = $file->getClientOriginalName();
@@ -183,16 +185,16 @@ class MedicineController extends Controller
      */
     public function update(UpdateRequest $request, MedicineModel $medicineModel)
     {
-        //dd(1);
+
         try {
-            $name_page = [
-                'name' => 'Mục lục thuốc',
-                'total' => 'Thuốc',
-                'route' => 'medicine.index'
-            ];
+
             $arr = $request->arr;
-            $arr['slug'] =
-            Str::slug($request->arr['name']);
+            $price = explode('VNĐ',$request->arr['price']);
+            $price = explode('.' , $price[0]);
+            $price = implode('',$price);
+            $arr = $request->arr;
+            $arr['price'] = $price;
+            $arr['slug'] =Str::slug($request->arr['name']);
             $medicine =  $medicineModel->update($arr);
             if(!empty($medicine)){
                 return response()->json(['status' => "success",'message' => "Lưu file thành công",'success' => 'Thêm dịch thuốc thành công!']);
@@ -244,6 +246,26 @@ class MedicineController extends Controller
             dd($th->getMessage());
         }
     }
+
+    public function import(Request $request)
+    {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportMedicines, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
+
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportMedicines , 'danh-sach-thuoc-'  . date('s_i_H-Y_m_d') .  '.xlsx');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

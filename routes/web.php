@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ManagementController\AssignmentController;
 use App\Http\Controllers\ManagementController\BillController;
+use App\Http\Controllers\ManagementController\BillManagementController;
 use App\Http\Controllers\ManagementController\CategoryController;
 use App\Http\Controllers\ManagementController\DepartmentController;
 use App\Http\Controllers\ManagementController\EquipmentCategoryController;
@@ -81,6 +82,9 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{userModel}', 'edit')->name('edit');
         Route::get('detail/{userModel}', 'detail')->name('detail');
         Route::patch('update/{userModel}', 'update')->name('update');
+        Route::patch('update_private/{userModel}', 'update_private')->name('update_private');
+        Route::patch('update_password/{userModel}', 'update_password')->name('update_password');
+        Route::patch('update_image/{userModel}', 'update_image')->name('update_image');
         Route::delete('destroy/{userModel}', 'destroy')->name('destroy');
         Route::post('import', 'import')->name('import');
         Route::post('export', 'export')->name('export');
@@ -99,6 +103,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::post('dropzone', 'dropzone')->name('dropzone');
         Route::get('readFiles/{serviceModel}', 'readFiles')->name('readFiles');
         Route::get('readFilesThumbnail/{serviceModel}', 'readFilesThumbnail')->name('readFilesThumbnail');
+        Route::post('delete_thumbnail/{serviceModel}', 'delete_thumbnail')->name('delete_thumbnail');
+        Route::post('delete_image/{serviceModel}', 'delete_image')->name('delete_image');
         Route::get('edit/{serviceModel}', 'edit')->name('edit');
         Route::get('detail/{serviceModel}', 'detail')->name('detail');
         Route::patch('update/{serviceModel}', 'update')->name('update');
@@ -128,6 +134,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('readFiles/{medicineModel}', 'readFiles')->name('readFiles');
         Route::post('delete_image/{medicineModel}', 'delete_image')->name('delete_image');
         Route::post('delete_imageCreate', 'delete_imageCreate')->name('delete_imageCreate');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     //Manufacturer
     Route::group(['controller' => ManufacturerController::class, 'prefix' => 'manufacturer', 'as' => 'manufacturer.'],function(){
@@ -146,6 +154,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{roomModel}', 'edit')->name('edit');
         Route::patch('update/{roomModel}', 'update')->name('update');
         Route::delete('destroy/{roomModel}', 'destroy')->name('destroy');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     //Department
     Route::group(['controller' => DepartmentController::class, 'prefix' => 'department', 'as' => 'department.'],function(){
@@ -164,6 +174,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('edit/{shiftModel}', 'edit')->name('edit');
         Route::patch('update/{shiftModel}', 'update')->name('update');
         Route::delete('destroy/{shiftModel}', 'destroy')->name('destroy');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     //Role
     Route::group(['controller' => RoleController::class, 'prefix' => 'role', 'as' => 'role.'], function () {
@@ -200,6 +212,8 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::delete('destroy/{medicalEquipmentModel}', 'destroy')->name('destroy');
         Route::get('readFiles/{medicalEquipmentModel}', 'readFiles')->name('readFiles');
         Route::post('delete_image/{medicalEquipmentModel}', 'delete_image')->name('delete_image');
+        Route::post('import', 'import')->name('import');
+        Route::post('export', 'export')->name('export');
     });
     //Assignment
     Route::group(['controller' => AssignmentController::class, 'prefix' => 'assignment', 'as' => 'assignment.'],function(){
@@ -359,4 +373,18 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::delete('destroy/{billModel}', 'destroy')->name('destroy');
         Route::get('print_pdf_bill/{billModel}', 'print_pdf_bill')->name('print_pdf_bill');
     });
+    //Bill management
+    Route::group(['controller' => BillManagementController::class, 'prefix' => 'bill_management', 'as' => 'bill_management.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::get('{billModel}/detail', 'detail')->name('detail');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{billModel}', 'edit')->name('edit');
+        Route::patch('update/{billModel}', 'update')->name('update');
+        Route::delete('destroy/{billModel}', 'destroy')->name('destroy');
+    });
+
+
+
+
 });

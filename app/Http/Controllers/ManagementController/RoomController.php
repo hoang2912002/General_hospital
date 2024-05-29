@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportsRoom;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\RoomRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\RoomRequest\UpdateRequest;
+use App\Imports\ExcelImportRooms;
+use App\Imports\ExcelImportsRoom;
+use App\Imports\ExcelImportUsers;
+use App\Imports\ExelImportRoom;
 use App\Models\ManagementModel\DepartmentModel;
 use App\Models\ManagementModel\RoomModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Maatwebsite\Excel\Facades\Excel;
 class RoomController extends Controller
 {
     /**
@@ -134,6 +139,26 @@ class RoomController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error','Cập nhật phòng thất bại!');
         }
+    }
+
+
+    public function import(Request $request)
+    {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportRooms, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
+
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportsRoom , 'danh-sach-phong-'  . date('s_i_H-Y_m_d') .  '.xlsx');
     }
 
     /**

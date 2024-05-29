@@ -18,119 +18,112 @@
     </style>
 @endpush
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card  mb-4">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
-                                        <h5 class="font-weight-bolder">
-                                            $53,000
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                            since yesterday
-                                        </p>
+    @if (Auth::user()->User->group_user[0]->slug === 'quan-ly')
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card  mb-4">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Bệnh nhân</p>
+                                            <h5 class="font-weight-bolder">
+                                                <span class="small"></span>
+                                                <span id="state1" countto="{{ $patient }}">{{ $patient }}</span>
+                                            </h5>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    <div
-                                        class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                        <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card  mb-4">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
-                                        <h5 class="font-weight-bolder">
-                                            <span class="small">$ </span>
-                                            <span id="state1" countto="23980">23,980</span>
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                            since last week
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    <div
-                                        class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card  mb-4">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
-                                        <h5 class="font-weight-bolder">
-                                            +3,462
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                            since last quarter
-                                        </p>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card  mb-4">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Đội ngũ bác sĩ</p>
+                                            <h5 class="font-weight-bolder">
+                                                <span class="small"></span>
+                                                <span id="state2" countto="{{ $doctor }}">{{ $doctor }}</span>
+                                            </h5>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    <div
-                                        class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                        <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card  mb-4">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
-                                        <h5 class="font-weight-bolder">
-                                            $103,430
-                                        </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+5%</span> than last
-                                            month
-                                        </p>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card  mb-4">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Thu nhập</p>
+                                            <h5 class="font-weight-bolder">
+                                                <span id="state3" countto="{{ $bill }}">{{ (!empty($bill)) ? number_format($bill,'0',".",".") : ''}}</span>
+                                                <span class="small">VNĐ</span>
+                                            </h5>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    <div
-                                        class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                        <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                            <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{-- <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card  mb-4">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                                            <h5 class="font-weight-bolder">
+                                                $103,430
+                                            </h5>
+                                            <p class="mb-0">
+                                                <span class="text-success text-sm font-weight-bolder">+5%</span> than last
+                                                month
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                                            <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
     <div class="row mt-4">
-        <div class="col-12 col-md-8 mb-4 mb-md-0">
+        <div class="col-12 col-md-10 mb-4 mb-md-0">
             <div class="card">
                 <div class="table-responsive">
                     <table class="table align-items-center mb-0">
@@ -303,80 +296,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-header pb-0 p-3">
-                    <h6 class="mb-0">Categories</h6>
+                    <h6 class="mb-0">Ca làm việc</h6>
                 </div>
                 <div class="card-body p-3">
                     <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                    <i class="ni ni-mobile-button text-white opacity-10"></i>
+                        @foreach ($shift as $item)
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <h6 class="mb-1 text-dark text-sm">{{ $item->name }}</h6>
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                    <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
-                                            sold</span></span>
+                                <div class="d-flex">
+                                    <h6 class="mb-1 text-dark text-sm">{{ $item->hour() }}</h6>
                                 </div>
-                            </div>
-                            <div class="d-flex">
-                                <button
-                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                    <i class="ni ni-tag text-white opacity-10"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                    <span class="text-xs">123 closed, <span class="font-weight-bold">15
-                                            open</span></span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <button
-                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                    <i class="ni ni-box-2 text-white opacity-10"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                    <span class="text-xs">1 is active, <span class="font-weight-bold">40
-                                            closed</span></span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <button
-                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                    <i class="ni ni-satisfied text-white opacity-10"></i>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Happy users</h6>
-                                    <span class="text-xs font-weight-bold">+ 430</span>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <button
-                                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                        class="ni ni-bold-right" aria-hidden="true"></i></button>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
+
+
                     </ul>
                 </div>
             </div>
@@ -405,6 +345,30 @@
     <script>
         if (document.getElementById('state1')) {
             const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
+        }
+        if (document.getElementById('state2')) {
+            const countUp = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
+        }
+        if (document.getElementById('state3')) {
+            const countUp = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
+        }
+        if (document.getElementById('state4')) {
+            const countUp = new CountUp('state4', document.getElementById("state4").getAttribute("countTo"));
             if (!countUp.error) {
                 countUp.start();
             } else {
@@ -489,64 +453,71 @@
                         weekNumbers: true,
                         dayMaxEvents: true,
                     });
-                    $.each(result, function(indexInArray, sub_arr) {
-                        $.each(sub_arr, function(index, eventData) {
-                            // Lấy thông tin từ dữ liệu trả về
-                            var room_id = eventData.room_id;
-                            var room_name = eventData.room_name;
-                            var startDate = data.date.date_start;
-                            var endDate = data.date.date_end;
-                            var startDateTime = eventData.start_time;
-                            var endDateTime = eventData.end_time;
-                            var day = indexInArray;
-                            // Khởi tạo biến thời gian
-                            var currentDate = moment(startDate).startOf('day');
-                            var endTime = moment(endDate).endOf('day');
+                    $.each(result, function(index_date_start, sub_arr) {
+                        $.each(sub_arr, function(index_date_end, sub_arr_2) {
+                            $.each(sub_arr_2, function(indexInArray, sub_arr_3) {
+                                $.each(sub_arr_3, function(index_sub_arr_3, eventData) {
+                                    console.log(eventData.room_name);
+                                    var room_id = eventData.room_id;
+                                    var room_name = eventData.room_name;
+                                    var startDate = index_date_start;
+                                    var endDate = index_date_end;
+                                    var startDateTime = eventData.start_time;
+                                    var endDateTime = eventData.end_time;
+                                    var day = indexInArray;
+                                    // Khởi tạo biến thời gian
+                                    var currentDate = moment(startDate).startOf('day');
+                                    var endTime = moment(endDate).endOf('day');
 
-                            // Hàm tạo sự kiện
-                            function createEvent(startHour, startMinute, endHour, endMinute) {
-                                var startDateTime = moment(currentDate).set({
-                                    'hour': startHour,
-                                    'minute': startMinute
-                                });
-                                var endDateTime = moment(currentDate).set({
-                                    'hour': endHour,
-                                    'minute': endMinute,
-                                });
+                                    // Hàm tạo sự kiện
+                                    function createEvent(startHour, startMinute, endHour, endMinute) {
+                                        var startDateTime = moment(currentDate).set({
+                                            'hour': startHour,
+                                            'minute': startMinute
+                                        });
+                                        var endDateTime = moment(currentDate).set({
+                                            'hour': endHour,
+                                            'minute': endMinute,
+                                        });
 
-                                // Kiểm tra nếu endDateTime là 05:30
-                                if (endDateTime.hours() === 5 && endDateTime.minutes() === 30) {
-                                    // Cập nhật ngày thành ngày tiếp theo
-                                    endDateTime.add(1, 'day');
+                                        // Kiểm tra nếu endDateTime là 05:30
+                                        if (endDateTime.hours() === 5 && endDateTime.minutes() === 30) {
+                                            // Cập nhật ngày thành ngày tiếp theo
+                                            endDateTime.add(1, 'day');
 
-                                }
-                                // Thêm sự kiện vào lịch
-                                calendar.addEvent({
-                                    title: eventData.shift_name + ' phòng: ' + eventData
-                                        .room_name,
-                                    start: startDateTime.format(),
-                                    end: endDateTime.format(),
-                                    extendedProps: eventData
-                                });
-                            }
+                                        }
+                                        // Thêm sự kiện vào lịch
+                                        calendar.addEvent({
+                                            title: eventData.shift_name + ' phòng: ' + eventData
+                                                .room_name,
+                                            start: startDateTime.format(),
+                                            end: endDateTime.format(),
+                                            extendedProps: eventData
+                                        });
+                                    }
 
-                            // Lặp qua mỗi ngày trong khoảng thời gian
-                            while (currentDate <= endTime) {
-                                // Kiểm tra xem ngày hiện tại có trong danh sách ngày cần hiển thị sự kiện không
-                                if (day.includes((currentDate.day()).toString())) {
-                                    var startTimeParts = startDateTime.split(':');
-                                    var startHour = parseInt(startTimeParts[0]);
-                                    var startMinute = parseInt(startTimeParts[1]);
+                                    // Lặp qua mỗi ngày trong khoảng thời gian
+                                    while (currentDate <= endTime) {
+                                        // Kiểm tra xem ngày hiện tại có trong danh sách ngày cần hiển thị sự kiện không
+                                        if (day.includes((currentDate.day()).toString())) {
+                                            var startTimeParts = startDateTime.split(':');
+                                            var startHour = parseInt(startTimeParts[0]);
+                                            var startMinute = parseInt(startTimeParts[1]);
 
-                                    var endTimeParts = endDateTime.split(':');
-                                    var endHour = parseInt(endTimeParts[0]);
-                                    var endMinute = parseInt(endTimeParts[1]);
+                                            var endTimeParts = endDateTime.split(':');
+                                            var endHour = parseInt(endTimeParts[0]);
+                                            var endMinute = parseInt(endTimeParts[1]);
 
-                                    // Tạo sự kiện
-                                    createEvent(startHour, startMinute, endHour, endMinute);
-                                }
-                                currentDate.add(1, 'days'); // Chuyển sang ngày tiếp theo
-                            }
+                                            // Tạo sự kiện
+                                            createEvent(startHour, startMinute, endHour, endMinute);
+                                        }
+                                        currentDate.add(1, 'days'); // Chuyển sang ngày tiếp theo
+                                    }
+                                })
+
+                            });
+                                // Lấy thông tin từ dữ liệu trả về
+
 
                         });
                     });
@@ -557,7 +528,7 @@
         }
         setTimeout(function() {
             getEvent();
-        }, 150);
+        }, 250);
 
         function renderData(data) {
             console.log(data);

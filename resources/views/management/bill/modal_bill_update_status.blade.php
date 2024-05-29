@@ -12,7 +12,7 @@
                 <form role="form text-left" action="{{ route('bill.update_status',$billModel) }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <label>Giới tính</label>
+                    <label>Trạng thái thanh toán</label>
                     <select class="form-control" name="status" id="bill-status" >
                         <option value="">Chọn trạng thái hóa đơn ...</option>
                         <option value="0">Chưa thanh toán</option>

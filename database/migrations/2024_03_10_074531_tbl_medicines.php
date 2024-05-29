@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('price');
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('manufacturer_id');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->date('imp_date');
             $table->date('exp_date');

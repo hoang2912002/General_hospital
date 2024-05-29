@@ -49,7 +49,7 @@
                 </div>
                 <div class="card-body p-3 mt-2">
                     <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade position-relative  border-radius-lg active show" id="cam1"role="tabpanel" aria-labelledby="cam1" style="height: 500px !important">
+                        <div class="tab-pane fade position-relative  border-radius-lg active show" id="cam1"role="tabpanel" aria-labelledby="cam1" style="height: 600px !important">
                             <div class="position-absolute d-flex top-0 w-100">
 
                                 <div class="card-body p-3 pt-0">

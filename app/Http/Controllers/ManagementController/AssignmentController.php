@@ -88,37 +88,76 @@ class AssignmentController extends Controller
     public function render_calender(Request $request){
         try {
             if(!empty($request->staff_uuid)){
-                $assignment = AssignmentModel::where('staff_uuid',$request->staff_uuid)->first();
-                $assignment_day = AssignmentDayModel::where('assignment_id',$assignment->id)->get();
+                $assignments = AssignmentModel::where('staff_uuid',$request->staff_uuid)->get();
+                //dd($assignment);
 
-                $assignment_shift = AssignmentShiftModel::where('assignment_id',$assignment->id)->get();
-                foreach($assignment_day as $day){
-                    foreach($assignment_shift as $shift){
-                        $data_time = $shift->shift();
-                        //dd($data_time['start_time']);
-                        $assignment_room = AssignmentRoomModel::where([
-                            ['assignment_day_id',$day->id],
-                            ['assignment_shift_id', $shift->id ]
-                        ])->first();
-                        if(!empty($assignment_room)){
-                            //dd($assignment_room,$day->id);
-                            $arr_assignment[$day->day_id][$shift->shift_id] = [
-                                'shift_name' => $assignment_room->assignment_shift->shift_name->name,
-                                'room_id'=>$assignment_room->room_id,
-                                'room_name'=>$assignment_room->room->name,
-                                'start_time' => $data_time['start_time'] ,
-                                'end_time' => $data_time['end_time'],
-                            ];
+                foreach($assignments as $assignment){
+                    $assignment_day = AssignmentDayModel::where('assignment_id',$assignment->id)->get();
+                    $assignment_shift = AssignmentShiftModel::where('assignment_id',$assignment->id)->get();
+                    foreach($assignment_day as $day){
+                        foreach($assignment_shift as $shift){
+                            $data_time = $shift->shift();
+                            //dd($data_time['start_time']);
+                            $assignment_room = AssignmentRoomModel::where([
+                                ['assignment_day_id',$day->id],
+                                ['assignment_shift_id', $shift->id ]
+                            ])->first();
+                            if(!empty($assignment_room)){
+                                //dd($assignment_room,$day->id);
+                                $arr_assignment[$assignment->date_start][$assignment->date_end][$day->day_id][$shift->shift_id] = [
+                                    'shift_name' => $assignment_room->assignment_shift->shift_name->name,
+                                    'room_id'=>$assignment_room->room_id,
+                                    'room_name'=>$assignment_room->room->name,
+                                    'start_time' => $data_time['start_time'] ,
+                                    'end_time' => $data_time['end_time'],
+                                ];
+
+                            }
                         }
                     }
                 }
-                return response()->json(['arr'=> $arr_assignment,'date' => $assignment]);
+                //dd($arr_assignment,$assignments);
+                return response()->json(['arr'=> $arr_assignment,'date' => $assignments]);
             }
         } catch (\Throwable $th) {
             return response()->json(['arr'=> null,'date' => null]);
         }
 
     }
+    // public function render_calender_detail(Request $request){
+    //     try {
+    //         if(!empty($request->staff_uuid)){
+    //             $assignment = AssignmentModel::where('staff_uuid',$request->staff_uuid)->first();
+    //             $assignment_day = AssignmentDayModel::where('assignment_id',$assignment->id)->get();
+
+    //             $assignment_shift = AssignmentShiftModel::where('assignment_id',$assignment->id)->get();
+    //             foreach($assignment_day as $day){
+    //                 foreach($assignment_shift as $shift){
+    //                     $data_time = $shift->shift();
+    //                     //dd($data_time['start_time']);
+    //                     $assignment_room = AssignmentRoomModel::where([
+    //                         ['assignment_day_id',$day->id],
+    //                         ['assignment_shift_id', $shift->id ]
+    //                     ])->first();
+    //                     if(!empty($assignment_room)){
+    //                         //dd($assignment_room,$day->id);
+    //                         $arr_assignment[$day->day_id][$shift->shift_id] = [
+    //                             'shift_name' => $assignment_room->assignment_shift->shift_name->name,
+    //                             'room_id'=>$assignment_room->room_id,
+    //                             'room_name'=>$assignment_room->room->name,
+    //                             'start_time' => $data_time['start_time'] ,
+    //                             'end_time' => $data_time['end_time'],
+    //                         ];
+    //                     }
+    //                 }
+    //             }
+    //             return response()->json(['arr'=> $arr_assignment,'date' => $assignment]);
+    //         }
+    //     } catch (\Throwable $th) {
+    //         return response()->json(['arr'=> null,'date' => null]);
+    //     }
+
+    // }
     public function render_calender_detail(Request $request){
         try {
             //dd($request);

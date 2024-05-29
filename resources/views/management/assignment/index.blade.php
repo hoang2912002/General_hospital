@@ -86,11 +86,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                    <form action="{{route('assignment.export')}}" method="POST"  class="ms-auto my-auto" >
-                                                        @csrf
-                                                        @method('POST')
-                                                        <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"data-type="csv" type="submit" name="export_excel">Xuất file excel</button>
-                                                    </form>
+                                                   
                                             </div>
                                         </div>
                                     </div>

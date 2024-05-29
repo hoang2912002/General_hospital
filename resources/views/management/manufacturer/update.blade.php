@@ -44,7 +44,7 @@
                                 <p class="mb-0 text-sm">Cập nhập thông tin</p>
                                 <div class="multisteps-form__content">
                                     <div class="row mt-3">
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-12 col-sm-12">
                                             <label>Tên nhà sản xuất</label>
                                             <input class="multisteps-form__input form-control" type="text" placeholder="eg. Michael" name="name" value="{{ $manufacturerModel->name ?? old('name') }}">
                                             @error('name')
@@ -53,7 +53,9 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="col-12 col-sm-6">
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-sm-12">
                                             <label>Nước sản xuất</label>
                                             <input class="multisteps-form__input form-control" type="text" placeholder="eg. Michael" name="address" value="{{ $manufacturerModel->address ?? old('address')  }}">
                                             @error('address')
@@ -62,26 +64,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-12 col-sm-6  mt-3 mt-sm-0">
-                                            <label>Số điện thoại</label>
-                                            <input id="phone" class="form-control" type="number" placeholder="+40 735 631 620" name="phone_number" value="{{ $manufacturerModel->phone_number ?? old('phone_number')  }}">
-                                            @error('phone_number')
-                                                <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <label>Địa chỉ Email</label>
-                                            <input class="multisteps-form__input form-control" type="email" placeholder="eg. argon@dashboard.com" name="email" value="{{ $manufacturerModel->email ?? old('email')  }}">
-                                            @error('email')
-                                                <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
+
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-sm-auto  d-flex">

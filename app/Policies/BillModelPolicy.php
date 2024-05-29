@@ -32,7 +32,10 @@ class BillModelPolicy
      */
     public function create(LoginModel $loginModel)
     {
-        //
+        if(in_array('bill.create',$loginModel->User->getPermision())){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -40,7 +43,10 @@ class BillModelPolicy
      */
     public function update(LoginModel $loginModel, BillModel $billModel)
     {
-        //
+        if(in_array('bill.update',$loginModel->User->getPermision())){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -48,7 +54,10 @@ class BillModelPolicy
      */
     public function delete(LoginModel $loginModel, BillModel $billModel)
     {
-        //
+        if(in_array('bill.destroy',$loginModel->User->getPermision())){
+            return true;
+        }
+        return false;
     }
 
     /**

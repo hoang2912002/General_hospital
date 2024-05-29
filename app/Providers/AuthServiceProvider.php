@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Http\Controllers\ManagementController\MedicalRecordManagementController;
 use App\Models\ManagementModel\AssignmentModel;
+use App\Models\ManagementModel\BillManagementModel;
 use App\Models\ManagementModel\BillModel;
 use App\Models\ManagementModel\CategoryModel;
 use App\Models\ManagementModel\DepartmentModel;
@@ -26,6 +27,7 @@ use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\TestRequisitionModel;
 use App\Models\ManagementModel\UserModel;
 use App\Policies\AssignmentModelPolicy;
+use App\Policies\BillManagementModelPolicy;
 use App\Policies\BillModelPolicy;
 use App\Policies\CategoryModelPolicy;
 use App\Policies\DepartmentModelPolicy;
@@ -60,6 +62,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         AssignmentModel::class =>AssignmentModelPolicy::class,
         BillModel::class =>BillModelPolicy::class,
+        BillManagementModel::class =>BillManagementModelPolicy::class,
         MedicalRecordModel::class =>MedicalRecordModelPolicy::class,
         MedicalRecordModel::class =>MedicalRecordManagementModelPolicy::class,
         NumberModel::class =>NumberModelPolicy::class,

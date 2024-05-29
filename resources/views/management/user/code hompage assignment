@@ -1,0 +1,61 @@
+$.each(result, function(indexInArray, sub_arr) {
+                        $.each(sub_arr, function(index, eventData) {
+                            // Lấy thông tin từ dữ liệu trả về
+                            var room_id = eventData.room_id;
+                            var room_name = eventData.room_name;
+                            var startDate = data.date.date_start;
+                            var endDate = data.date.date_end;
+                            var startDateTime = eventData.start_time;
+                            var endDateTime = eventData.end_time;
+                            var day = indexInArray;
+                            // Khởi tạo biến thời gian
+                            var currentDate = moment(startDate).startOf('day');
+                            var endTime = moment(endDate).endOf('day');
+
+                            // Hàm tạo sự kiện
+                            function createEvent(startHour, startMinute, endHour, endMinute) {
+                                var startDateTime = moment(currentDate).set({
+                                    'hour': startHour,
+                                    'minute': startMinute
+                                });
+                                var endDateTime = moment(currentDate).set({
+                                    'hour': endHour,
+                                    'minute': endMinute,
+                                });
+
+                                // Kiểm tra nếu endDateTime là 05:30
+                                if (endDateTime.hours() === 5 && endDateTime.minutes() === 30) {
+                                    // Cập nhật ngày thành ngày tiếp theo
+                                    endDateTime.add(1, 'day');
+
+                                }
+                                // Thêm sự kiện vào lịch
+                                calendar.addEvent({
+                                    title: eventData.shift_name + ' phòng: ' + eventData
+                                        .room_name,
+                                    start: startDateTime.format(),
+                                    end: endDateTime.format(),
+                                    extendedProps: eventData
+                                });
+                            }
+
+                            // Lặp qua mỗi ngày trong khoảng thời gian
+                            while (currentDate <= endTime) {
+                                // Kiểm tra xem ngày hiện tại có trong danh sách ngày cần hiển thị sự kiện không
+                                if (day.includes((currentDate.day()).toString())) {
+                                    var startTimeParts = startDateTime.split(':');
+                                    var startHour = parseInt(startTimeParts[0]);
+                                    var startMinute = parseInt(startTimeParts[1]);
+
+                                    var endTimeParts = endDateTime.split(':');
+                                    var endHour = parseInt(endTimeParts[0]);
+                                    var endMinute = parseInt(endTimeParts[1]);
+
+                                    // Tạo sự kiện
+                                    createEvent(startHour, startMinute, endHour, endMinute);
+                                }
+                                currentDate.add(1, 'days'); // Chuyển sang ngày tiếp theo
+                            }
+
+                        });
+                    });

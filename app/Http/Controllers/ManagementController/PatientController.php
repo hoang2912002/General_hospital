@@ -44,39 +44,39 @@ class PatientController extends Controller
             $currentHour = $currentDateTime->format('H:i:s');
 
             // So sánh giờ hiện tại với các giờ trong điều kiện so sánh
-            if ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
+            if ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
                 $shift = 1;
             }
-            elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
+            elseif ($currentHour >= '02:00:00' && $currentHour <= '04:00:00') {
                 $shift = 2;
             }
-            elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
+            elseif ($currentHour >= '04:00:00' && $currentHour <= '06:00:00') {
                 $shift = 3;
             }
-            elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
+            elseif ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
                 $shift = 4;
             }
-            elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
+            elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
                 $shift = 5;
             }
-            elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
+            elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
                 $shift = 6;
             }
-            elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
+            elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
                 $shift = 7;
             }
-            elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
+            elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
                 $shift = 8;
             }
-            elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
+            elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
                 $shift = 9;
             }
-            elseif ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
+            elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
                 $shift = 10;
             }
-            elseif ($currentHour >= '02:00:00' && $currentHour <= '04:00:00') {
+            elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
                 $shift = 11;
-            } else {
+            } elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
                 $shift = 12; // Nếu không nằm trong bất kỳ khoảng thời gian nào
             }
 

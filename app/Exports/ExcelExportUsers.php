@@ -15,8 +15,8 @@ class ExcelExportUsers implements FromCollection, WithHeadings
     {
         return UserModel::query()->select(
             'users.uuid',
-            'users.first_name',
             'users.last_name',
+            'users.first_name',
             'users.gender',
             'users.dob',
             'logins.email',
@@ -27,12 +27,12 @@ class ExcelExportUsers implements FromCollection, WithHeadings
     {
         return [
             '#',
-            'First_name',
-            'Last_name',
-            'Gender',
-            'Dob',
+            'Họ',
+            'Tên',
+            'Giới tính',
+            'Ngày sinh',
             'Email',
-            'Phone_number',
+            'Số điện thoại',
         ];
     }
 }

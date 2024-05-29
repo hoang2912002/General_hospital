@@ -5,6 +5,9 @@ namespace App\Http\Controllers\ManagementController;
 use App\Exports\ExcelExportUsers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\UserRequest\StoreRequest;
+use App\Http\Requests\ManagementRequest\UserRequest\UpdateImageRequest;
+use App\Http\Requests\ManagementRequest\UserRequest\UpdatePasswordRequest;
+use App\Http\Requests\ManagementRequest\UserRequest\UpdatePrivateRequest;
 use App\Http\Requests\ManagementRequest\UserRequest\UpdateRequest;
 use App\Imports\ExcelImportUsers;
 use App\Models\ManagementModel\StaffModel;
@@ -161,7 +164,7 @@ class UserController extends Controller
     }
     public function export()
     {
-        return Excel::download(new ExcelExportUsers , 'user-'  . date('s_i_H-Y_m_d') .  '.xlsx');
+        return Excel::download(new ExcelExportUsers , 'nguoi-dung-'  . date('s_i_H-Y_m_d') .  '.xlsx');
     }
     /**
      * Display the specified resource.
@@ -277,8 +280,83 @@ class UserController extends Controller
             'total' => 'User',
             'route' => 'user.index'
         ];
+
         return view('management.user.setting',compact('name_page'));
     }
+
+    public function update_private(UpdatePrivateRequest $request ,UserModel $userModel){
+
+        try {
+            $login = $userModel->login->update([
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+            ]);
+            if(!empty($login)){
+                $arr_user = [
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                    'dob' => $request->dob,
+                    'login_id' => $userModel->login_id,
+                ];
+                $user = $userModel->update($arr_user);
+                if(!empty($user)){
+                    return redirect()->route('user.setting')->with('success' , 'Cập nhập ' . $request->last_name . ' ' . $request->first_name  . ' thành công!' );
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+    public function update_password(UpdatePasswordRequest $request, UserModel $userModel){
+        try {
+            if(!empty($request->password)){
+                $password = $userModel->login->update([
+                    'password' => $request->password,
+                ]);
+                if(!empty($password)){
+                    return redirect()->route('user.setting')->with('success' , 'Cập nhập mật khẩu thành công!' );
+                }
+            }
+        }
+        catch (\Throwable $th) {
+            return redirect()->route('user.setting')->with('success' , 'Cập nhập mật khẩu thất bại!' );
+        }
+    }
+
+    public function update_image(UpdateImageRequest $request, UserModel $userModel){
+        //dd($request->files);
+        try {
+            if($request->hasFile('image')){
+                $avatar = $request->image;
+                $nameAvatar = $avatar->getClientOriginalName();
+                $dirFolder = 'img/general_hospital/management/avatar/';
+                $newAvatar = $dirFolder . Carbon::now()->getTimestampMs() . '-' . $nameAvatar;
+                $staffInformation['image'] = $newAvatar;
+
+                @unlink($newAvatar);
+                if(!empty($userModel->staff)){
+                    $staff = $userModel->staff()->update($staffInformation);
+                }
+                else{
+                    $staff = StaffModel::create([
+                        'staff_uuid' => $userModel->uuid,
+                        'image' => $newAvatar,
+                    ]);
+                }
+                //dd($staff,$userModel->staff);
+                if(!empty($staff)){
+                    if(!empty($avatar)){
+                        $avatar->move($dirFolder, $newAvatar);
+                        return redirect()->route('user.setting')->with('success' , 'Cập nhập ảnh đại diện thành công!' );
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+
     public function profile(){
         return view('management.user.profile');
     }

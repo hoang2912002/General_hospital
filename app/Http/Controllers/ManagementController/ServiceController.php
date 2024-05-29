@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportServices;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManagementRequest\ServiceRequest\UpdateRequest;
+use App\Imports\ExcelImportServices;
 use App\Models\ManagementModel\RoomModel;
 use App\Models\ManagementModel\ServiceImageModel;
 use App\Models\ManagementModel\ServiceModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 class ServiceController extends Controller
 {
     /**
@@ -81,9 +86,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         $service_info = json_decode($request->arr);
-        //dd($service_info->service_image);
         try {
             $price = explode('VNĐ',$service_info->price);
             $price = explode('.' , $price[0]);
@@ -119,24 +122,32 @@ class ServiceController extends Controller
     }
     public function dropzone(Request $request)
     {
-        $service_image = [];
-        if($request->hasFile('file')){
-            //dd(1);
-            $files = $request->file;
-            foreach($files as $file){
-                $namefile = $file->getClientOriginalName();
-                $dirFolder = 'img/general_hospital/management/service_image/';
-                $newfile = $dirFolder . Carbon::now()->getTimestampMs() . '-' . $namefile;
-                //dd(1);
+        try {
 
-                $service_image[]= $newfile;
-                if(!empty($file)){
-                    $file->move($dirFolder, $newfile);
+            $service_image = [];
+            if($request->hasFile('file')){
+                //dd(1);
+                $files = $request->file;
+                foreach($files as $file){
+                    //dd($file);
+
+                    $namefile = $file->getClientOriginalName();
+                    $dirFolder = 'img/general_hospital/management/service_image/';
+                    $newfile = $dirFolder . Carbon::now()->getTimestampMs() . '-' . $namefile;
+                    //dd(1);
+
+                    $service_image[]= $newfile;
+                    if(!empty($file)){
+                        $file->move($dirFolder, $newfile);
+                    }
                 }
+                //dd($service_image);
             }
-            //dd($service_image);
+            return response()->json(['status' => "success",'message' => "Lưu file thành công",'service_image' => $newfile,'arr_image' => $service_image]);
+            //return response()->json(['status' => "success",'message' => "Lưu file thành công"]);
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
         }
-        return response()->json(['status' => "success",'message' => "Lưu file thành công",'service_image' => $newfile,'arr_image' => $service_image]);
     }
 
     /**
@@ -200,14 +211,96 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ServiceModel $serviceModel)
+    public function update(UpdateRequest $request, ServiceModel $serviceModel)
     {
         //
+    }
+
+
+    public function import(Request $request)
+    {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportServices, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
+
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportServices , 'dich-vu-'  . date('s_i_H-Y_m_d') .  '.xlsx');
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
+    public function delete_thumbnail(Request $request,ServiceModel $serviceModel){
+        try {
+            if(!empty($serviceModel->thumbnail)){
+
+                $name_image= explode('/',$request->filename[0]) ?? '';
+                //dd($name_image);
+                unset($name_image[0], $name_image[1],$name_image[2]);
+                $name_image = implode('/',$name_image);
+                if($serviceModel->thumbnail === $request->filename || file_exists($serviceModel->thumbnail)){
+                    unlink($serviceModel->thumbnail);
+                    $serviceModel->update([
+                        'image' => ''
+                    ]);
+                }
+            }
+            else{
+                //Kiểm tra coi nếu path 1 có ảnh trong project thì xóa k thì sẽ qa path 2 vì $request sẽ lưu cả ảnh đã bị xóa r nên phải làm v
+                $path = public_path(). '/' .  $request->filename[0];
+                if(file_exists($path)){
+                    File::delete($path);
+                }
+                // else{
+                //     $path_2 = public_path(). '/' .  $request->filename[1];
+                //     File::delete($path_2);
+                // }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+    public function delete_image(Request $request,ServiceModel $serviceModel){
+        try {
+            if(!empty($serviceModel->image)){
+                
+                $name_image= explode('/',$request->filename[0]) ?? '';
+                //dd($name_image);
+                unset($name_image[0], $name_image[1],$name_image[2]);
+                $name_image = implode('/',$name_image);
+                if($serviceModel->thumbnail === $request->filename || file_exists($serviceModel->thumbnail)){
+                    unlink($serviceModel->thumbnail);
+                    $serviceModel->update([
+                        'image' => ''
+                    ]);
+                }
+            }
+            else{
+                //Kiểm tra coi nếu path 1 có ảnh trong project thì xóa k thì sẽ qa path 2 vì $request sẽ lưu cả ảnh đã bị xóa r nên phải làm v
+                $path = public_path(). '/' .  $request->filename[0];
+                if(file_exists($path)){
+                    File::delete($path);
+                }
+                // else{
+                //     $path_2 = public_path(). '/' .  $request->filename[1];
+                //     File::delete($path_2);
+                // }
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+    }
+
     public function destroy(ServiceModel $serviceModel)
     {
         $this->authorize('delete',$serviceModel);

@@ -32,7 +32,7 @@ class NumberModelPolicy
      */
     public function create(LoginModel $loginModel)
     {
-        if(in_array('number.create_waiting_patient',$loginModel->User->getPermision())){
+        if(in_array('number.create',$loginModel->User->getPermision())){
             return true;
         }
         return false;

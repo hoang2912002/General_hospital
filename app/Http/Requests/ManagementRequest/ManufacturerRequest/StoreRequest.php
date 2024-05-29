@@ -24,8 +24,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:manufacturers,name',
-            'email' => 'required|email|unique:manufacturers,email',
-            'phone_number' => ['required', new Phone_number('Số điện thoại này không đúng định dạng!') , 'unique:manufacturers,phone_number'],
             'activated' => 'required',
             'address' => 'required',
         ];

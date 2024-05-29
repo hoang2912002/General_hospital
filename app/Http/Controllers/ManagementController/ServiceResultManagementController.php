@@ -48,7 +48,7 @@ class ServiceResultManagementController extends Controller
             })
             ->editColumn('day_id', function ($service_result) {
 
-                return $service_result->day_id;
+                return $service_result->day();
             })
             ->addColumn('action', function ($service_result) {
                 $routeDestroy = "'" . route('service_result_management.destroy',$service_result->id) . "'";

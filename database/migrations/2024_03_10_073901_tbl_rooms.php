@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->string('file_type');
+            $table->string('file_type')->nullable();
             $table->unsignedInteger('department_id');
             $table->timestamps();
             $table->foreign('department_id')->references('id')->on('departments');

@@ -9,6 +9,7 @@ use App\Models\ManagementModel\RoomModel;
 use PDF;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -182,6 +183,7 @@ class NumberController extends Controller
     }
     public function create_waiting_patient(Request $request)
     {
+        //dd(Auth::user()->User->getPermision());
         $this->authorize('create', NumberModel::class);
 
         $check_number = NumberModel::where('room_id',$request->room_id);

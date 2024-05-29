@@ -1,34 +1,61 @@
 @extends('management.layout.main')
 @include('management.layout.form')
-
+@push('css')
+    <style>
+        .img-responsive {
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
+            width: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+@endpush
 @section('content')
 
-        <div class="row">
-            <div class="col-lg-6">
-                <h4 class="text-white">Make the changes below</h4>
-                <p class="text-white opacity-8">We’re constantly trying to express ourselves and actualize our dreams. If you
-                    have the opportunity to play.</p>
-            </div>
-            <div class="col-lg-6 text-right d-flex flex-column justify-content-center">
-                <button type="button"
-                    class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
-            </div>
-        </div>
+
         <div class="row mt-4">
             <div class="col-lg-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="font-weight-bolder">Ảnh đại diện</h5>
                         <div class="row">
-                            <div class="col-12">
-                                <img class="w-100 border-radius-lg shadow-lg mt-3"
-                                    src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/product-page.jpg"
+                            <div class="col-12 d-flex ">
+                                <img class="img-responsive border-radius-lg shadow-lg mt-3"
+                                    src="{{ (!empty(Auth::user()->User->staff->image)) ? asset(Auth::user()->User->staff->image) : 'https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/product-page.jpg' }}"
                                     alt="product_image">
                             </div>
-                            <div class="col-12 mt-5">
-                                <div class="d-flex">
-                                    <button class="btn btn-primary btn-sm mb-0 me-2" type="button"
-                                        name="button">Sửa</button>
+                            <div class="col-12 mt-4">
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary btn-sm mb-0 me-2"data-bs-toggle="modal" data-bs-target="#import">Sửa</button>&nbsp;
+                                    <div class="modal fade" id="import" tabindex="-1" style="display: none;"aria-hidden="true">
+                                        <div class="modal-dialog mt-lg-10">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="ModalLabel">Thêm ảnh đại diện</h5>
+                                                    <i class="fas fa-upload ms-3" aria-hidden="true"></i>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                {{-- import data user --}}
+                                                <form action="{{route('user.update_image',Auth::user()->User->uuid)}}" method="POST" enctype="multipart/form-data" >
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div class="modal-body">
+                                                        <p>Thêm ảnh từ máy của bạn vào đây.</p>
+                                                        <input type="file" placeholder="Browse file..."class="form-control mb-3" name="image">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"class="btn bg-gradient-secondary btn-sm"data-bs-dismiss="modal">Đóng</button>
+                                                        <button type="submit"class="btn bg-gradient-primary btn-sm" name="import_excel">Sửa</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button class="btn btn-outline-dark btn-sm mb-0" type="button"
                                         name="button">Xóa</button>
                                 </div>
@@ -43,35 +70,60 @@
                         <h5>Thông tin cá nhân</h5>
                     </div>
                     <div class="card-body pt-0">
-                        <form action="{{ route('user.store') }}" method="POST">
-                            @method('POST')
+                        <form action="{{ route('user.update_private',Auth::user()->User->uuid) }}" method="POST">
+                            @method('PATCH')
                             @csrf
                             <div class="row">
                                 <div class="col-6">
-                                    <label class="form-label">First Name</label>
+                                    <label class="form-label ">UUID</label>
                                     <div class="input-group">
-                                        <input id="firstName" name="firstName" class="form-control" type="text"
-                                            placeholder="Alec" required="required" onfocus="focused(this)"
-                                            onfocusout="defocused(this)">
+                                        <input id="location" name="uuid" class="form-control" type="text"
+                                            placeholder="Sydney, A" onfocus="focused(this)" onfocusout="defocused(this)" value="{{ Auth::user()->User->uuid }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <label class="form-label">Last Name</label>
+                                    <label class="form-label ">Vai trò</label>
                                     <div class="input-group">
-                                        <input id="lastName" name="lastName" class="form-control" type="text"
-                                            placeholder="Thompson" required="required" onfocus="focused(this)"
-                                            onfocusout="defocused(this)">
+                                        <input id="location" name="group_user" class="form-control" type="text"
+                                            placeholder="Sydney, A" onfocus="focused(this)" onfocusout="defocused(this)" value="{{ Auth::user()->User->group_user[0]->name ?? '' }}" readonly>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-6">
-                                    <label class="form-label mt-4">I'm</label>
-                                    <label>Gender</label>
+                                <div class="col-6">
+                                    <label class="form-label">Họ</label>
+                                    <div class="input-group">
+                                        <input id="last_name" name="last_name" class="form-control" type="text"
+                                            placeholder="Alec" required="required" onfocus="focused(this)"
+                                            onfocusout="defocused(this)" value="{{ Auth::user()->User->last_name }}">
+                                    </div>
+                                    @error('last_name')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">Tên</label>
+                                    <div class="input-group">
+                                        <input id="first_name" name="first_name" class="form-control" type="text"
+                                            placeholder="Thompson" required="required" onfocus="focused(this)"
+                                            onfocusout="defocused(this)" value="{{ Auth::user()->User->first_name }}">
+                                    </div>
+                                    @error('first_name')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label mt-4">Giới tính</label>
                                     <select class="form-control" name="gender" id="choices-gender1" >
-                                        <option value="">Choose gender ...</option>
-                                        <option value="1">Male</option>
-                                        <option value="0">Female</option>
+                                        <option value="">Chọn giới tính ...</option>
+                                        <option @if (Auth::user()->User->gender === 1)@selected(true)@endif value="1">Nam</option>
+                                        <option @if (Auth::user()->User->gender === 0)@selected(true)@endif value="0">Nữ</option>
                                     </select>
                                     @error('gender')
                                         <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
@@ -79,8 +131,18 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-sm-8">
-
+                                <div class="col-6">
+                                    <label class="form-label mt-4">Ngày sinh</label>
+                                    <div class="input-group">
+                                        <input id="confirmation" name="dob" class="form-control" type="date"
+                                            placeholder="example@email.com" onfocus="focused(this)"
+                                            onfocusout="defocused(this)" value="{{ Auth::user()->User->dob }}">
+                                    </div>
+                                    @error('dob')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row">
@@ -89,40 +151,33 @@
                                     <div class="input-group">
                                         <input id="email" name="email" class="form-control" type="email"
                                             placeholder="example@email.com" onfocus="focused(this)"
-                                            onfocusout="defocused(this)">
+                                            onfocusout="defocused(this)"  value="{{ Auth::user()->email }}">
                                     </div>
+                                    @error('email')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label class="form-label mt-4">Confirmation Email</label>
+                                    <label class="form-label mt-4">Số điện thoại</label>
                                     <div class="input-group">
-                                        <input id="confirmation" name="confirmation" class="form-control" type="email"
-                                            placeholder="example@email.com" onfocus="focused(this)"
-                                            onfocusout="defocused(this)">
+                                        <input id="confirmation" name="phone_number" class="form-control" type="number"
+                                            placeholder="0987654321" onfocus="focused(this)"
+                                            onfocusout="defocused(this)"  value="{{ Auth::user()->phone_number }}">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <label class="form-label mt-4">Your location</label>
-                                    <div class="input-group">
-                                        <input id="location" name="location" class="form-control" type="text"
-                                            placeholder="Sydney, A" onfocus="focused(this)" onfocusout="defocused(this)">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label mt-4">Phone Number</label>
-                                    <div class="input-group">
-                                        <input id="phone" name="phone" class="form-control" type="number"
-                                            placeholder="+40 735 631 620" onfocus="focused(this)"
-                                            onfocusout="defocused(this)">
-                                    </div>
+                                    @error('phone_number')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row">
 
                                 <div class="col-lg-12 text-right d-flex flex-column justify-content-end mt-4">
-                                    <button type="button"
-                                        class="btn bg-gradient-dark btn-sm  mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+                                    <button type="submit"
+                                        class="btn bg-gradient-dark btn-sm  mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Lưu</button>
                                 </div>
                             </div>
 
@@ -177,298 +232,66 @@
                                 <h5>Thay đổi mật khẩu</h5>
                             </div>
                             <div class="card-body pt-0">
-                                <label class="form-label">Mật khẩu hiện tại</label>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" placeholder="Current password"
-                                        onfocus="focused(this)" onfocusout="defocused(this)">
-                                </div>
-                                <label class="form-label">Mật khẩu mới</label>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" placeholder="New password"
-                                        onfocus="focused(this)" onfocusout="defocused(this)">
-                                </div>
-                                <label class="form-label">Nhập lại mật khẩu mới</label>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" placeholder="Confirm password"
-                                        onfocus="focused(this)" onfocusout="defocused(this)">
-                                </div>
-                                <h5 class="mt-5">Password requirements</h5>
-                                <p class="text-muted mb-2">
-                                    Please follow this guide for a strong password:
-                                </p>
-                                <ul class="text-muted ps-4 mb-0 float-start">
-                                    <li>
-                                        <span class="text-sm">One special characters</span>
-                                    </li>
-                                    <li>
-                                        <span class="text-sm">Min 6 characters</span>
-                                    </li>
-                                    <li>
-                                        <span class="text-sm">One number (2 are recommended)</span>
-                                    </li>
-                                    <li>
-                                        <span class="text-sm">Change it often</span>
-                                    </li>
-                                </ul>
-                                <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
-                            </div>
-                        </div>
-
-
-
-                        <div class="card mt-4" id="accounts">
-                            <div class="card-header">
-                                <h5>Tài khoản</h5>
-                                <p class="text-sm">Here you can setup and manage your integration settings.</p>
-                            </div>
-                            <div class="card-body pt-0">
-
-                                <div class="ps-5 pt-3 ms-3">
-                                    <p class="mb-0 text-sm">You haven't added your Slack yet or you aren't authorized. Please add
-                                        our Slack Bot to your account by clicking on <a href="javascript">here</a>. When you've
-                                        added the bot, send your verification code that you have received.</p>
-                                    <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4">
-                                        <p class="text-sm font-weight-bold my-auto ps-sm-2">Verification Code</p>
-                                        <input class="form-control form-control-sm ms-sm-auto mt-sm-0 mt-2 w-sm-15 w-40"
-                                            type="text" value="1172913" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            aria-label="Copy!" onfocus="focused(this)" onfocusout="defocused(this)">
+                                <form action="{{ route('user.update_password',Auth::user()->User->uuid) }}" method="POST">
+                                    @method('PATCH')
+                                    @csrf
+                                    <label class="form-label">Mật khẩu hiện tại</label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" placeholder="Current password"
+                                            onfocus="focused(this)" onfocusout="defocused(this)" name="old_password" value="{{ old('old_password')}}">
                                     </div>
-                                    <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4">
-                                        <p class="text-sm font-weight-bold my-auto ps-sm-2">Connected account</p>
-                                        <h6 class="text-sm ms-auto me-3 my-auto">hello@creative-tim.com</h6>
-                                        <button class="btn btn-sm bg-gradient-danger my-sm-auto mt-2 mb-0" type="button"
-                                            name="button">Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mt-4" id="notifications">
-                            <div class="card-header">
-                                <h5>Notifications</h5>
-                                <p class="text-sm">Choose how you receive notifications. These notification settings apply to the
-                                    things you’re watching.</p>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="ps-1" colspan="4">
-                                                    <p class="mb-0">Activity</p>
-                                                </th>
-                                                <th class="text-center">
-                                                    <p class="mb-0">Email</p>
-                                                </th>
-                                                <th class="text-center">
-                                                    <p class="mb-0">Push</p>
-                                                </th>
-                                                <th class="text-center">
-                                                    <p class="mb-0">SMS</p>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="ps-1" colspan="4">
-                                                    <div class="my-auto">
-                                                        <span class="text-dark d-block text-sm">Mentions</span>
-                                                        <span class="text-xs font-weight-normal">Notify when another user mentions
-                                                            you in a comment</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault11">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="flexSwitchCheckDefault12">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="flexSwitchCheckDefault13">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-1" colspan="4">
-                                                    <div class="my-auto">
-                                                        <span class="text-dark d-block text-sm">Comments</span>
-                                                        <span class="text-xs font-weight-normal">Notify when another user comments
-                                                            your item.</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault14">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault15">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="flexSwitchCheckDefault16">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-1" colspan="4">
-                                                    <div class="my-auto">
-                                                        <span class="text-dark d-block text-sm">Follows</span>
-                                                        <span class="text-xs font-weight-normal">Notify when another user follows
-                                                            you.</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="flexSwitchCheckDefault17">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault18">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="flexSwitchCheckDefault19">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-1" colspan="4">
-                                                    <div class="my-auto">
-                                                        <p class="text-sm mb-0">Log in from a new device</p>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault20">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault21">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                                        <input class="form-check-input" checked="" type="checkbox"
-                                                            id="flexSwitchCheckDefault22">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mt-4" id="sessions">
-                            <div class="card-header pb-3">
-                                <h5>Sessions</h5>
-                                <p class="text-sm">This is a list of devices that have logged into your account. Remove those that
-                                    you do not recognize.</p>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="d-flex align-items-center">
-                                    <div class="text-center w-5">
-                                        <i class="fas fa-desktop text-lg opacity-6" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="my-auto ms-3">
-                                        <div class="h-100">
-                                            <p class="text-sm mb-1">
-                                                Bucharest 68.133.163.201
-                                            </p>
-                                            <p class="mb-0 text-xs">
-                                                Your current session
-                                            </p>
+                                    @error('old_password')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
                                         </div>
+                                    @enderror
+                                    <label class="form-label">Mật khẩu mới</label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" placeholder="New password"
+                                            onfocus="focused(this)" onfocusout="defocused(this)" name="password"  value="{{ old('password')}}">
                                     </div>
-                                    <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>
-                                    <p class="text-secondary text-sm my-auto me-3">EU</p>
-                                    <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                        <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                                <hr class="horizontal dark">
-                                <div class="d-flex align-items-center">
-                                    <div class="text-center w-5">
-                                        <i class="fas fa-desktop text-lg opacity-6" aria-hidden="true"></i>
+                                    @error('password')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    <label class="form-label">Nhập lại mật khẩu mới</label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" placeholder="Confirm password"
+                                            onfocus="focused(this)" onfocusout="defocused(this)" name="confirm_password"  value="{{ old('confirm_password')}}">
                                     </div>
-                                    <p class="my-auto ms-3">Chrome on macOS</p>
-                                    <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                                    <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                        <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                                <hr class="horizontal dark">
-                                <div class="d-flex align-items-center">
-                                    <div class="text-center w-5">
-                                        <i class="fas fa-mobile text-lg opacity-6" aria-hidden="true"></i>
-                                    </div>
-                                    <p class="my-auto ms-3">Safari on iPhone</p>
-                                    <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                                    <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                        <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                                    </a>
-                                </div>
+                                    @error('confirm_password')
+                                        <div class="alert alert-danger alert-dismissible text-white p-1 mt-3" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    <h5 class="mt-5">Password requirements</h5>
+                                    <p class="text-muted mb-2">
+                                        Vui lòng làm theo hướng dẫn này để có mật khẩu mạnh:
+                                    </p>
+                                    <ul class="text-muted ps-4 mb-0 float-start">
+                                        <li>
+                                            <span class="text-sm">Một ký tự đặc biệt</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-sm">Tối thiểu 6 ký tự</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-sm">Một số (khuyên dùng 2)</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-sm">Thay đổi nó thường xuyên</span>
+                                        </li>
+                                    </ul>
+                                    <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Cập nhập mật khẩu</button>
+                                </form>
                             </div>
                         </div>
 
-                        <div class="card mt-4" id="delete">
-                            <div class="card-header">
-                                <h5>Delete Account</h5>
-                                <p class="text-sm mb-0">Once you delete your account, there is no going back. Please be certain.
-                                </p>
-                            </div>
-                            <div class="card-body d-sm-flex pt-0">
-                                <div class="d-flex align-items-center mb-sm-0 mb-4">
-                                    <div>
-                                        <div class="form-check form-switch mb-0">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0">
-                                        </div>
-                                    </div>
-                                    <div class="ms-2">
-                                        <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                        <span class="text-xs d-block">I want to delete my account.</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline-secondary mb-0 ms-auto" type="button"
-                                    name="button">Deactivate</button>
-                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete
-                                    Account</button>
-                            </div>
-                        </div>
+
+
+
+
                     </div>
                 </div>
             </div>

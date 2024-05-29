@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\ManagementController;
 
+use App\Exports\ExcelExportShifts;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\ShiftRequest\StoreRequest;
 use App\Http\Requests\ManagementRequest\ShiftRequest\UpdateRequest;
+use App\Imports\ExcelImportShifts;
 use App\Models\ManagementModel\LoginModel;
 use App\Models\ManagementModel\ShiftModel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class ShiftController extends Controller
@@ -123,6 +126,25 @@ class ShiftController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error','Cập nhật ca trực thất bại!');
         }
+    }
+
+    public function import(Request $request)
+    {
+        if(!empty($request->file('file'))){
+            $path = $request->file("file")->getRealPath();
+            //dd($path);
+            Excel::import(new ExcelImportShifts, $path);
+            return back();
+        }
+        else{
+            return back()->with('error','Vui lòng chọn file excel');
+        }
+
+
+    }
+    public function export()
+    {
+        return Excel::download(new ExcelExportShifts , 'ca-truc-'  . date('s_i_H-Y_m_d') .  '.xlsx');
     }
 
     /**

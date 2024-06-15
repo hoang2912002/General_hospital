@@ -311,7 +311,7 @@
                     // });
                     arr_image_medicine.splice(0, 1)
                     console.log('array_',arr_image_medicine);
-                    removeElement(arr_image_medicine, file.name);
+                    //removeElement(arr_image_medicine, file.name);
                     $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
                 },
 

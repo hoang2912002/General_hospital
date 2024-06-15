@@ -16,16 +16,72 @@
         #cam2 {
             display: none;
         }
+        .paypal-button {
+            background-color: #FFC439; /* Màu vàng của PayPal */
+            color: #111; /* Màu chữ đen */
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .paypal-button:hover {
+            background-color: #FFA726; /* Màu vàng đậm hơn khi hover */
+        }
+
+        .paypal-button img {
+            margin-right: 8px;
+            height: 24px; /* Chiều cao biểu tượng */
+        }
+
+
+        .momo-button {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ff69b4; /* Màu hồng của MoMo */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .momo-icon {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .momo-text {
+            font-family: 'Arial', sans-serif; /* Sử dụng font chữ tương tự với ứng dụng MoMo */
+        }
+
+        .momo-button:hover {
+            background-color: #ff5eab; /* Màu hồng nhạt khi hover */
+        }
+
     </style>
 @endpush
 @section('content')
     <div class="row mb-lg-5">
         <div class="col-lg-8 mx-auto">
             <div class="card">
-                <div class="card-header d-flex pb-0 p-3">
+                <div class="card-header d-flex pb-0 p-3 justify-content-between">
                     <h6 class="my-auto">Hóa đơn chi tiết</h6>
 
-                    <div class="nav-wrapper position-relative ms-auto w-50">
+                    {{-- <div class="nav-wrapper position-relative ms-auto w-50">
                         <ul class="nav nav-pills nav-fill p-1" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#cam1" role="tab"
@@ -43,9 +99,12 @@
 
                         </ul>
 
+                    </div> --}}
+                    <div class="button-bill-detail">
+                        <a href="{{ route('bill.print_pdf_bill',$billModel->id) }}" class="btn bg-gradient-secondary ms-3 mb-0">In hóa đơn</a>
+                        <a href="{{ route('bill.index') }}" class="btn bg-gradient-primary ms-3 mb-0">Quay về</a>
                     </div>
-                    <a href="{{ route('bill.print_pdf_bill',$billModel->id) }}" class="btn bg-gradient-secondary ms-3 mb-0">In hóa đơn</a>
-                    <a href="{{ route('bill.index') }}" class="btn bg-gradient-primary ms-3 mb-0">Quay về</a>
+
                 </div>
                 <div class="card-body p-3 mt-2">
                     <div class="tab-content" id="v-pills-tabContent">
@@ -113,10 +172,36 @@
                                                     <label class="">Trạng thái:</label>
                                                     {!! $billModel->status() !!}
                                                 </div>
-                                                <div class="col-12 col-sm-5 mt-sm-0 " style="display: flex;justify-content: end;">
-                                                    <button class="btn bg-gradient-info" id="bill-update-status">Cập nhật trạng thái</button>
-                                                </div>
+                                                @if ($billModel->status === 0)
+                                                    <div class="col-12 col-sm-5 mt-sm-0 " style="display: flex;justify-content: end;">
+                                                        <button class="btn bg-gradient-info" id="bill-update-status">Cập nhật</button>
+                                                    </div>
+                                                @endif
 
+
+                                            </div>
+
+                                            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                                {{-- <div id="paypal-button">dsasa</div> --}}
+                                                <h6 class="mt-4">Thanh toán bằng: </h6>
+                                                <form action="{{ route('payment.paypal') }}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="hidden" name="total_price" value="{{ $billModel->total_price() }} ">
+                                                    <input type="hidden" name="bill_id" value="{{ $billModel->id }} ">
+                                                    <button type="submit" id="paypal-button" class="paypal-button"> <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal">PayPal</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                                {{-- <div id="paypal-button">dsasa</div> --}}
+                                                <h6 class="mt-4">Thanh toán bằng: </h6>
+                                                <form action="{{ route('payment.momo') }}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="hidden" name="total_price" value="{{ $billModel->total_price() }} ">
+                                                    <input type="hidden" name="bill_id" value="{{ $billModel->id }} ">
+                                                    <button type="submit" id="momo-button" name="payUrl" class="momo-button">Momo</button>
+                                                </form>
                                             </div>
                                             <div class="div d-flex justify-content-between">
 
@@ -249,7 +334,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade position-relative  border-radius-lg " id="cam2"
+                    {{-- <div class="tab-pane fade position-relative  border-radius-lg " id="cam2"
                         role="tabpanel" aria-labelledby="cam2" style="height: 500px">
                         <div class="position-absolute d-flex top-0 w-100">
                             <div class="card-body p-3 pt-0">
@@ -315,7 +400,7 @@
                                                 {!! $billModel->status() !!}
                                             </div>
                                             <div class="col-12 col-sm-5 mt-sm-0 " style="display: flex;justify-content: end;">
-                                                <button class="btn bg-gradient-info" id="bill-update-status-qr">Cập nhật trạng thái</button>
+                                                <button class="btn bg-gradient-info" id="bill-update-status-qr">Cập nhật</button>
                                             </div>
 
                                         </div>
@@ -343,7 +428,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

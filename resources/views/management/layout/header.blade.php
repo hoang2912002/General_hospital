@@ -26,7 +26,7 @@
                         <li class="nav-item dropdown pe-2 d-flex align-items-center">
 
                             <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="d-sm-inline d-none">{{ Auth::user()->User->first_name }} {{ Auth::user()->User->last_name }}</span>
+                                <span class="d-sm-inline d-none">{{ Auth::user()->User->last_name }} {{ Auth::user()->User->first_name }}</span>
                                 &nbsp;
                                 <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
                             </a>

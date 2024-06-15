@@ -50,11 +50,11 @@ class BillController extends Controller
             })
             ->addColumn('action', function ($bill) {
                 //$routeDestroy = "'" . route('bill.destroy',$bill->uuid) . "'";
-                $route_edit =  '<a href="'. route('bill.edit', $bill->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                //$route_edit =  '<a href="'. route('bill.edit', $bill->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                 $route_detail =  '<a href="'. route('bill.detail', $bill->id) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
 
                 //$route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_detail;
+                return  $route_detail;
             })
 
             ->rawColumns(['id','full_name','dob','phone_number','total_price','status','action'])
@@ -123,12 +123,13 @@ class BillController extends Controller
 
 
     public function update_status(Request $request, BillModel $billModel){
-        //dd($request);
+        //AssignmentController.phpdd($request->status,isset($request->status));
         try {
-            if(!empty($request->status)){
+            if(isset($request->status)){
                 $status = $billModel->update(['status' => $request->status]);
+                //dd($status);
                 if(!empty($status)){
-                    return redirect()->back()->with('success','Thanh toán thành công!');
+                    return redirect()->route('bill.detail',$billModel->id)->with('success' , 'Thanh toán bằng tiền mặt thành công!' );
                 }
             }
         } catch (\Throwable $th) {

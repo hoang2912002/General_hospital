@@ -38,13 +38,13 @@
                     <div class="logo">
                     <img class="logo_img" src="{{ asset('img/general_hospital/management') }}/logo/general_g37_logo1.png" alt="">
                     </div>
-                    <p class="mb-0">Bệnh nhân: {{ ($userModel->first_name . ' ' . $userModel->last_name) ?? '' }}</p></h5>
+                    <p class="mb-0">Bệnh nhân: {{ ($userModel->last_name . ' ' . $userModel->first_name) ?? '' }}</p></h5>
                     <p class="mb-0">Giới tính: {{ (($userModel->gender == 1) ? 'Nam' : 'Nữ') ?? ''  }}</p>
                     <p class="mb-0">Năm sinh: {{ ($userModel->dob()) ?? '' }} </p>
                 </div>
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto d-grid" style="justify-items: end;">
-                        <h5>Bác sĩ: {{ Auth::user()->user->first_name . ' ' . Auth::user()->user->last_name }}</h5>
+                        <h5>Bác sĩ: {{ Auth::user()->user->last_name . ' ' . Auth::user()->user->first_name }}</h5>
                         <p class="mb-0">Khoa: </p>
                         <p class="mb-0">Số điện thoại: {{ Auth::user()->phone_number  }}</p>
                         <p class="mb-0">Thứ 2 đến Thứ 7</p>

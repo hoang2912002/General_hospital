@@ -110,6 +110,6 @@
             },
 
         ];
-        renderTable("{!! route('bill.index') !!}", columns);
+        renderTable("{!! route('bill.index') !!}", columns,true,5);
     </script>
 @endpush

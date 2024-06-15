@@ -316,13 +316,25 @@
 
                         }
                     });
-                    // remove file name from uploadedDocumentMap object
+                    // // remove file name from uploadedDocumentMap object
+                    // Reflect.deleteProperty(uploadedDocumentMap, file.name);
+
+                    // file.previewElement.remove();
+                    // arr_image_user.splice(0, 1)
+                    // removeElement(arr_image_user, file.name);
+                    // $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
+                    file.previewElement.remove();
+
+                    // Remove the file from uploadedDocumentMap
                     Reflect.deleteProperty(uploadedDocumentMap, file.name);
 
-                    file.previewElement.remove();
-                    arr_image_user.splice(0, 1)
-                    removeElement(arr_image_user, file.name);
+                    // Remove the hidden input field from the form
                     $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
+
+                    // Remove the file name from arr_image_service
+                    arr_image_user = arr_image_user.filter(function(value) {
+                        return value !== 'img/general_hospital/management/avatar/' + filename;
+                    });
                 },
 
                 init: function() {

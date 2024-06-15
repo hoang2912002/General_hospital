@@ -314,7 +314,7 @@
 
                     arr_image_medical_equipment.splice(0, 1)
                     console.log('array_',arr_image_medical_equipment);
-                    removeElement(arr_image_medical_equipment, file.name);
+                    //removeElement(arr_image_medical_equipment, file.name);
                     $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
                 },
 

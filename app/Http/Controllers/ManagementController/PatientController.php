@@ -79,7 +79,6 @@ class PatientController extends Controller
             } elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
                 $shift = 12; // Nếu không nằm trong bất kỳ khoảng thời gian nào
             }
-
             $assignment_day = AssignmentDayModel::where([
                 ['assignment_id',$assignment->id],
                 ['day_id',$currentDayOfWeek]
@@ -147,13 +146,7 @@ class PatientController extends Controller
             'total' => 'Phòng khám',
             'route' => 'patient.index'
         ];
-        // dd($numberModel->number_medical_record->patient_uuid);
-        // if($numberModel->status === 2){
-        //     dd(1);
-        //     $numberModel->update([
-        //         'status' => 3,
-        //     ]);
-        // }
+
         if(!empty($numberModel)){
             $number = $numberModel->update([
                 'status' => 2
@@ -162,51 +155,7 @@ class PatientController extends Controller
         if(!empty($numberModel->number_medical_record)){
             return redirect()->route('medical_record.index',['numberModel' => $numberModel->id, 'userModel' => $numberModel->number_medical_record->patient_uuid,'shift' => $shift]);
         }
-        // if($request->ajax()){
-        //     $users = UserModel::whereHas('gr_user', function ($query) {
-        //         $query->whereHas('groups', function ($query) {
-        //             $query->where('slug', 'benh-nhan');
-        //         });
-        //     })->with('gr_user.groups')->get();
-        //     //dd($users);
-        //     return DataTables::of($users)
-        //     ->editColumn('uuid', function ($user) {
-        //         return $user->uuid;
-        //     })
-        //     ->editColumn('first_name', function ($user) {
 
-        //         return $user->first_name;
-        //     })
-        //     ->editColumn('last_name', function ($user) {
-
-        //         return $user->last_name;
-        //     })
-        //     ->editColumn('gender', function ($user) {
-        //         return $user->gender();
-        //     })
-        //     ->editColumn('dob', function ($user) {
-        //         return $user->dob   ();
-        //     })
-        //     ->editColumn('email', function ($user) {
-        //         return $user->login->email;
-        //     })
-        //     ->editColumn('phone_number', function ($user) {
-        //         return $user->login->phone_number;
-        //     })
-        //     ->addColumn('action', function ($user) use ($numberModel) {
-        //         $routeDestroy = "'" . route('patient.destroy',$user->uuid) . "'";
-        //         $route_edit =  '<a href="'. route('patient.edit', $user->uuid) .'" class="badge bg-gradient-warning"><i class="fas fa-edit"></i></a>';
-        //         $route_check = route('patient.patient_medical_record', ['numberModel' => $numberModel->id, 'userModel' => $user->uuid]);
-        //         $route_patient_medical_record = '<a href="'. $route_check .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-check"></i></a>';
-        //         //$route_medical_record =  '<a href="'. route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $user]) .'" class="badge bg-gradient-warning" title="Hồ sơ bệnh án"><i class="fas fa-solid fa-notes-medical"></i></a>';
-        //         $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-        //         return  $route_patient_medical_record . '&nbsp' . $route_edit . '&nbsp'    . $route_delete;
-        //     })
-
-        //     ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])
-        //     ->make();
-        // }
-        //return view('management.patient.patient_list',compact('name_page','numberModel'));
         return view('management.patient.qr_scan',compact('name_page','numberModel','shift'));
     }
 
@@ -215,76 +164,109 @@ class PatientController extends Controller
         try {
 
             if(!empty($request->data)){
-                $patient_identification = PatientIdentificationModel::where('patient_identification_code',$request->data)->first();
-                if(!empty($patient_identification)){
-                    if($numberModel->status === 1){
-                        $numberModel->update([
-                            'status' => 2,
-                        ]);
-                    }
-                    $login_check = LoginModel::where([
-                        ['email',$numberModel->email],
-                        ['phone_number',$numberModel->phone_number],
-                    ])->first();
-                    if(!empty($login_check) && !empty($login_check->User->uuid)){
-                        $number_medical_records = Number_medicalRecordModel::where([
-                            'number_id' => $numberModel->id,
-                            'patient_uuid' =>$login_check->User->uuid,
-                        ])->get()->all();
-                        if(empty($number_medical_records)){
-                            $create_number_medical_records = Number_medicalRecordModel::create([
+                if (Carbon::now()->lessThanOrEqualTo($numberModel->expires_at) && $numberModel->expires_at !== null ) {
+                    // QR code còn hiệu lực
+                    //dd(Carbon::now()->lessThanOrEqualTo($numberModel->expires_at),$numberModel->expires_at);
+                    $patient_identification = PatientIdentificationModel::where('patient_identification_code',$request->data)->first();
+                    if(!empty($patient_identification)){
+                        if($numberModel->status === 1){
+                            $numberModel->update([
+                                'status' => 2,
+                            ]);
+                        }
+                        $login_check = LoginModel::where([
+                            ['email',$numberModel->email],
+                            ['phone_number',$numberModel->phone_number],
+                        ])->first();
+                        if(!empty($login_check) && !empty($login_check->User->uuid)){
+                            $number_medical_records = Number_medicalRecordModel::where([
                                 'number_id' => $numberModel->id,
                                 'patient_uuid' =>$login_check->User->uuid,
-                            ]);
-                            if(!empty($create_number_medical_records)){
-                                $route = route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $patient_identification->patient_uuid,'shift'=>$shift]);
-                                return response()->json(['success' => true, 'route' => $route]);
-                            }
+                            ])->get()->all();
+                            if(empty($number_medical_records)){
+                                $create_number_medical_records = Number_medicalRecordModel::create([
+                                    'number_id' => $numberModel->id,
+                                    'patient_uuid' =>$login_check->User->uuid,
+                                ]);
+                                if(!empty($create_number_medical_records)){
+                                    $route = route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $patient_identification->patient_uuid,'shift'=>$shift]);
+                                    return response()->json(['success' => true, 'route' => $route]);
+                                }
 
+                            }
                         }
                     }
-                }
-                else{
-                    $login_check = LoginModel::where([
-                        ['email',$numberModel->email],
-                        ['phone_number',$numberModel->phone_number],
-                    ])->first();
-                    //dd(empty($login_check),$numberModel);
-                    if(empty($login_check)){
-                        $login = LoginModel::create([
-                            'email' => $numberModel->email,
-                            'phone_number' => $numberModel->phone_number,
-                            'password' => bcrypt(123456),
-                            'activated' => 1
-                        ]);
-                        if(!empty($login)){
-                            $user = UserModel::create([
-                                'uuid' => (string)Str::uuid(),
-                                'first_name' =>$numberModel->first_name,
-                                'last_name' =>$numberModel->last_name,
-                                'gender' =>$numberModel->gender,
-                                'dob' => $numberModel->dob,
-                                'login_id' => $login->id,
+                    else{
+                        $login_check = LoginModel::where([
+                            ['email',$numberModel->email],
+                            ['phone_number',$numberModel->phone_number],
+                        ])->first();
+                        //dd(empty($login_check),$numberModel);
+                        if(empty($login_check)){
+                            $login = LoginModel::create([
+                                'email' => $numberModel->email,
+                                'phone_number' => $numberModel->phone_number,
+                                'password' => bcrypt(123456),
+                                'activated' => 1
                             ]);
-                            if($user){
-                                $group = GroupModel::where('slug','benh-nhan')->first();
-                                if(empty($group)){
-                                    $name ='Bệnh nhân';
-                                    $group = GroupModel::create([
-                                        'name' =>  $name,
-                                        'slug' => Str::slug($name),
-                                    ]);
-                                }
-                                $group_user = GroupUserModel::create([
-                                    'user_uuid' => $user->uuid,
-                                    'group_id' => $group->id,
+                            if(!empty($login)){
+                                $user = UserModel::create([
+                                    'uuid' => (string)Str::uuid(),
+                                    'first_name' =>$numberModel->first_name,
+                                    'last_name' =>$numberModel->last_name,
+                                    'gender' =>$numberModel->gender,
+                                    'dob' => $numberModel->dob,
+                                    'login_id' => $login->id,
                                 ]);
-                                if(!empty($group_user)){
+                                if($user){
+                                    $group = GroupModel::where('slug','benh-nhan')->first();
+                                    if(empty($group)){
+                                        $name ='Bệnh nhân';
+                                        $group = GroupModel::create([
+                                            'name' =>  $name,
+                                            'slug' => Str::slug($name),
+                                        ]);
+                                    }
+                                    $group_user = GroupUserModel::create([
+                                        'user_uuid' => $user->uuid,
+                                        'group_id' => $group->id,
+                                    ]);
+                                    if(!empty($group_user)){
+                                        $patients_identification = PatientIdentificationModel::create([
+                                            'patient_uuid' => $user->uuid,
+                                            'patient_identification_code' => $request->data,
+                                        ]);
+                                        if(!empty($patients_identification)){
+                                            $number_medical_records = Number_medicalRecordModel::create([
+                                                'number_id' => $numberModel->id,
+                                                'patient_uuid' => $user->uuid,
+                                            ]);
+                                            if(!empty($number_medical_records)){
+                                                if($numberModel->status === 1){
+                                                    $numberModel->update([
+                                                        'status' => 2,
+                                                    ]);
+                                                }
+                                                $route = route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $user->uuid,'shift'=>$shift]);
+                                                return response()->json(['success' => true, 'route' => $route]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            //dd($login_check);
+                        }
+                        else{
+                            $user = $login_check->User;
+                            if($numberModel->first_name === $user->first_name && $numberModel->last_name === $user->last_name){
+                                //dd($user->gr_user->groups->slug);
+                                if(!empty($user->gr_user->groups->slug)){
                                     $patients_identification = PatientIdentificationModel::create([
                                         'patient_uuid' => $user->uuid,
                                         'patient_identification_code' => $request->data,
                                     ]);
                                     if(!empty($patients_identification)){
+                                        //dd($patients_identification);
                                         $number_medical_records = Number_medicalRecordModel::create([
                                             'number_id' => $numberModel->id,
                                             'patient_uuid' => $user->uuid,
@@ -302,37 +284,14 @@ class PatientController extends Controller
                                 }
                             }
                         }
-                        //dd($login_check);
-                    }
-                    else{
-                        $user = $login_check->User;
-                        if($numberModel->first_name === $user->first_name && $numberModel->last_name === $user->last_name){
-                            //dd($user->gr_user->groups->slug);
-                            if(!empty($user->gr_user->groups->slug)){
-                                $patients_identification = PatientIdentificationModel::create([
-                                    'patient_uuid' => $user->uuid,
-                                    'patient_identification_code' => $request->data,
-                                ]);
-                                if(!empty($patients_identification)){
-                                    //dd($patients_identification);
-                                    $number_medical_records = Number_medicalRecordModel::create([
-                                        'number_id' => $numberModel->id,
-                                        'patient_uuid' => $user->uuid,
-                                    ]);
-                                    if(!empty($number_medical_records)){
-                                        if($numberModel->status === 1){
-                                            $numberModel->update([
-                                                'status' => 2,
-                                            ]);
-                                        }
-                                        $route = route('medical_record.index', ['numberModel' => $numberModel->id, 'userModel' => $user->uuid,'shift'=>$shift]);
-                                        return response()->json(['success' => true, 'route' => $route]);
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
+                else {
+                    // QR code không tồn tại
+                    $route = route('patient.patient_qr_scan', ['numberModel' => $numberModel->id,'shift'=>$shift]);
+                    return response()->json(['success' => false, 'route' => $route]);
+                }
+
             }
         }
         catch (\Throwable $th)

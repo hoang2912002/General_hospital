@@ -103,6 +103,25 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-12">
+                                            <label>Phòng</label>
+                                            <select class="form-control" name="status"
+                                                id="room">
+                                                <option value="">Chọn phòng dịch vụ...
+                                                </option>
+                                                @foreach ($room as $item)
+                                                    <option value="{{ $item->id }}" @if ($serviceModel->room_id  === $item->id)@selected(true)@endif> {{ $item->name }} </option>
+                                                @endforeach
+                                            </select>
+                                            @error('price')
+                                                <div class="alert alert-danger alert-dismissible text-white p-1 mt-3"
+                                                    role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-sm-12">
                                             <label class="">Thông tin chi tiết</label>
                                             <p class="form-text text-muted text-xs ms-1 d-inline">
                                                 (không bắt buộc)
@@ -195,10 +214,12 @@
     <script>
         Dropzone.autoDiscover = false;
         var arr_image_service = [];
+        var arr_thumbnail_service = [];
+        var uploadedDocumentMap = {};
         let token = $('meta[name="csrf-token"]').attr('content');
         $(function() {
             //service thumbnail
-            var myDropzone = new Dropzone('#service-thumbnail', {
+            var myDropzoneThumbnail = new Dropzone('#service-thumbnail', {
                 paramName: "file",
                 url: '{!! route('service.dropzone') !!}',
                 uploadMultiple: true,
@@ -214,15 +235,12 @@
                     $('form').append('<input type="hidden" name="file[]" value="' + response.name + '">');
                     //console.log($("input[name=file[]]").prop('type','hidden'));
                     uploadedDocumentMap[file.name] = response.name;
-                    arr_image_service = jQuery.grep(arr_image_service, function(value) {
+                    arr_thumbnail_service = jQuery.grep(arr_thumbnail_service, function(value) {
                         console.log('success',value == 'img/general_hospital/management/service_image/' + response.name);
                         return value != 'img/general_hospital/management/service_image/' + response.name;
                     });
                 },
                 removedfile: function(file) {
-                    // console.log('remove calls');
-                    // console.log('remove file');
-                    // console.log(file);
                     // remove uploaded file from table and storage folder starts
                     var filename = ''
                     if (file.hasOwnProperty('upload')) {
@@ -237,55 +255,50 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         data: {
-                            filename: arr_image_service,
+                            filename: arr_thumbnail_service,
                         },
-                        success: function(data) {
-                            //console.log('removed success: ' + data);
-
-                        }
+                        success: function(data) {}
                     });
                     // remove file name from uploadedDocumentMap object
                     Reflect.deleteProperty(uploadedDocumentMap, file.name);
-
+                    console.log(file.name);
                     file.previewElement.remove();
-                    arr_image_service.splice(0, 1)
-                    console.log('array_',arr_image_service);
-                    removeElement(arr_image_service, file.name);
+                    arr_thumbnail_service.splice(0, 1)
+                    console.log('array_',arr_thumbnail_service);
                     $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
                 },
 
                 init: function() {
                     //console.log('init calls');
-                    myDropzone = this;
+                    myDropzoneThumbnail = this;
                     // Read Files from tables and storage folder starts
                     $.ajax({
                         url: "{{ route('service.readFiles', $serviceModel->slug) }}",
                         type: 'get',
                         dataType: 'json',
                         success: function(response) {
-                            $.each(response.arr, function(key, value) {
-                                //console.log(response);
-                                var mockFile = {
-                                    name: value.name,
-                                    size: value.size,
-                                    accepted: true,
-                                    kind: 'image'
-                                };
-                                if(value.size != '' && value.name != ''){
-                                    myDropzone.emit("addedfile", mockFile);
-                                    myDropzone.files.push(mockFile);
-                                    myDropzone.emit("thumbnail", mockFile, value.image);
+                            console.log(response.arr);
+                            var mockFile = {
+                                name: response.arr.name,
+                                size: response.arr.size,
+                                accepted: true,
+                                kind: 'image'
+                            };
+                            if(response.arr.size != '' && response.arr.name != ''){
+                                myDropzoneThumbnail.emit("addedfile", mockFile);
+                                myDropzoneThumbnail.files.push(mockFile);
+                                myDropzoneThumbnail.emit("thumbnail", mockFile, response.arr.image);
 
-                                    myDropzone.emit("complete", mockFile);
-                                    uploadedDocumentMap[value.name] = value.name;
-                                    console.log(value.name);
-                                    arr_image_service.push('img/general_hospital/management/service_image/'+value.name);
-                                }
-                                else{
-                                    uploadedDocumentMap[value.name] =  value.name;
-                                    //arr_image_service.push(value.image);
-                                }
-                            });
+                                myDropzoneThumbnail.emit("complete", mockFile);
+                                uploadedDocumentMap[response.arr.name] = response.arr.name;
+                                console.log(response.arr.name);
+                                arr_thumbnail_service.push('img/general_hospital/management/service_image/'+response.arr.name);
+                            }
+                            else{
+                                uploadedDocumentMap[response.arr.name] =  response.arr.name;
+                                //arr_image_service.push(value.image);
+                            }
+
                         }
                     });
                 },
@@ -295,18 +308,18 @@
                 success:function(file, response) {
                     console.log('dsds',response);
                     if (response.status == "success") {
-                       arr_image_service.push(response.service_image);
-                       console.log('trong dropzone',arr_image_service);
+                        arr_thumbnail_service.push(response.service_image);
+                       console.log('trong dropzone',arr_thumbnail_service);
                     }
                 }
             });
 
             //service_image
-            var myDropzone = new Dropzone('#service-image', {
+            var myDropzoneImage = new Dropzone('#service-image', {
                 paramName: "file",
                 url: '{!! route('service.dropzone') !!}',
                 uploadMultiple: true,
-                maxFiles: 1,
+                maxFiles: 10,
                 acceptedFiles: '.jpg, .jpeg,.png,.gif',
                 autoProcessQueue: true, // myDropzone.processQueue() to upload dropped files
                 addRemoveLinks: true,
@@ -354,21 +367,21 @@
                     file.previewElement.remove();
                     arr_image_service.splice(0, 1)
                     console.log('array_',arr_image_service);
-                    removeElement(arr_image_service, file.name);
+                    //removeElement(arr_image_service, file.name);
                     $('form').find('input[name="file[]"][value="' + filename + '"]').remove();
                 },
 
                 init: function() {
                     //console.log('init calls');
-                    myDropzone = this;
+                    myDropzoneImage = this;
                     // Read Files from tables and storage folder starts
                     $.ajax({
                         url: "{{ route('service.readFiles', $serviceModel->slug) }}",
                         type: 'get',
                         dataType: 'json',
                         success: function(response) {
-                            $.each(response.arr, function(key, value) {
-                                //console.log(response);
+                            $.each(response.arr_image, function(key, value) {
+                                console.log(response);
                                 var mockFile = {
                                     name: value.name,
                                     size: value.size,
@@ -376,11 +389,11 @@
                                     kind: 'image'
                                 };
                                 if(value.size != '' && value.name != ''){
-                                    myDropzone.emit("addedfile", mockFile);
-                                    myDropzone.files.push(mockFile);
-                                    myDropzone.emit("thumbnail", mockFile, value.image);
+                                    myDropzoneImage.emit("addedfile", mockFile);
+                                    myDropzoneImage.files.push(mockFile);
+                                    myDropzoneImage.emit("thumbnail", mockFile, value.image);
 
-                                    myDropzone.emit("complete", mockFile);
+                                    myDropzoneImage.emit("complete", mockFile);
                                     uploadedDocumentMap[value.name] = value.name;
                                     console.log(value.name);
                                     arr_image_service.push('img/general_hospital/management/service_image/'+value.name);
@@ -416,24 +429,27 @@
                 var arr = {
                     'name': $('#name').val(),
                     'price': $('#price').val(),
+                    'room_id': $('#room').val(),
                     'description': $('#edit-deschiption').find('.ql-editor').get(0).outerHTML,
-                    'thumbnail': $('#input-thumbnail-service').val(),
+                    'thumbnail': arr_thumbnail_service,
                     'service_image': arr_image_service
                 };
+                console.log(arr);
                 e.preventDefault();
                 $.ajax({
                     headers: {
                         token
                     },
-                    type: 'POST',
-                    url: '{!! route('service.store') !!}',
+                    type: 'PATCH',
+                    url: '{!! route('service.update',$serviceModel->slug) !!}',
                     data: {
-                        'arr': JSON.stringify(arr),
+                        'arr': arr,
                     },
                     success: function(result) {
                         var url = "{{ route('service.index') }}"
                         window.location.href = url;
-                        myDropzone.processQueue();
+                        myDropzoneImage.processQueue();
+                        myDropzoneThumbnail.processQueue();
                     }
                 });
             });

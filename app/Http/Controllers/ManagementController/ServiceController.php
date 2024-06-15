@@ -12,6 +12,7 @@ use App\Models\ManagementModel\ServiceModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -161,24 +162,27 @@ class ServiceController extends Controller
     {
         $name_thumbnail= explode('/',$serviceModel->thumbnail) ?? '';
         $arr = [
-            'thumbnail' => asset($serviceModel->thumbnail),
+            'image' => asset($serviceModel->thumbnail),
             'name' => $name_thumbnail[4] ?? '',
             'size' => filesize($serviceModel->thumbnail),
         ];
-        //dd($arr);
-        foreach($serviceModel->image as $image){
-            $arr_name_image= explode('/',$image->image) ?? '';
-            array_splice($arr_name_image, 0, 3);
-            $name_image = implode('/',$arr_name_image);
-            //dd(filesize($name_image),$arr_name_image);
-            $arr_images[] = [
-                'image' => asset($name_image),
-                'name' => $arr_name_image[4] ?? '',
-                'size' => filesize($name_image),
-            ];
+        $arr_images = [];
+        if(!empty($serviceModel->image)){
+             foreach($serviceModel->image as $image){
+                $arr_name_image= explode('/',$image->image) ?? '';
+                array_splice($arr_name_image, 0, 3);
+                $name_image = implode('/',$arr_name_image);
+                //dd(filesize($name_image),$arr_name_image);
+                $arr_images[] = [
+                    'image' => asset($name_image),
+                    'name' => $arr_name_image[4] ?? '',
+                    'size' => filesize($name_image),
+                ];
+            }
         }
+        //dd($arr,$arr_images);
         //$arr['images'] = $arr_images;
-        //dd($arr_images,$arr);
+
         return response()->json(['status' => "success",'arr_image' => $arr_images,'arr' => $arr]);
     }
     public function readFilesThumbnail(ServiceModel $serviceModel)
@@ -204,8 +208,8 @@ class ServiceController extends Controller
             'total' => 'Dịch vụ',
             'route' => 'service.index'
         ];
-
-        return view('management.service.update',compact('name_page','serviceModel'));
+        $room = RoomModel::get();
+        return view('management.service.update',compact('name_page','serviceModel','room'));
     }
 
     /**
@@ -213,7 +217,40 @@ class ServiceController extends Controller
      */
     public function update(UpdateRequest $request, ServiceModel $serviceModel)
     {
-        //
+        try {
+
+            $arr = $request->arr;
+            $price = explode('VNĐ',$arr['price']);
+            $price = explode('.' , $price[0]);
+            $price = implode('',$price);
+            $arr['price'] = $price;
+            $arr['slug'] =Str::slug($arr['name']);
+
+            $service =  $serviceModel->update([
+                'name' => $arr['name'],
+                'slug' => $arr['slug'],
+                'price' => $arr['price'],
+                'room_id' => $arr['room_id'],
+                'thumbnail' => $arr['thumbnail'][0],
+                'description' => $arr['description'],
+            ]);
+            if(!empty($service)){
+                $serviceModel->image()->delete();
+
+                // Thêm hình ảnh mới
+                foreach ($arr['service_image'] as $service_image) {
+                    $serviceModel->image()->create([
+                        'service_id' => $serviceModel->id,
+                        'image' => $service_image,
+                    ]);
+                }
+            }
+            if(!empty($service) && !empty($service_image)){
+                return response()->json(['status' => "success",'message' => "Lưu file thành công",'success' => 'Cập nhật dịch vụ thành công!']);
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -243,28 +280,30 @@ class ServiceController extends Controller
     public function delete_thumbnail(Request $request,ServiceModel $serviceModel){
         try {
             if(!empty($serviceModel->thumbnail)){
-
                 $name_image= explode('/',$request->filename[0]) ?? '';
-                //dd($name_image);
                 unset($name_image[0], $name_image[1],$name_image[2]);
+
                 $name_image = implode('/',$name_image);
-                if($serviceModel->thumbnail === $request->filename || file_exists($serviceModel->thumbnail)){
+                if($serviceModel->thumbnail === $request->filename && file_exists($serviceModel->thumbnail)){
                     unlink($serviceModel->thumbnail);
+                    $serviceModel->update([
+                        'image' => ''
+                    ]);
+                }
+                else{
+                    unlink($request->filename[0]);
                     $serviceModel->update([
                         'image' => ''
                     ]);
                 }
             }
             else{
+                //dd($request->filename);
                 //Kiểm tra coi nếu path 1 có ảnh trong project thì xóa k thì sẽ qa path 2 vì $request sẽ lưu cả ảnh đã bị xóa r nên phải làm v
                 $path = public_path(). '/' .  $request->filename[0];
                 if(file_exists($path)){
                     File::delete($path);
                 }
-                // else{
-                //     $path_2 = public_path(). '/' .  $request->filename[1];
-                //     File::delete($path_2);
-                // }
             }
         } catch (\Throwable $th) {
             dd($th->getMessage());
@@ -273,7 +312,7 @@ class ServiceController extends Controller
     public function delete_image(Request $request,ServiceModel $serviceModel){
         try {
             if(!empty($serviceModel->image)){
-                
+
                 $name_image= explode('/',$request->filename[0]) ?? '';
                 //dd($name_image);
                 unset($name_image[0], $name_image[1],$name_image[2]);

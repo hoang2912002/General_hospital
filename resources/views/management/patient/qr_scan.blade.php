@@ -162,7 +162,9 @@
                         // // Load lại trang hiện tại sau 1 giây (1000ms)
 
                     } else {
-                        alert("Thất bại");
+                        setTimeout(function(){
+                            window.location.reload();
+                        }, alert("Thất bại"));
                     }
                 }
             })

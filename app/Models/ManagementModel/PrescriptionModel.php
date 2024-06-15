@@ -22,8 +22,8 @@ class PrescriptionModel extends Model
     }
     public function price()
     {
-        $price = number_format($this->total_price,'0',".",".") . 'đ';
+        $price = number_format($this->total_price,'0',".",".") . 'VNĐ';
         return  $price ;
     }
-    
+
 }

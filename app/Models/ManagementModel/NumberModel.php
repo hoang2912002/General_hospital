@@ -11,7 +11,7 @@ class NumberModel extends Model
     use HasFactory;
     protected $table = "numbers";
     protected $fillable = [
-        'number','room_id','first_name','last_name','gender','dob','email','phone_number','patient_identification_code','status'
+        'number','room_id','first_name','last_name','gender','dob','email','phone_number','patient_identification_code','status','expires_at'
     ];
 
     public function room(){

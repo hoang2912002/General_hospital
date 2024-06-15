@@ -5,9 +5,11 @@ namespace App\Http\Controllers\ManagementController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\NumberRequest\StoreRequest;
 use App\Models\ManagementModel\NumberModel;
+use App\Models\ManagementModel\QrCodeModel;
 use App\Models\ManagementModel\RoomModel;
 use PDF;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -154,31 +156,10 @@ class NumberController extends Controller
     public function print_number($number)
     {
         $print_number = NumberModel::where('id',$number)->first();
-        //dd($print_number->patient_identification_code,$print_number->room->department->name);
-        //return view('management.number.print_number_file_pdf',compact('print_number'));
 
-        //$pdf = new FacadePdf();
         $pdf = FacadePdf::loadview('management.number.print_number_file_pdf',compact('print_number'))->setPaper('A4');
         return $pdf->download('so-thu-tu-' . $print_number->number . '-phong-' . $print_number->room->slug . '.pdf');
-        // Session::flash('pdf', 'success');
-        // return $pdf->download('so-thu-tu-' . $print_number->number . '-phong-' . $print_number->room->slug . '.pdf');
-        // $pdfPath = 'public/pdfs/so-thu-tu-' . $print_number->number . '-phong-' . $print_number->room->name . '.pdf';
-        // Storage::put($pdfPath, $pdf->output());
-        // $pdfUrl = Storage::url($pdfPath);
-        // // if ($pdfUrl) {
-        // //     // Xóa file
-        // //     Storage::delete($pdfPath);
-        // // }
-        // return redirect()->route('number.ticket');
-        // // $pdfPath = 'public/pdfs/so-thu-tu-' . $print_number->number . '-phong-' . $print_number->room->slug . '.pdf';
-        // // // Lưu file PDF vào thư mục storage/app/public/pdfs
-        // // Storage::put($pdfPath, $pdf->output());
 
-        // // // Lấy URL của file PDF đã lưu
-        // // $pdfUrl = Storage::url($pdfPath);
-
-        // // // Chuyển hướng sau khi tải xong PDF
-        // // return response()->download(storage_path($pdfPath))->deleteFileAfterSend(true);
 
     }
     public function create_waiting_patient(Request $request)
@@ -193,16 +174,7 @@ class NumberController extends Controller
         $room['number'] = $number;
         $room['status'] = 1;
         $room['department_name'] = $room->department->name;
-        // $number_arr =[
-        //     'number' =>  $number,
-        //     'room_id' => $request->room_id,
-        //     'status' => 1,
-        // ];
-        // $number_created = NumberModel::create($number_arr);
-        // //dd('1',$number_created);
-        // $pdfRoute = route('number.print_number', ['numberModel' => $number_created->id]);
-        // return response()->json(['success' => true, 'pdfRoute' => $pdfRoute]);
-        //dd($number,$room);
+
         return response()->json(['success' => true,'room' => $room]);
     }
     /**
@@ -223,16 +195,18 @@ class NumberController extends Controller
                 'email'=>$request->arr['email'],
                 'phone_number'=>$request->arr['phone_number'],
                 'patient_identification_code'=>$request->arr['patient_identification_code'],
+                'expires_at' => Carbon::now()->addHours(24),
                 'status' => 1
             ]);
-            //dd($number_create);
             if(!empty($number_create)){
-                // $pdfRoute = route('number.print_number', ['numberModel' => $number->id]);
-                // return redirect()->to($pdfRoute);
-                $pdfRoute = route('number.print_number', ['numberModel' => $number_create->id]);
-                return response()->json(['success' => true, 'pdfRoute' => $pdfRoute]);
-                //return redirect()->route('number.ticket')->with('success' , 'Thêm bệnh nhân mới thành công!');
+                $expiration = Carbon::now()->addHours(2);
 
+                    $pdfRoute = route('number.print_number', ['numberModel' => $number_create->id]);
+                    return response()->json(['success' => true, 'pdfRoute' => $pdfRoute]);
+
+            }
+            else{
+                return response()->json(['success' => false, 'pdfRoute' => null]);
             }
         } catch (\Throwable $th) {
             dd($th->getMessage());

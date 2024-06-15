@@ -17,6 +17,7 @@ use App\Http\Controllers\ManagementController\MedicineController;
 use App\Http\Controllers\ManagementController\MedicineTypeController;
 use App\Http\Controllers\ManagementController\NumberController;
 use App\Http\Controllers\ManagementController\PatientController;
+use App\Http\Controllers\ManagementController\PayMentController;
 use App\Http\Controllers\ManagementController\PrescriptionController;
 use App\Http\Controllers\ManagementController\PrescriptionDetailController;
 use App\Http\Controllers\ManagementController\RoleController;
@@ -323,7 +324,7 @@ Route::middleware([CheckLogin::class])->group(function(){
     //Patient
     Route::group(['controller' => PatientController::class, 'prefix' => 'patient', 'as' => 'patient.'],function(){
         Route::get('/', 'index')->name('index');
-        Route::get('/{numberModel}/{shift}/qr_scan', 'patient_qr_scan')->name('patient_qr_scan');
+        Route::get('/{numberModel}/{shift}/', 'patient_qr_scan')->name('patient_qr_scan');
         Route::post('/{numberModel}/{shift}/patient_scan', 'patient_scan')->name('patient_scan');
         Route::get('/{numberModel}/{userModel}', 'patient_medical_record')->name('patient_medical_record');
         Route::get('create', 'create')->name('create');
@@ -383,7 +384,12 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::patch('update/{billModel}', 'update')->name('update');
         Route::delete('destroy/{billModel}', 'destroy')->name('destroy');
     });
-
+    Route::group(['controller' => PayMentController::class, 'prefix' => 'payment', 'as' => 'payment.'],function(){
+        Route::post('/paypal', 'paypal')->name('paypal');
+        Route::get('paypal/success', 'paypal_success')->name('paypal_success');
+        Route::get('paypal/cancel', 'paypal_cancel')->name('paypal_cancel');
+        Route::post('/momo', 'momo')->name('momo');
+    });
 
 
 

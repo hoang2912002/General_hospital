@@ -186,7 +186,7 @@
                             }, 1000);
                         }
                         else{
-                            //alert("Thêm phiếu chỉ định thất bại!");
+                            alert("Thêm phiếu chỉ định thất bại!");
                         }
                     }
 

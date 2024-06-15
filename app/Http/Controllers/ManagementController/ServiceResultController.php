@@ -159,9 +159,9 @@ class ServiceResultController extends Controller
                                 'shift_id' => $shift_id,
                             ]) .'" class="badge bg-gradient-success" title="Chi tiết dịch vụ"><i class="fas fa-solid fa-hospital-user"></i></a>';
                             $check = '';
-                            $route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
+                            //$route_edit =  '<a href="'. route('number.edit', $test_requisition->service->id) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
                             $route_delete = '';
-                            $route =  $route_edit . '&nbsp' . $route_create_service_result . '&nbsp' . $route_delete  ;
+                            $route =   $route_create_service_result   ;
                             $data[] = [
                                 'disease' => $recordData['disease'],
                                 'patient_name' => $recordData['patient_name'],

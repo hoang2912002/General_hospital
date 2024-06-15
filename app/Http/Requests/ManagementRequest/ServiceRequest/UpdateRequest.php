@@ -3,7 +3,7 @@
 namespace App\Http\Requests\ManagementRequest\ServiceRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Str;
 class UpdateRequest extends FormRequest
 {
     /**
@@ -21,8 +21,23 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = request()->route()->serviceModel->id;
         return [
-            //
+            '*.name' => 'required|unique:services,name,' . $id,
+            '*.price' => 'required',
+            '*.room_id' => 'required',
+            '*.description' => 'required',
+            '*.thumbnail' => 'sometimes',
+            '*.service_image' => 'sometimes',
         ];
     }
+    public function messages()
+    {
+        return [
+            'required' => 'Vui lòng không bỏ trống thông tin!',
+            'unique' => 'Tên dịch vụ này đã tồn tại!',
+            'sometimes' => 'Kiểu tên phòng này không đúng kiểu dữ liệu!'
+        ];
+    }
+
 }

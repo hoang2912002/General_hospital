@@ -14,13 +14,19 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('slug');
             $table->string('body');
             $table->string('thumbnail');
-            $table->string('date_time');
-            $table->uuid('staff_uuid');
+            $table->timestamps('date_time');
+            $table->unsignedInteger('categories_id')->nullable();
+            $table->string('staff_uuid');
             $table->boolean('is_featured');
+            $table->boolean('active');
+            $table->int('views')->nullable();
+            $table->int('likes')->nullable();
             $table->timestamps();
             $table->foreign('staff_uuid')->references('uuid')->on('users');
+            $table->foreign('categories_id')->references('id')->on('news_categories');
         });
     }
 

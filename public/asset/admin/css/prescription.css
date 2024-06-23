@@ -66,6 +66,10 @@
                 max-width: 56.66667%;
                 /* 66.66667% of the viewport width for col-8 */
             }
+            #modal-detail-appointment .modal-dialog {
+                max-width: 56.66667%;
+                /* 66.66667% of the viewport width for col-8 */
+            }
             .button_index{
                 max-width:  250.39px;
                 min-width:  250.39px;

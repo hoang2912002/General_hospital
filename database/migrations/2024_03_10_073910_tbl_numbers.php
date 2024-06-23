@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('last_name')->nullable(true);
             $table->boolean('gender')->nullable(true);
             $table->date('dob')->nullable(true);
-            $table->string('email',100)->nullable(true);
-            $table->string('phone_number',100)->nullable(true);
+            $table->string('email')->nullable(true);
+            $table->string('phone_number')->nullable(true);
+            $table->string('expires_at')->nullable(true);
             $table->string('patient_identification_code');
             $table->boolean('status');
+            $table->boolean('booking')->nullable(true);
             $table->timestamps();
             $table->foreign('room_id')->references('id')->on('rooms');
         });

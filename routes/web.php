@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagementController\AppointmentController;
 use App\Http\Controllers\ManagementController\AssignmentController;
 use App\Http\Controllers\ManagementController\BillController;
 use App\Http\Controllers\ManagementController\BillManagementController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ManagementController\EquipmentCategoryController;
 use App\Http\Controllers\ManagementController\GroupController;
 use App\Http\Controllers\ManagementController\HomepageController;
 use App\Http\Controllers\ManagementController\LoginController;
+use App\Http\Controllers\ManagementController\MailController;
 use App\Http\Controllers\ManagementController\ManufacturerController;
 use App\Http\Controllers\ManagementController\MedicalEquipmentController;
 use App\Http\Controllers\ManagementController\MedicalRecordController;
@@ -236,6 +238,8 @@ Route::middleware([CheckLogin::class])->group(function(){
     Route::group(['controller' => NumberController::class, 'prefix' => 'number', 'as' => 'number.'],function(){
         Route::get('/', 'index')->name('index');
         Route::get('/ticket', 'ticket')->name('ticket');
+        //Đặt số thứ tự cho lịch hẹn
+        Route::post('/appointment_sequence_number', 'appointment_sequence_number')->name('appointment_sequence_number');
         Route::get('{roomModel}/waiting_patient', 'waiting_patient')->name('waiting_patient');
         Route::get('render_waiting_patient', 'render_waiting_patient')->name('render_waiting_patient');
         Route::get('create_waiting_patient', 'create_waiting_patient')->name('create_waiting_patient');
@@ -390,7 +394,16 @@ Route::middleware([CheckLogin::class])->group(function(){
         Route::get('paypal/cancel', 'paypal_cancel')->name('paypal_cancel');
         Route::post('/momo', 'momo')->name('momo');
     });
-
-
+    Route::group(['controller' => AppointmentController::class, 'prefix' => 'appointment', 'as' => 'appointment.'],function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::get('detail', 'detail')->name('detail');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{appointmentModel}', 'edit')->name('edit');
+        Route::patch('update/{appointmentModel}', 'update')->name('update');
+        Route::delete('destroy/{appointmentModel}', 'destroy')->name('destroy');
+    });
+    //Send mail
+    Route::post('/send-mail', [MailController::class, 'send_mail'])->name('send.mail');
 
 });

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Database\Seeders\ManagementModel\PaymentModelSeeder;
 use Database\Seeders\ManagementModel\UserModelSeeder;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             UserModelSeeder::class,
+            PaymentModelSeeder::class,
         ]);
     }
 }

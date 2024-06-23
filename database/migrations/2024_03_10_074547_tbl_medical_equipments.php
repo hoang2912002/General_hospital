@@ -15,13 +15,13 @@ return new class extends Migration
             $table->increments('id');
             $table->string('series')->unique();
             $table->string('name');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->boolean('status');
             $table->unsignedInteger('equipment_category_id');
             $table->date('production_date');
             $table->date('exp_date');
-            //$table->integer('quantity')->nullable();
-            $table->text('note');
+            $table->integer('quantity')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->foreign('equipment_category_id')->references('id')->on('equipment_categories');
         });

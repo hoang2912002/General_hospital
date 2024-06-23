@@ -4,6 +4,10 @@ namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementRequest\NumberRequest\StoreRequest;
+use App\Models\ManagementModel\AppointmentModel;
+use App\Models\ManagementModel\AssignmentModel;
+use App\Models\ManagementModel\AssignmentRoomModel;
+use App\Models\ManagementModel\AssignmentShiftModel;
 use App\Models\ManagementModel\NumberModel;
 use App\Models\ManagementModel\QrCodeModel;
 use App\Models\ManagementModel\RoomModel;
@@ -196,7 +200,8 @@ class NumberController extends Controller
                 'phone_number'=>$request->arr['phone_number'],
                 'patient_identification_code'=>$request->arr['patient_identification_code'],
                 'expires_at' => Carbon::now()->addHours(24),
-                'status' => 1
+                'status' => 1,
+                'booking' => null
             ]);
             if(!empty($number_create)){
                 $expiration = Carbon::now()->addHours(2);
@@ -211,6 +216,83 @@ class NumberController extends Controller
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }
+    }
+
+    public function appointment_sequence_number(Request $request){
+        try {
+            $appointment = AppointmentModel::where('id',$request->appointment_id)->first();
+
+            $assignment = AssignmentModel::where([
+                ['staff_uuid','=',$appointment->doctor_uuid],
+                ['date_start','<=',$appointment->date],
+                ['date_end','>=',$appointment->date],
+
+            ])->first();
+            if (!empty($assignment)){
+                $assignment_shift = AssignmentShiftModel::where([
+                    ['assignment_id','=',$assignment->id],
+                    ['shift_id','=',$appointment->shift_id],
+                ])->first();
+                if(!empty($assignment_shift)){
+                    $assignment_room = AssignmentRoomModel::where([
+                        ['assignment_shift_id',$assignment_shift->id],
+                    ])->first();
+                    if(!empty($assignment_room)){
+                        $expires_at = Carbon::parse($appointment->date)->addHours(24);
+                        $number = NumberModel::where([
+                            ['first_name', '=', $appointment->first_name],
+                            ['last_name', '=', $appointment->last_name],
+                            ['gender', '=', $appointment->gender],
+                            ['dob', '=', $appointment->dob],
+                            ['email', '=', $appointment->email],
+                            ['phone_number', '=', $appointment->phone_number],
+                            ['patient_identification_code', '=', $appointment->patient_identification_code],
+                            ['expires_at', '=', $expires_at],
+                        ])->first();
+                        if(empty($number)) {
+                            $check_number = NumberModel::where([
+                                ['room_id', '=' ,$assignment_room->room_id]
+                            ]);
+                            $set_sequence_number = (!empty($check_number->get()->all())) ? $check_number->get()->last()->number + 1 : 1;
+
+                            $create_sequence_number = NumberModel::create([
+                                'number' =>$set_sequence_number,
+                                'room_id'=>$assignment_room->room_id,
+                                'first_name'=>$appointment->first_name,
+                                'last_name'=>$appointment->last_name,
+                                'gender'=>$appointment->gender,
+                                'dob'=>$appointment->dob,
+                                'email'=>$appointment->email,
+                                'phone_number'=>$appointment->phone_number,
+                                'patient_identification_code'=>$appointment->patient_identification_code,
+                                'expires_at' => $expires_at,
+                                'status' => 1,
+                                'booking' => 1,
+                            ]);
+                            if(!empty($create_sequence_number)){
+                                return response()->json(['success' => true, 'notification' => 'Thêm số thứ tự thành công!']);
+                            }
+                        }
+                        else{
+                            return response()->json(['success' => false, 'notification' => 'Lịch hẹn này đã có số thứ tự!']);
+                        }
+                        //dd($number,Carbon::now()->addHours(24),Carbon::parse($appointment->date)->addHours(24));
+                    }
+                    else{
+                        return response()->json(['success' => false, 'notification' => 'Bác sĩ không có cá làm việc tại phòng'. $assignment_room->room->name .'!']);
+                    }
+                }
+                else{
+                    return response()->json(['success' => false, 'notification' => 'Bác sĩ không có cá làm việc vào giờ này!']);
+                }
+            }
+            else{
+                return response()->json(['success' => false, 'notification' => 'Bác sĩ không có lịch làm viêc vào ngày ' . $appointment->date . '!']);
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+
     }
 
     /**

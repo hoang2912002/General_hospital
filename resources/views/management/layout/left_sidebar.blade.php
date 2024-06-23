@@ -105,7 +105,7 @@
                         <div class="collapse " id="book">
                             <ul class="nav ms-4">
                                 <li class="nav-item ">
-                                    <a class="nav-link " href="">
+                                    <a class="nav-link " href="{{ route('appointment.index') }}">
                                         <span class="sidenav-mini-icon"> L </span>
                                         <span class="sidenav-normal"> Lịch hẹn </span>
                                     </a>

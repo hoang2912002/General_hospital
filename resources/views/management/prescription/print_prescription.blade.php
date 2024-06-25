@@ -87,7 +87,7 @@
             </div>
             <hr class="hr mb-5 mt-5">
             <div class="pb-0 mt-0">
-                <span class=" mb-0 mt-0">Ngày khám: {{ $medical_recordModel->shift() ?? '' }}  {{ '- '. $medical_recordModel->date($medical_recordModel->exam_date) ?? '' }}</span>
+                <span class=" mb-0 mt-0">Ngày khám: {{ $medical_recordModel->shift_relation->hour_flw_slug() ?? '' }}  {{ '- '. $medical_recordModel->date($medical_recordModel->exam_date) ?? '' }}</span>
 
                 <span class=" mb-0 mt-0" > - Tái khám:{{ $medical_recordModel->date($medical_recordModel->re_exam_date) ?? '' }}</span>
             </div>

@@ -25,8 +25,10 @@ return new class extends Migration
             $table->string('patient_identification_code');
             $table->boolean('status');
             $table->boolean('booking')->nullable(true);
+            $table->unsignedInteger('shift_id')->nullable(true);
             $table->timestamps();
             $table->foreign('room_id')->references('id')->on('rooms');
+            $table->foreign('shift_id')->references('id')->on('shifts');
         });
     }
 

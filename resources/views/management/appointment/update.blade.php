@@ -68,7 +68,7 @@
                                 <p class="mb-0 text-sm">Thông tin lịch hẹn</p>
                                 <div class="multisteps-form__content">
                                     {{-- Status --}}
-                                    <input class="multisteps-form__input form-control" type="hidden"  name="status" value="1">
+                                    <input class="multisteps-form__input form-control" type="hidden"  name="status" value="2">
                                     <div class="row mt-3">
                                         <div class="col-12 col-sm-6">
                                             <label>Họ</label>

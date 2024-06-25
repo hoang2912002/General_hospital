@@ -51,50 +51,53 @@ class ServiceResultController extends Controller
             $currentHour = $currentDateTime->format('H:i:s');
 
             // So sánh giờ hiện tại với các giờ trong điều kiện so sánh
-            if ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
-                $shift = 1;
-            }
-            elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
-                $shift = 2;
-            }
-            elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
-                $shift = 3;
-            }
-            elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
-                $shift = 4;
-            }
-            elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
-                $shift = 5;
-            }
-            elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
-                $shift = 6;
-            }
-            elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
-                $shift = 7;
-            }
-            elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
-                $shift = 8;
-            }
-            elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
-                $shift = 9;
-            }
-            elseif ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
-                $shift = 10;
+            if ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
+                $shift = 'ca-1';
             }
             elseif ($currentHour >= '02:00:00' && $currentHour <= '04:00:00') {
-                $shift = 11;
-            } else {
-                $shift = 12; // Nếu không nằm trong bất kỳ khoảng thời gian nào
+                $shift = 'ca-2';
             }
+            elseif ($currentHour >= '04:00:00' && $currentHour <= '06:00:00') {
+                $shift = 'ca-3';
+            }
+            elseif ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
+                $shift = 'ca-4';
+            }
+            elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
+                $shift = 'ca-5';
+            }
+            elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
+                $shift = 'ca-6';
+            }
+            elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
+                $shift = 'ca-7';
+            }
+            elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
+                $shift = 'ca-8';
+            }
+            elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
+                $shift = 'ca-9';
+            }
+            elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
+                $shift = 'ca-10';
+            }
+            elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
+                $shift = 'ca-11';
+            } elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
+                $shift = 'ca-12'; // Nếu không nằm trong bất kỳ khoảng thời gian nào
+            }
+
 
             $assignment_day = AssignmentDayModel::where([
                 ['assignment_id',$assignment->id],
                 ['day_id',$currentDayOfWeek]
             ])->first();
+            $id_shift_tbl = ShiftModel::where('slug',$shift)->first();
             $assignment_shift = AssignmentShiftModel::where([
                 ['assignment_id',$assignment->id],
-                ['shift_id',$shift]
+                ['shift_id',$id_shift_tbl->id]
             ])->first();
+            
             $assignment_room = AssignmentRoomModel::where([
                 ['assignment_day_id',$assignment_day->id ?? ''],
                 ['assignment_shift_id',$assignment_shift->id ?? ''],

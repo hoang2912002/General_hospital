@@ -10,7 +10,7 @@ class BillModel extends Model
     use HasFactory;
     protected $table = "bills";
     protected $fillable = [
-        'user_uuid','medical_record_id','name','phone_number','total_price','payment_id','transaction_id','status'
+        'user_uuid','medical_record_id','total_price','payment_id','transaction_id','status'
     ];
 
     public function user(){

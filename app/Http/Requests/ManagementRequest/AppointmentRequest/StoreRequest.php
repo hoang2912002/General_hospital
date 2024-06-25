@@ -23,18 +23,19 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_uuid' => 'sometimes',
             'first_name' => 'required',
             'last_name' => 'required',
             'dob' => 'required|date|before:today',
             'gender' => 'required|boolean',
-            'email' => 'required|email|unique:logins,email',
+            'email' => 'required|email',
             'phone_number' => ['required', new Phone_number('Số điện thoại này không đúng định dạng!')],
             'activated' => 'sometimes',
             'patient_identification_code' => 'required',
             'doctor_uuid' => 'required',
             'status' => 'required',
             'note' => 'sometimes',
-            'date' => 'required|date|after:today',
+            'date' => 'required|date',
             'shift_id' => 'required',
         ];
     }

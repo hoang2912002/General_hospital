@@ -11,7 +11,7 @@ class NumberModel extends Model
     use HasFactory;
     protected $table = "numbers";
     protected $fillable = [
-        'number','room_id','first_name','last_name','gender','dob','email','phone_number','patient_identification_code','status','expires_at','booking'
+        'number','room_id','first_name','last_name','gender','dob','email','phone_number','patient_identification_code','status','expires_at','booking','shift_id'
     ];
 
     public function room(){
@@ -19,6 +19,9 @@ class NumberModel extends Model
     }
     public function number_medical_record(){
         return $this->hasOne(Number_medicalRecordModel::class,'number_id','id');
+    }
+    public function shift(){
+        return $this->hasOne(ShiftModel::class,'id','shift_id');
     }
     public function date_time(){
 

@@ -45,53 +45,57 @@ class PatientController extends Controller
 
             // So sánh giờ hiện tại với các giờ trong điều kiện so sánh
             if ($currentHour >= '00:00:00' && $currentHour <= '02:00:00') {
-                $shift = 1;
+                $shift = 'ca-1';
             }
             elseif ($currentHour >= '02:00:00' && $currentHour <= '04:00:00') {
-                $shift = 2;
+                $shift = 'ca-2';
             }
             elseif ($currentHour >= '04:00:00' && $currentHour <= '06:00:00') {
-                $shift = 3;
+                $shift = 'ca-3';
             }
             elseif ($currentHour >= '06:00:00' && $currentHour <= '08:00:00') {
-                $shift = 4;
+                $shift = 'ca-4';
             }
             elseif ($currentHour >= '08:00:00' && $currentHour <= '10:00:00') {
-                $shift = 5;
+                $shift = 'ca-5';
             }
             elseif ($currentHour >= '10:00:00' && $currentHour <= '12:00:00') {
-                $shift = 6;
+                $shift = 'ca-6';
             }
             elseif ($currentHour >= '12:00:00' && $currentHour <= '14:00:00') {
-                $shift = 7;
+                $shift = 'ca-7';
             }
             elseif ($currentHour >= '14:00:00' && $currentHour <= '16:00:00') {
-                $shift = 8;
+                $shift = 'ca-8';
             }
             elseif ($currentHour >= '16:00:00' && $currentHour <= '18:00:00') {
-                $shift = 9;
+                $shift = 'ca-9';
             }
             elseif ($currentHour >= '18:00:00' && $currentHour <= '20:00:00') {
-                $shift = 10;
+                $shift = 'ca-10';
             }
             elseif ($currentHour >= '20:00:00' && $currentHour <= '22:00:00') {
-                $shift = 11;
+                $shift = 'ca-11';
             } elseif ($currentHour >= '22:00:00' && $currentHour <= '00:00:00') {
-                $shift = 12; // Nếu không nằm trong bất kỳ khoảng thời gian nào
+                $shift = 'ca-12'; // Nếu không nằm trong bất kỳ khoảng thời gian nào
             }
+
             $assignment_day = AssignmentDayModel::where([
                 ['assignment_id',$assignment->id],
                 ['day_id',$currentDayOfWeek]
             ])->first();
+            $id_shift_tbl = ShiftModel::where('slug',$shift)->first();
+
             $assignment_shift = AssignmentShiftModel::where([
                 ['assignment_id',$assignment->id],
-                ['shift_id',$shift]
+                ['shift_id',14]
             ])->first();
+
             $assignment_room = AssignmentRoomModel::where([
                 ['assignment_day_id',$assignment_day->id ?? ''],
                 ['assignment_shift_id',$assignment_shift->id ?? ''],
-            ])->first() ;
-            //dd($assignment_room->room->number);
+            ])->first();
+
             $shift_name = $assignment_shift->shift_name ?? '';
 
         }
@@ -103,16 +107,17 @@ class PatientController extends Controller
         ];
         //dd($group[0]->slug);
         $shiftModel = ShiftModel::where([
-            ['id', $shift],
+            ['id', $id_shift_tbl->id],
         ])->first();
-        //dd($shiftModel);
+        //dd(Carbon::yesterday()->toDateString(),Carbon::today()->toDateString());
         if($request->ajax()){
             //dd($assignment_room->room->number);
             $room_id = $assignment_room->room->id ?? [];
-            // $numbers = NumberModel::where('room_id', $room_id)->where('status', '<>', 3)
-            // ->get();
-            $numbers = NumberModel::where('room_id', $room_id)->get();
-            //dd($numbers);
+
+            $numbers = NumberModel::where('room_id', $room_id)
+            ->whereDate('expires_at', Carbon::tomorrow()->startOfDay()->toDateTimeString())
+            ->orWhereDate('created_at', Carbon::today()->toDateString())
+            ->get();
 
             return DataTables::of($numbers)
             ->editColumn('number_id', function ($number) {
@@ -127,10 +132,10 @@ class PatientController extends Controller
             ->editColumn('status', function ($number) {
                 return     $number->status();
             })
-            ->addColumn('action', function ($number) use($shift) {
+            ->addColumn('action', function ($number) use($id_shift_tbl) {
                 //dd($shiftModel);
                 //<a href="{{ route('patient.create') }}" class="btn bg-gradient-primary btn-sm mb-0 "   target="">+&nbsp; Thêm bệnh nhân mới</a>&nbsp;
-                $route_create_new_patient =  '<a href="'. route('patient.patient_qr_scan',['numberModel'=>$number->id,'shift'=>$shift]) .'" class="badge bg-gradient-success" title="Quét mã qr bệnh nhân/ Hồ sơ bệnh án"><i class="fas fa-solid fa-qrcode"></i></a>';
+                $route_create_new_patient =  '<a href="'. route('patient.patient_qr_scan',['numberModel'=>$number->id,'shift'=>$id_shift_tbl->id]) .'" class="badge bg-gradient-success" title="Quét mã qr bệnh nhân/ Hồ sơ bệnh án"><i class="fas fa-solid fa-qrcode"></i></a>';
                 return $route_create_new_patient ;
             })
             ->rawColumns(['number_id','full_name','dob','status','action'])
@@ -166,7 +171,6 @@ class PatientController extends Controller
             if(!empty($request->data)){
                 if (Carbon::now()->lessThanOrEqualTo($numberModel->expires_at) && $numberModel->expires_at !== null ) {
                     // QR code còn hiệu lực
-                    //dd(Carbon::now()->lessThanOrEqualTo($numberModel->expires_at),$numberModel->expires_at);
                     $patient_identification = PatientIdentificationModel::where('patient_identification_code',$request->data)->first();
                     if(!empty($patient_identification)){
                         if($numberModel->status === 1){

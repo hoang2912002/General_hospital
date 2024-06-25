@@ -397,8 +397,10 @@ Route::middleware([CheckLogin::class])->group(function(){
     Route::group(['controller' => AppointmentController::class, 'prefix' => 'appointment', 'as' => 'appointment.'],function(){
         Route::get('/', 'index')->name('index');
         Route::get('create', 'create')->name('create');
+        Route::get('create_appointment/{userModel}', 'create_appointment')->name('create_appointment');
         Route::get('detail', 'detail')->name('detail');
         Route::post('store', 'store')->name('store');
+        Route::post('api_choose_doctor', 'api_choose_doctor')->name('api_choose_doctor');
         Route::get('edit/{appointmentModel}', 'edit')->name('edit');
         Route::patch('update/{appointmentModel}', 'update')->name('update');
         Route::delete('destroy/{appointmentModel}', 'destroy')->name('destroy');

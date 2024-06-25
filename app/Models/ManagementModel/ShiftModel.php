@@ -136,4 +136,86 @@ class ShiftModel extends Model
                 break;
         }
     }
+    public function render_calender_shift(){
+        switch ($this->slug) {
+            case 'ca-1':
+                return [
+                    'start_time' => '00:00:00',
+                    'end_time' => '02:00:00'
+                ];
+                break;
+            case 'ca-2':
+                return [
+                    'start_time' => '02:00:00',
+                    'end_time' => '04:00:00'
+                ];
+                break;
+            case 'ca-3':
+                return [
+                    'start_time' => '04:00:00',
+                    'end_time' => '06:00:00'
+                ];
+                break;
+            case 'ca-4':
+                return [
+                    'start_time' => '06:00:00',
+                    'end_time' => '08:00:00'
+                ];
+                break;
+            case 'ca-5':
+                return [
+                    'start_time' => '08:00:00',
+                    'end_time' => '10:00:00'
+                ];
+                break;
+            case 'ca-6':
+                return [
+                    'start_time' => '10:00:00',
+                    'end_time' => '12:00:00'
+                ];
+                break;
+            case 'ca-7':
+                return [
+                    'start_time' => '12:00:00',
+                    'end_time' => '14:00:00'
+                ];
+                break;
+            case 'ca-8':
+                return [
+                    'start_time' => '14:00:00',
+                    'end_time' =>  '16:00:00'
+                ];
+                break;
+            case 'ca-9':
+                return [
+                    'start_time' =>  '16:00:00',
+                    'end_time' =>'18:00:00'
+                ];
+                break;
+            case 'ca-10':
+                return [
+                    'start_time' => '18:00:00',
+                    'end_time' => '20:00:00'
+                ];
+                break;
+            case 'ca-11':
+                return [
+                    'start_time' =>'20:00:00',
+                    'end_time' => '22:00:00'
+                ];
+                break;
+            case 'ca-12':
+                return [
+                    'start_time' => '22:00:00',
+                    'end_time' => '00:00:00'
+                ];
+                break;
+            default:
+                return [
+                    'start_time' => '06:00:00',
+                    'end_time' => '08:00:00'
+                ];
+                break;
+        }
+    }
 }

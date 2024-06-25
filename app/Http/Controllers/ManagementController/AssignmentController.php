@@ -96,7 +96,7 @@ class AssignmentController extends Controller
                     $assignment_shift = AssignmentShiftModel::where('assignment_id',$assignment->id)->get();
                     foreach($assignment_day as $day){
                         foreach($assignment_shift as $shift){
-                            $data_time = $shift->shift();
+                            $data_time = $shift->shift_tbl->render_calender_shift();
                             //dd($data_time['start_time']);
                             $assignment_room = AssignmentRoomModel::where([
                                 ['assignment_day_id',$day->id],

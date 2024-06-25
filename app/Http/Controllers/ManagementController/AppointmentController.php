@@ -88,6 +88,23 @@ class AppointmentController extends Controller
 
         return view('management.appointment.create',compact('name_page','shifts','doctors'));
     }
+    public function create_appointment(UserModel $userModel)
+    {
+        //dd($userModel->patients_identification->all());
+        $name_page = [
+            'name' => 'Thêm',
+            'total' => 'Lịch hẹn',
+            'route' => 'appointment.index'
+        ];
+        $shifts = ShiftModel::get();
+        $doctors = UserModel::whereHas('gr_user', function ($query) {
+            $query->whereHas('groups', function ($query){
+                $query->where('slug', 'bac-si');
+            }); // hoặc where('name', 'Doctor')
+        })->get();
+
+        return view('management.appointment.create_appointment',compact('name_page','shifts','doctors','userModel'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -109,6 +126,29 @@ class AppointmentController extends Controller
         }
     }
 
+    public function api_choose_doctor(Request $request)
+    {
+        $arr_shifts = [];
+        try {
+            if (!empty($request->doctor_uuid)) {
+                $assignment = AssignmentModel::where('staff_uuid', $request->doctor_uuid)->first();
+                if (!empty($assignment)) {
+                    $shifts = $assignment->assignment_shift;
+                    foreach ($shifts as $shift) {
+                        $arr_shifts[$shift->shift_id] = $shift->shift_tbl->hour_flw_slug();
+                    }
+                }
+            } else {
+                $shifts = ShiftModel::all();
+                foreach ($shifts as $shift) {
+                    $arr_shifts[$shift->id] = $shift->hour_flw_slug();
+                }
+            }
+            return response()->json(['arr_shifts' => $arr_shifts]);
+        } catch (\Throwable $th) {
+            return response()->json(['arr_shifts' => $arr_shifts]);
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -132,7 +172,9 @@ class AppointmentController extends Controller
                     ['patient_identification_code', '=', $appointment->patient_identification_code],
                     ['expires_at', '=' , $expires_at],
                     ['status', '=', 1],
+                    ['shift_id', '=', $appointment->shift_id],
                 ])->first();
+                
                 $arr = [];
                 if(!empty($appointment)){
                     $arr = [

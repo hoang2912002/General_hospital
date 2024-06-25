@@ -172,6 +172,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
+
     ])->toArray(),
 
     /*

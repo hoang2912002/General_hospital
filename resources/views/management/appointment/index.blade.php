@@ -166,7 +166,7 @@
 
         ];
         setTimeout(function(){
-            renderTable("{!! route('appointment.index') !!}", columns);
+            renderTable("{!! route('appointment.index') !!}", columns,true,6);
         }, 500);
     </script>
     <script>

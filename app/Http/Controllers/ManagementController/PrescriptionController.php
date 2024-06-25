@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ManagementController;
 
 use App\Http\Controllers\Controller;
+use App\Models\ManagementModel\AppointmentModel;
 use App\Models\ManagementModel\BillDetailPrescriptionModel;
 use App\Models\ManagementModel\BillDetailServiceModel;
 use App\Models\ManagementModel\BillModel;
@@ -18,6 +19,7 @@ use App\Models\ManagementModel\ShiftModel;
 use App\Models\ManagementModel\UserModel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 class PrescriptionController extends Controller
 {
@@ -64,6 +66,22 @@ class PrescriptionController extends Controller
     public function update_number_medical_record(NumberModel $numberModel,UserModel $userModel,MedicalRecordModel $medical_recordModel){
         try {
             //code...
+            foreach($userModel->patients_identification as $patient_identification){
+                $appointment = AppointmentModel::where([
+                    ['first_name', '=', $userModel->first_name],
+                    ['last_name', '=', $userModel->last_name],
+                    ['gender', '=', $userModel->gender],
+                    ['dob', '=', $userModel->dob],
+                    ['email', '=', $userModel->login->email],
+                    ['phone_number', '=', $userModel->login->phone_number],
+                    ['patient_identification_code', '=', $patient_identification->patient_identification_code],
+                    ['date', '=' , Carbon::today()->toDateString()],
+                    ['status', '=', 2],
+                ])->first();
+                if(!empty($appointment)){
+                    $appointment->update(['status'=>3]);
+                }
+            }
 
             if(!empty($numberModel) && !empty($userModel) && !empty($medical_recordModel)){
                 $number_medical_record_model = Number_medicalRecordModel::where([
@@ -88,8 +106,6 @@ class PrescriptionController extends Controller
                         $bill = BillModel::create([
                             'user_uuid' => $userModel->uuid,
                             'medical_record_id' => $medical_recordModel->id,
-                            'name' => null,
-                            'phone_number' => null,
                             'total_price' => null,
                             'payment_id' => null,
                             'transaction_id' => null,
@@ -113,6 +129,7 @@ class PrescriptionController extends Controller
                                 $price_service_result += (int)$service_result->price;
 
                             }
+
                             if(!empty($bill_detail_prescription) && !empty($bill_detail_service)){
                                 $total_price = $price_service_result + $price_prescription;
                                 $bill->update(['total_price' => $total_price]);

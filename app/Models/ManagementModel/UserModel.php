@@ -40,7 +40,6 @@ class UserModel extends Model
     public function birthdate()
     {
         return  date('d/m/Y', strtotime($this->dob));
-
     }
     public function medical_record(){
         return $this->hasMany(MedicalRecordModel::class,'user_uuid','uuid');
@@ -57,7 +56,9 @@ class UserModel extends Model
     public function aboard_name(){
         return $this->first_name . ' ' . $this->last_name;
     }
-
+    public function patients_identification(){
+        return $this->hasMany(PatientIdentificationModel::class,'patient_uuid','uuid');
+    }
     public function getPermision()
     {
         $groups = $this->group_user;

@@ -38,6 +38,10 @@ class MedicalRecordModel extends Model
     public function prescription(){
         return $this->hasOne(PrescriptionModel::class,'medical_record_id','id');
     }
+    public function shift_relation(){
+        return $this->hasOne(ShiftModel::class,'id','shift_id');
+    }
+
     public function shift(){
         switch ($this->shift_id) {
             case 1:

@@ -72,7 +72,7 @@ class AppointmentModel extends Model
                 return '<span class="badge bg-gradient-info">Đã duyệt</span>';
                 break;
             case 3:
-                return '<span class="badge bg-gradient-success">Đã khám</span>Đã khám';
+                return '<span class="badge bg-gradient-success">Đã khám</span>';
                 break;
             default:
                 return '<span class="badge bg-gradient-primary">Đã đặt</span>';

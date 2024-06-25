@@ -15,6 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('service_id');
             $table->unsignedInteger('medical_record_id');
+            $table->unsignedInteger('medical_record_id');
+            $table->boolean('status')->nullable(true);
             $table->timestamps();
             $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('medical_record_id')->references('id')->on('medical_records');

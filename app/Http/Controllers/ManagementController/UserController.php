@@ -68,11 +68,12 @@ class UserController extends Controller
             })
             ->addColumn('action', function ($user) {
                 $routeDestroy = "'" . route('user.destroy',$user->uuid) . "'";
-                $route_edit =  '<a href="'. route('user.edit', $user->uuid) .'" class="badge bg-gradient-secondary"><i class="fas fa-edit"></i></a>';
-                $route_detail =  '<a href="'. route('user.detail', $user->uuid) .'" class="badge bg-gradient-success"><i class="fas fa-solid fa-file"></i></a>';
+                $route_edit =  '<a href="'. route('user.edit', $user->uuid) .'" class="badge bg-gradient-secondary" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>';
+                $route_detail =  '<a href="'. route('user.detail', $user->uuid) .'" class="badge bg-gradient-success" title="Xem chi tiết"><i class="fas fa-solid fa-file"></i></a>';
+                $route_appointment =  '<a href="'. route('appointment.create_appointment', $user->uuid) .'" class="badge bg-gradient-primary" title="Đặt lịch hẹn"><i class="fas fa-regular fa-calendar-check"></i></a>';
 
                 $route_delete = '<a href="javascript:void(0)" class="badge bg-gradient-danger" onclick="deleteItem('. $routeDestroy .')"><i class="fas fa-trash"></i></a>';
-                return $route_edit . '&nbsp' . $route_detail . '&nbsp'  . $route_delete;
+                return $route_edit . '&nbsp' . $route_detail . '&nbsp' . $route_appointment  . '&nbsp' . $route_delete;
             })
 
             ->rawColumns(['uuid','first_name','last_name','gender','dob','email','phone_number','action'])

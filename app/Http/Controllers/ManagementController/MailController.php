@@ -51,6 +51,12 @@ class MailController extends Controller
     {
         $appointment = AppointmentModel::where('id', $request->appointment_id)->first();
         $number = NumberModel::where('id', $request->number_id)->first();
+        if(empty($request->number_id)){
+            return response()->json(['success' => false,'notification' => 'Không có STT hoặc lịch hẹn đã khám. Vui lòng kiểm tra lại!']);
+        }
+        if(empty($request->appointment_id)){
+            return response()->json(['success' => false,'notification' => 'Không có tồn tại lịch hẹn!']);
+        }
         if (!empty($appointment) && !empty($number)) {
             // Generate QR code and save it to public directory
             $qrCode = QrCode::format('png')->size(300)->generate($number->patient_identification_code);
@@ -84,7 +90,7 @@ class MailController extends Controller
             $Route = route('appointment.index');
             return response()->json(['success' => true, 'Route' => $Route]);
         } else {
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false,'notification' => 'Gửi mail thất bại!']);
         }
     }
 }

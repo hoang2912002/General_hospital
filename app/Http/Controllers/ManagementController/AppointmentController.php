@@ -174,7 +174,7 @@ class AppointmentController extends Controller
                     ['status', '=', 1],
                     ['shift_id', '=', $appointment->shift_id],
                 ])->first();
-                
+
                 $arr = [];
                 if(!empty($appointment)){
                     $arr = [

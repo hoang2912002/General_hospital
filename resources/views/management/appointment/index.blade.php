@@ -212,15 +212,22 @@
                     },
                     success: function (response) {
                         if(response.success == true){
-                            console.log(1);
-                            window.location.href = response.Route;
-                            // // Load lại trang hiện tại sau 1 giây (1000ms)
-                            setTimeout(function(){
-                                window.location.reload();
-                            }, 1000);
+
+                            toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true,
+                                "onHidden": function() {
+                                    location.reload();
+                                }
+                            };
+                            toastr.success('Gửi mail thành công!');
                         }
                         else{
-                            alert("Gửi mail thất bại!");
+                            toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true
+                            };
+                            toastr.error(response.notification);
                         }
                     },
                     error: function (error) {
